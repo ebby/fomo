@@ -1,0 +1,1 @@
+PODS_OVERCOAT_OTHER_LDFLAGS = -framework Accounts -framework Foundation -framework Social
