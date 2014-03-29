@@ -30,10 +30,13 @@ typedef NS_ENUM(NSInteger, PBJVideoPlayerBufferingState) {
 
 @property (nonatomic) NSString *videoPath;
 @property (nonatomic) BOOL playbackLoops;
+@property (nonatomic) UIImage *lastFrame;
 
 @property (nonatomic, readonly) PBJVideoPlayerPlaybackState playbackState;
 @property (nonatomic, readonly) PBJVideoPlayerBufferingState bufferingState;
 
++ (NSOperationQueue *)sharedQueue;
+- (id)initWithDownloadPath:(NSString *)path;
 - (void)playFromBeginning;
 - (void)playFromCurrentTime;
 - (void)pause;

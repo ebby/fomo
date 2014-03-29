@@ -12,7 +12,10 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
+             @"id": @"id",
              @"media": @"media",
+             @"emotion": @"emotion",
+             @"caption": @"caption",
              @"added": @"added"
              };
 }

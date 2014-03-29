@@ -9,51 +9,28 @@
 #import "PBJViewController.h"
 #import "PBJStrobeView.h"
 #import "PBJFocusView.h"
+#import "AddPostViewController.h"
 
 #import "PBJVision.h"
 #import "PBJVisionUtilities.h"
 
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <GLKit/GLKit.h>
-#import "AFNetworking.h"
 #import "Client.h"
-
-@interface ExtendedHitButton : UIButton
-
-+ (instancetype)extendedHitButton;
-
-- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event;
-
-@end
-
-@implementation ExtendedHitButton
-
-+ (instancetype)extendedHitButton
-{
-    return (ExtendedHitButton *)[ExtendedHitButton buttonWithType:UIButtonTypeCustom];
-}
-
-- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
-{
-    CGRect relativeFrame = self.bounds;
-    UIEdgeInsets hitTestEdgeInsets = UIEdgeInsetsMake(-35, -35, -35, -35);
-    CGRect hitFrame = UIEdgeInsetsInsetRect(relativeFrame, hitTestEdgeInsets);
-    return CGRectContainsPoint(hitFrame, point);
-}
-
-@end
+#import "UIExtensions.h"
 
 @interface PBJViewController () <
     UIGestureRecognizerDelegate,
     PBJVisionDelegate,
     UIAlertViewDelegate>
 {
-    PBJStrobeView *_strobeView;
+//    PBJStrobeView *_strobeView;
     UIButton *_doneButton;
     UIButton *_captureButton;
     UIButton *_flipButton;
     UIButton *_focusButton;
     UIButton *_onionButton;
+    UIButton *_closeButton;
     UIView *_captureDock;
 
     UIView *_previewView;
@@ -109,7 +86,7 @@
     // preview and AV layer
     _previewView = [[UIView alloc] initWithFrame:CGRectZero];
     _previewView.backgroundColor = [UIColor blackColor];
-    CGRect previewFrame = self.view.frame;//CGRectMake(0, 60.0f, CGRectGetWidth(self.view.frame), CGRectGetWidth(self.view.frame));
+    CGRect previewFrame = self.view.frame;
     _previewView.frame = previewFrame;
     _previewLayer = [[PBJVision sharedInstance] previewLayer];
     _previewLayer.frame = _previewView.bounds;
@@ -117,11 +94,11 @@
     [_previewView.layer addSublayer:_previewLayer];
     
     // elapsed time and red dot
-    _strobeView = [[PBJStrobeView alloc] initWithFrame:CGRectZero];
-    CGRect strobeFrame = _strobeView.frame;
-    strobeFrame.origin = CGPointMake(15.0f, 15.0f);
-    _strobeView.frame = strobeFrame;
-    [self.view addSubview:_strobeView];
+//    _strobeView = [[PBJStrobeView alloc] initWithFrame:CGRectZero];
+//    CGRect strobeFrame = _strobeView.frame;
+//    strobeFrame.origin = CGPointMake(15.0f, 15.0f);
+//    _strobeView.frame = strobeFrame;
+//    [self.view addSubview:_strobeView];
     
     // done button
     _doneButton = [ExtendedHitButton extendedHitButton];
@@ -131,27 +108,36 @@
     [_doneButton addTarget:self action:@selector(_handleDoneButton:) forControlEvents:UIControlEventTouchUpInside];
     [_previewView addSubview:_doneButton];
     
-    // done button
+    // capture button
     _captureButton = [ExtendedHitButton extendedHitButton];
-    _captureButton.frame = CGRectMake(viewWidth/2 - 50.0f, viewHeight - 150.0f, 100.0f, 100.0f);
-    UIImage *captureImage = [UIImage imageNamed:@"capture_rec_blink"];
+    _captureButton.frame = CGRectMake(viewWidth/2 - 21.0f, viewHeight - 64.0f, 42.0f, 42.0f);
+    UIImage *captureImage = [UIImage imageNamed:@"record"];
     [_captureButton setImage:captureImage forState:UIControlStateNormal];
     [_captureButton addTarget:self action:@selector(_handleDoneButton:) forControlEvents:UIControlEventTouchUpInside];
     [_previewView addSubview:_captureButton];
     
-    // onion skin
-    _effectsViewController = [[GLKViewController alloc] init];
-    _effectsViewController.preferredFramesPerSecond = 60;
+    // close button
+    _closeButton = [ExtendedHitButton extendedHitButton];
+    _closeButton.frame = CGRectMake(8.0f, 10.0f, 40.0f, 40.0f);
+    _closeButton.alpha = 0.8;
+    UIImage *closeButtonImage = [UIImage imageNamed:@"close"];
+    [_closeButton setImage:closeButtonImage forState:UIControlStateNormal];
+    [_closeButton addTarget:self action:@selector(_handleCloseButton:) forControlEvents:UIControlEventTouchUpInside];
+    [_previewView addSubview:_closeButton];
     
-    GLKView *view = (GLKView *)_effectsViewController.view;
-    CGRect viewFrame = _previewView.bounds;
-    view.frame = viewFrame;
-    view.context = [[PBJVision sharedInstance] context];
-    view.contentScaleFactor = [[UIScreen mainScreen] scale];
-    view.alpha = 0.5f;
-    view.hidden = YES;
-    [[PBJVision sharedInstance] setPresentationFrame:_previewView.frame];
-    [_previewView addSubview:_effectsViewController.view];
+    // onion skin
+//    _effectsViewController = [[GLKViewController alloc] init];
+//    _effectsViewController.preferredFramesPerSecond = 60;
+//    
+//    GLKView *view = (GLKView *)_effectsViewController.view;
+//    CGRect viewFrame = _previewView.bounds;
+//    view.frame = viewFrame;
+//    view.context = [[PBJVision sharedInstance] context];
+//    view.contentScaleFactor = [[UIScreen mainScreen] scale];
+//    view.alpha = 0.5f;
+//    view.hidden = YES;
+//    [[PBJVision sharedInstance] setPresentationFrame:_previewView.frame];
+//    [_previewView addSubview:_effectsViewController.view];
 
     // focus view
     _focusView = [[PBJFocusView alloc] initWithFrame:CGRectZero];
@@ -199,30 +185,33 @@
     [_captureDock addSubview:_flipButton];
     
     // focus mode button
-    _focusButton = [ExtendedHitButton extendedHitButton];
-    UIImage *focusImage = [UIImage imageNamed:@"capture_focus_button"];
-    [_focusButton setImage:focusImage forState:UIControlStateNormal];
-    [_focusButton setImage:[UIImage imageNamed:@"capture_focus_button_active"] forState:UIControlStateSelected];
-    CGRect focusFrame = _focusButton.frame;
-    focusFrame.origin = CGPointMake((CGRectGetWidth(self.view.bounds) * 0.5f) - (focusImage.size.width * 0.5f), 16.0f);
-    focusFrame.size = focusImage.size;
-    _focusButton.frame = focusFrame;
+//    _focusButton = [ExtendedHitButton extendedHitButton];
+//    UIImage *focusImage = [UIImage imageNamed:@"capture_focus_button"];
+//    [_focusButton setImage:focusImage forState:UIControlStateNormal];
+//    [_focusButton setImage:[UIImage imageNamed:@"capture_focus_button_active"] forState:UIControlStateSelected];
+//    CGRect focusFrame = _focusButton.frame;
+//    focusFrame.origin = CGPointMake((CGRectGetWidth(self.view.bounds) * 0.5f) - (focusImage.size.width * 0.5f), 16.0f);
+//    focusFrame.size = focusImage.size;
+//    _focusButton.frame = focusFrame;
+//    
+//    [_focusButton addTarget:self action:@selector(_handleFocusButton:) forControlEvents:UIControlEventTouchUpInside];
+//    [_captureDock addSubview:_focusButton];
     
-    [_focusButton addTarget:self action:@selector(_handleFocusButton:) forControlEvents:UIControlEventTouchUpInside];
-    [_captureDock addSubview:_focusButton];
+    _tapGestureRecognizer.enabled = YES;
+    _gestureView.hidden = YES;
     
     // onion button
-    _onionButton = [ExtendedHitButton extendedHitButton];
-    UIImage *onionImage = [UIImage imageNamed:@"capture_onion"];
-    [_onionButton setImage:onionImage forState:UIControlStateNormal];
-    [_onionButton setImage:[UIImage imageNamed:@"capture_onion_selected"] forState:UIControlStateSelected];
-    CGRect onionFrame = _onionButton.frame;
-    onionFrame.origin = CGPointMake(CGRectGetWidth(self.view.bounds) - onionImage.size.width - 20.0f, 16.0f);
-    onionFrame.size = onionImage.size;
-    _onionButton.frame = onionFrame;
-    _onionButton.imageView.frame = _onionButton.bounds;
-    [_onionButton addTarget:self action:@selector(_handleOnionSkinningButton:) forControlEvents:UIControlEventTouchUpInside];
-    [_captureDock addSubview:_onionButton];
+//    _onionButton = [ExtendedHitButton extendedHitButton];
+//    UIImage *onionImage = [UIImage imageNamed:@"capture_onion"];
+//    [_onionButton setImage:onionImage forState:UIControlStateNormal];
+//    [_onionButton setImage:[UIImage imageNamed:@"capture_onion_selected"] forState:UIControlStateSelected];
+//    CGRect onionFrame = _onionButton.frame;
+//    onionFrame.origin = CGPointMake(CGRectGetWidth(self.view.bounds) - onionImage.size.width - 20.0f, 16.0f);
+//    onionFrame.size = onionImage.size;
+//    _onionButton.frame = onionFrame;
+//    _onionButton.imageView.frame = _onionButton.bounds;
+//    [_onionButton addTarget:self action:@selector(_handleOnionSkinningButton:) forControlEvents:UIControlEventTouchUpInside];
+//    [_captureDock addSubview:_onionButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -278,15 +267,22 @@
 
 - (void)_endCapture
 {
-    [UIApplication sharedApplication].idleTimerDisabled = NO;
-    [[PBJVision sharedInstance] endVideoCapture];
-    _effectsViewController.view.hidden = YES;
+    
+    #if TARGET_IPHONE_SIMULATOR
+        AddPostViewController *addPostViewController = [[AddPostViewController alloc] initWithVideoPath:@"http://fomo-app.appspot.com/media/AMIfv976SCe-w9WNcTopJL9mnWt1842L6sJkWlMsAOLDlBg9gIgD5l5K_Gv1QT5DOBs1UotZaWNrnGYzx1kRsNLaiIrdFY_JNpYJsNFOsXESdd-W0bxGCZyylVWJqvY-1MNrhi3YwOpGzbp1z9ZUqyEpocWlh6jPaw"];
+        [self addChildViewController:addPostViewController];
+        [self.navigationController pushViewController:addPostViewController animated:NO];
+    #else
+        [UIApplication sharedApplication].idleTimerDisabled = NO;
+        [[PBJVision sharedInstance] endVideoCapture];
+        _effectsViewController.view.hidden = YES;
+    #endif
 }
 
 - (void)_resetCapture
 {
     [[Client sharedClient] getUploadUrl];
-    [_strobeView stop];
+//    [_strobeView stop];
     _longPressGestureRecognizer.enabled = YES;
 
     PBJVision *vision = [PBJVision sharedInstance];
@@ -365,6 +361,11 @@
     _longPressGestureRecognizer.enabled = YES;
     
     [self _endCapture];
+}
+
+- (void)_handleCloseButton:(UIButton *)button
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)_handleCaptureButton:(UIButton *)button
@@ -524,18 +525,18 @@
 
 - (void)visionDidStartVideoCapture:(PBJVision *)vision
 {
-    [_strobeView start];
+//    [_strobeView start];
     _recording = YES;
 }
 
 - (void)visionDidPauseVideoCapture:(PBJVision *)vision
 {
-    [_strobeView stop];
+//    [_strobeView stop];
 }
 
 - (void)visionDidResumeVideoCapture:(PBJVision *)vision
 {
-    [_strobeView start];
+//    [_strobeView start];
 }
 
 - (void)vision:(PBJVision *)vision capturedVideo:(NSDictionary *)videoDict error:(NSError *)error
@@ -550,25 +551,10 @@
     _currentVideo = videoDict;
     
     NSString *videoPath = [_currentVideo  objectForKey:PBJVisionVideoPathKey];
-    [_assetLibrary writeVideoAtPathToSavedPhotosAlbum:[NSURL URLWithString:videoPath] completionBlock:^(NSURL *assetURL, NSError *error1) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Saved!" message: @"Saved to the camera roll."
-                                                       delegate:self
-                                              cancelButtonTitle:nil
-                                              otherButtonTitles:@"OK", nil];
-        [alert show];
-    }];
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSDictionary *parameters = @{@"foo": @"bar"};
-    NSURL *filePath = [NSURL fileURLWithPath:videoPath];
-    [manager POST:[Client sharedClient].uploadUrl parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileURL:filePath name:@"video" error:nil];
-    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Success: %@", responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-    }];
-    
+    AddPostViewController *addPostViewController = [[AddPostViewController alloc] initWithVideoPath:videoPath];
+    [self addChildViewController:addPostViewController];
+    //[self.view addSubview:addPostViewController.view];
+    [self.navigationController pushViewController:addPostViewController animated:NO];
 }
 
 // progress

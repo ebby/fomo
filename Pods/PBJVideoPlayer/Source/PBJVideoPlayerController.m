@@ -9,6 +9,7 @@
 #import "PBJVideoView.h"
 
 #import <AVFoundation/AVFoundation.h>
+#import "AFHTTPRequestOperation.h"
 
 #define LOG_PLAYER 0
 #if !defined(NDEBUG) && LOG_PLAYER
@@ -40,6 +41,7 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
     AVPlayerItem *_playerItem;
 
     NSString *_videoPath;
+    NSString *_downloadPath;
     PBJVideoView *_videoView;
 
     PBJVideoPlayerPlaybackState _playbackState;
@@ -61,6 +63,26 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
 @synthesize playbackState = _playbackState;
 @synthesize bufferingState = _bufferingState;
 
++ (NSOperationQueue *)sharedQueue {
+    static NSOperationQueue *_sharedQueue = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _sharedQueue = [[NSOperationQueue alloc] init];
+        [_sharedQueue setMaxConcurrentOperationCount:1];
+    });
+    
+    return _sharedQueue;
+}
+
+- (id)initWithDownloadPath:(NSString *)path
+{
+    self = [super init];
+    if (self) {
+        _downloadPath = path;
+    }
+    return self;
+}
+
 #pragma mark - getters/setters
 
 - (NSString *)videoPath
@@ -79,8 +101,29 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
     }
     _videoPath = videoPath;
 
-    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:videoURL options:nil];
-    [self _setAsset:asset];
+    if (_downloadPath) {
+        if (![[NSFileManager defaultManager] fileExistsAtPath:_downloadPath]) {
+            NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_videoPath]];
+            AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+            operation.outputStream = [NSOutputStream outputStreamToFileAtPath:_downloadPath append:NO];
+            
+            [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:_downloadPath] options:nil];
+                [self _setAsset:asset];
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"Error: %@", error);
+            }];
+            
+            [[PBJVideoPlayerController sharedQueue] addOperation:operation];
+            //[operation start];
+        } else {
+            AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:_downloadPath] options:nil];
+            [self _setAsset:asset];
+        }
+    } else {
+        AVURLAsset *asset = [AVURLAsset URLAssetWithURL:videoURL options:nil];
+        [self _setAsset:asset];
+    }
 }
 
 - (BOOL)playbackLoops
@@ -271,7 +314,6 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
 - (void)playFromCurrentTime
 {
     DLog(@"playing...");
-    NSLog(@"attempting to play: %@", _videoPath);
     _playbackState = PBJVideoPlayerPlaybackStatePlaying;
     [_delegate videoPlayerPlaybackStateDidChange:self];
     [_player play];
@@ -360,7 +402,7 @@ typedef void (^PBJVideoPlayerBlock)();
 
 - (void)_playerItemDidPlayToEndTime:(NSNotification *)aNotification
 {
-    [_player seekToTime:kCMTimeZero];
+    //[_player seekToTime:kCMTimeZero];
     if (!_flags.playbackLoops)
         [self stop];
 }
@@ -408,6 +450,18 @@ typedef void (^PBJVideoPlayerBlock)();
         {
             case AVPlayerStatusReadyToPlay:
             {
+                // Take snapshot
+                NSTimeInterval duration = CMTimeGetSeconds(_asset.duration);
+                AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:_asset];
+                imageGenerator.requestedTimeToleranceAfter = kCMTimeZero;
+                imageGenerator.requestedTimeToleranceBefore = kCMTimeZero;
+                CGImageRef thumb = [imageGenerator copyCGImageAtTime:CMTimeMakeWithSeconds(duration - 0.1, 600)
+                                                          actualTime:NULL
+                                                               error:NULL];
+                self.lastFrame = [[UIImage alloc] initWithCGImage:thumb];
+                CGImageRelease(thumb);
+                
+                
                 _videoView.playerLayer.backgroundColor = [[UIColor blackColor] CGColor];
                 [_videoView.playerLayer setPlayer:_player];
                 _videoView.playerLayer.hidden = NO;

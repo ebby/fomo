@@ -1,5 +1,5 @@
 #include "Pods-Mantle.xcconfig"
 GCC_PREPROCESSOR_DEFINITIONS = COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/Mantle" "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/AFNetworking" "${PODS_ROOT}/Headers/HexColors" "${PODS_ROOT}/Headers/LBBlurredImage" "${PODS_ROOT}/Headers/Mantle" "${PODS_ROOT}/Headers/Overcoat" "${PODS_ROOT}/Headers/PBJVideoPlayer" "${PODS_ROOT}/Headers/PBJVision" "${PODS_ROOT}/Headers/ReactiveCocoa" "${PODS_ROOT}/Headers/ReactiveCocoa/ReactiveCocoa" "${PODS_ROOT}/Headers/TSMessages"
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/Mantle" "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/AFNetworking" "${PODS_ROOT}/Headers/Google-Maps-iOS-SDK" "${PODS_ROOT}/Headers/Google-Maps-iOS-SDK/GoogleMaps" "${PODS_ROOT}/Headers/HexColors" "${PODS_ROOT}/Headers/LBBlurredImage" "${PODS_ROOT}/Headers/Mantle" "${PODS_ROOT}/Headers/NSHash" "${PODS_ROOT}/Headers/Overcoat" "${PODS_ROOT}/Headers/PBJVideoPlayer" "${PODS_ROOT}/Headers/PBJVision" "${PODS_ROOT}/Headers/Parallax" "${PODS_ROOT}/Headers/RNGridMenu" "${PODS_ROOT}/Headers/ReactiveCocoa" "${PODS_ROOT}/Headers/ReactiveCocoa/ReactiveCocoa" "${PODS_ROOT}/Headers/TSMessages" "${PODS_ROOT}/Headers/ios-realtimeblur" "${PODS_ROOT}/Headers/libPhoneNumber-iOS"
 OTHER_LDFLAGS = -ObjC ${PODS_MANTLE_OTHER_LDFLAGS}
 PODS_ROOT = ${SRCROOT}

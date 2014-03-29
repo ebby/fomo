@@ -16,6 +16,7 @@
     if (self) {
         self.post = post;
         self.postView = [[PostViewController alloc] initWithPost:post];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self.contentView addSubview:self.postView.view];
     }
     return self;
@@ -35,6 +36,12 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+-(void)layoutSubViews
+{
+    // Basically the viewDidAppear
+    //[self.postView play];
 }
 
 @end

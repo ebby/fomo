@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-Google-Maps-iOS-SDK.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-HexColors.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -20,6 +25,11 @@
 			<false/>
 		</dict>
 		<key>Pods-Mantle.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-NSHash.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -39,12 +49,32 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-Parallax.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-RNGridMenu.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-ReactiveCocoa.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>Pods-TSMessages.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-ios-realtimeblur.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-libPhoneNumber-iOS.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -57,52 +87,82 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0512FFC6C7ED4F6DA2D9B12E</key>
+		<key>281069A04F9A4F0EBD948A84</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>22B524FEABAE4B7888360CDE</key>
+		<key>37D0A980A74840B795EDD193</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>53C423C51D334ACF96BFAE87</key>
+		<key>4AE47C21E5554FA48B87FF8E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>56204A0FD0784E7AB63AFECA</key>
+		<key>5DD57CE46C7D49C4BB80734A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B1935EEC79B94A668D590409</key>
+		<key>6BA10E01DBB749FCAFF4B026</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BCE11DF1303748439B45DB7E</key>
+		<key>7BA0112B4F0D48FFAF82B511</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BEA4BCF310EB442E922F2C42</key>
+		<key>7EAC0514287540A291AEC0BD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D4C7B297F87E48B9A1ECBA22</key>
+		<key>8D67C5049C434B0491059ED4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D5F306C80200436081768F87</key>
+		<key>9D96C214F38F4B8DAF8A199D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F589F71AFB894023AA2EAA55</key>
+		<key>A3EA2199EC764F9D89131DE1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A73E57B3C9A74E3BBD8294D7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B63080B358644341A288CCF9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C5FDF4755158417C9D27EC53</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DF53E76BE5E14AC19B522884</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E7ACA8717F764BAB8ED98062</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FB76E86FB7784170A7FBED2E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

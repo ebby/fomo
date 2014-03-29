@@ -15,9 +15,9 @@
 + (instancetype)sharedClient;
 
 - (void)getUploadUrl;
-- (RACSignal *)fetchStream;
-- (RACSignal *)updateStream:(NSDate *)lastFetch;
-- (RACSignal *)loadMoreStream:(NSDate *)past;
+- (RACSignal *)fetchStreamForProfile:(BOOL)profile;
+- (RACSignal *)updateStream:(NSDate *)lastFetch forProfile:(BOOL)profile;
+- (RACSignal *)loadMoreStream:(NSDate *)past forProfile:(BOOL)profile;
 
 @property NSString *uploadUrl;
 

@@ -48,6 +48,12 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 2
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 0
 
+// Google-Maps-iOS-SDK
+#define COCOAPODS_POD_AVAILABLE_Google_Maps_iOS_SDK
+#define COCOAPODS_VERSION_MAJOR_Google_Maps_iOS_SDK 1
+#define COCOAPODS_VERSION_MINOR_Google_Maps_iOS_SDK 7
+#define COCOAPODS_VERSION_PATCH_Google_Maps_iOS_SDK 2
+
 // HexColors
 #define COCOAPODS_POD_AVAILABLE_HexColors
 #define COCOAPODS_VERSION_MAJOR_HexColors 2
@@ -72,6 +78,12 @@
 #define COCOAPODS_VERSION_MINOR_Mantle_extobjc 4
 #define COCOAPODS_VERSION_PATCH_Mantle_extobjc 1
 
+// NSHash
+#define COCOAPODS_POD_AVAILABLE_NSHash
+#define COCOAPODS_VERSION_MAJOR_NSHash 1
+#define COCOAPODS_VERSION_MINOR_NSHash 0
+#define COCOAPODS_VERSION_PATCH_NSHash 1
+
 // Overcoat
 #define COCOAPODS_POD_AVAILABLE_Overcoat
 #define COCOAPODS_VERSION_MAJOR_Overcoat 1
@@ -89,6 +101,18 @@
 #define COCOAPODS_VERSION_MAJOR_PBJVision 0
 #define COCOAPODS_VERSION_MINOR_PBJVision 1
 #define COCOAPODS_VERSION_PATCH_PBJVision 6
+
+// Parallax
+#define COCOAPODS_POD_AVAILABLE_Parallax
+#define COCOAPODS_VERSION_MAJOR_Parallax 0
+#define COCOAPODS_VERSION_MINOR_Parallax 0
+#define COCOAPODS_VERSION_PATCH_Parallax 3
+
+// RNGridMenu
+#define COCOAPODS_POD_AVAILABLE_RNGridMenu
+#define COCOAPODS_VERSION_MAJOR_RNGridMenu 0
+#define COCOAPODS_VERSION_MINOR_RNGridMenu 1
+#define COCOAPODS_VERSION_PATCH_RNGridMenu 3
 
 // ReactiveCocoa
 #define COCOAPODS_POD_AVAILABLE_ReactiveCocoa
@@ -113,4 +137,16 @@
 #define COCOAPODS_VERSION_MAJOR_TSMessages 0
 #define COCOAPODS_VERSION_MINOR_TSMessages 9
 #define COCOAPODS_VERSION_PATCH_TSMessages 6
+
+// ios-realtimeblur
+#define COCOAPODS_POD_AVAILABLE_ios_realtimeblur
+#define COCOAPODS_VERSION_MAJOR_ios_realtimeblur 0
+#define COCOAPODS_VERSION_MINOR_ios_realtimeblur 0
+#define COCOAPODS_VERSION_PATCH_ios_realtimeblur 1
+
+// libPhoneNumber-iOS
+#define COCOAPODS_POD_AVAILABLE_libPhoneNumber_iOS
+#define COCOAPODS_VERSION_MAJOR_libPhoneNumber_iOS 0
+#define COCOAPODS_VERSION_MINOR_libPhoneNumber_iOS 7
+#define COCOAPODS_VERSION_PATCH_libPhoneNumber_iOS 1
 

@@ -41,6 +41,7 @@ install_resource()
       ;;
   esac
 }
+install_resource "Google-Maps-iOS-SDK/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle"
 install_resource "PBJVision/Source/Shaders/Shader.fsh"
 install_resource "PBJVision/Source/Shaders/Shader.vsh"
 install_resource "TSMessages/TSMessages/Resources/Images/NotificationBackgroundError.png"
@@ -60,6 +61,7 @@ install_resource "TSMessages/TSMessages/Resources/Images/NotificationBackgroundW
 install_resource "TSMessages/TSMessages/Resources/Images/NotificationButtonBackground.png"
 install_resource "TSMessages/TSMessages/Resources/Images/NotificationButtonBackground@2x.png"
 install_resource "TSMessages/TSMessages/Resources/TSMessagesDefaultDesign.json"
+install_resource "libPhoneNumber-iOS/libPhoneNumber/NBPhoneNumberMetadata.plist"
 
 rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
 if [[ "${ACTION}" == "install" ]]; then

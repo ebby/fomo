@@ -9,10 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "Post.h"
 #import "Constants.h"
+#import "ACParallaxView.h"
 
-@interface PostViewController : UIViewController
+@interface PostViewController : UIViewController <ACParallaxViewDelegate>
+
+@property (nonatomic, strong) IBOutlet ACParallaxView *parallaxView;
+@property (nonatomic, readwrite) BOOL place;
 
 -(id)initWithPost:(Post *)post;
 -(void)play;
+-(void)stop;
 
 @end

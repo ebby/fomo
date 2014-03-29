@@ -9,6 +9,8 @@
 #import "Client.h"
 #import "Post.h"
 #include "TargetConditionals.h"
+#import <NSHash/NSString+NSHash.h>
+@import CoreLocation;
 
 //static NSString * const BaseURLString = @"http://localhost:8009/";
 
@@ -21,7 +23,6 @@
 
 @implementation Client
 
-
 + (instancetype)sharedClient {
     static Client *_sharedClient = nil;
     static dispatch_once_t onceToken;
@@ -33,7 +34,6 @@
     return _sharedClient;
 }
 
-
 - (void)getUploadUrl {
     [self GET:@"_postvideo" parameters:nil resultClass:nil resultKeyPath:nil
         completion:^(AFHTTPRequestOperation *operation, id responseObject, NSError *error) {
@@ -42,22 +42,48 @@
         }];
 }
 
-
-- (RACSignal *)fetchStream {
-    return [self fetchStreamWithLast:nil orPast:nil];
-}
-
-- (RACSignal *)updateStream:(NSDate *)lastFetch
+- (RACSignal *)loginWithPhone:(NSString *)phone andPassword:(NSString *)password
 {
-    return [self fetchStreamWithLast:lastFetch orPast:nil];
+    
+    return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        NSDictionary *params = @{@"phone": [phone SHA1],
+                                 @"password": [password SHA1]};
+        AFHTTPRequestOperation *operation = [self GET:@"_login" parameters:params resultClass:nil resultKeyPath:@""
+                                           completion:^(AFHTTPRequestOperation *operation, id responseObject, NSError *error) {
+                                               NSLog(@"Logged in");
+                                               if (! error) {
+                                                   [subscriber sendNext:responseObject];
+                                               }
+                                               else {
+                                                   [subscriber sendError:error];
+                                               }
+
+                                               [subscriber sendCompleted];
+                                           }];
+        
+        return [RACDisposable disposableWithBlock:^{
+            [operation cancel];
+        }];
+    }] doError:^(NSError *error) {
+        NSLog(@"%@",error);
+    }];
 }
 
-- (RACSignal *)loadMoreStream:(NSDate *)past
+- (RACSignal *)fetchStreamForProfile:(BOOL)profile {
+    return [self fetchStreamWithLast:nil orPast:nil forProfile:profile];
+}
+
+- (RACSignal *)updateStream:(NSDate *)lastFetch forProfile:(BOOL)profile
 {
-    return [self fetchStreamWithLast:nil orPast:past];
+    return [self fetchStreamWithLast:lastFetch orPast:nil forProfile:profile];
 }
 
-- (RACSignal *)fetchStreamWithLast:(NSDate *)lastFetch orPast:(NSDate *)past
+- (RACSignal *)loadMoreStream:(NSDate *)past forProfile:(BOOL)profile
+{
+    return [self fetchStreamWithLast:nil orPast:past forProfile:profile];
+}
+
+- (RACSignal *)fetchStreamWithLast:(NSDate *)lastFetch orPast:(NSDate *)past forProfile:(BOOL)profile
 {
     return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
@@ -68,7 +94,11 @@
             NSLog(@"past: %f", [past timeIntervalSince1970]);
             [params setObject:[NSString stringWithFormat:@"%f", [past timeIntervalSince1970]] forKey:@"past"];
         }
-        AFHTTPRequestOperation *operation = [self GET:@"_stream" parameters:params resultClass:Post.class resultKeyPath:@""
+        NSString *endpoint = @"_stream";
+        if (profile) {
+            endpoint = @"_stream";
+        }
+        AFHTTPRequestOperation *operation = [self GET:endpoint parameters:params resultClass:Post.class resultKeyPath:@""
                                            completion:^(AFHTTPRequestOperation *operation, id responseObject, NSError *error) {
                                                NSLog(@"Fetched stream");
                                                if (! error) {
@@ -80,7 +110,7 @@
                                                
                                                [subscriber sendCompleted];
                                            }];
-        
+
         return [RACDisposable disposableWithBlock:^{
             [operation cancel];
         }];

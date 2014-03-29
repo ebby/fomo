@@ -10,7 +10,10 @@
 
 @interface Post : MTLModel <MTLJSONSerializing>
 
+@property (nonatomic, strong) NSString *id;
 @property (nonatomic, strong) NSString *media;
+@property (nonatomic, strong) NSString *emotion;
+@property (nonatomic, strong) NSString *caption;
 @property (nonatomic, strong) NSDate *added;
 
 @end
