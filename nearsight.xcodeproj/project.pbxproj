@@ -1,0 +1,828 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2C080D5618CFC6EB0066F30E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C080D5518CFC6EB0066F30E /* Foundation.framework */; };
+		2C080D5818CFC6EB0066F30E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C080D5718CFC6EB0066F30E /* CoreGraphics.framework */; };
+		2C080D5A18CFC6EB0066F30E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C080D5918CFC6EB0066F30E /* UIKit.framework */; };
+		2C080D7518CFC6EB0066F30E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C080D7418CFC6EB0066F30E /* XCTest.framework */; };
+		2C080D7618CFC6EB0066F30E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C080D5518CFC6EB0066F30E /* Foundation.framework */; };
+		2C080D7718CFC6EB0066F30E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C080D5918CFC6EB0066F30E /* UIKit.framework */; };
+		2C24BB5018E95D2200AC04E4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BB4718E95D2200AC04E4 /* AppDelegate.m */; };
+		2C24BB5118E95D2200AC04E4 /* Foursquare.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BB4818E95D2200AC04E4 /* Foursquare.m */; };
+		2C24BB5218E95D2200AC04E4 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BB4B18E95D2200AC04E4 /* Client.m */; };
+		2C24BB5A18E95D5B00AC04E4 /* UIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BB5418E95D5B00AC04E4 /* UIExtensions.m */; };
+		2C24BB5B18E95D5B00AC04E4 /* CategoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BB5618E95D5B00AC04E4 /* CategoryCell.m */; };
+		2C24BB5C18E95D5B00AC04E4 /* PostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BB5918E95D5B00AC04E4 /* PostCell.m */; };
+		2C24BB6118E95D8E00AC04E4 /* Place.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BB5E18E95D8E00AC04E4 /* Place.m */; };
+		2C24BB6218E95D8E00AC04E4 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BB5F18E95D8E00AC04E4 /* Post.m */; };
+		2C24BB6418E95DE500AC04E4 /* Manager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BB6318E95DE500AC04E4 /* Manager.m */; };
+		2C24BB6618E95E6600AC04E4 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BB6518E95E6600AC04E4 /* Constants.m */; };
+		2C24BB6818E95E8200AC04E4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB6718E95E8200AC04E4 /* Images.xcassets */; };
+		2C24BB6C18E95F1300AC04E4 /* nearsight-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB6918E95F1300AC04E4 /* nearsight-Info.plist */; };
+		2C24BB6D18E95F1300AC04E4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BB6A18E95F1300AC04E4 /* main.m */; };
+		2C24BB8218E95FBE00AC04E4 /* recording.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB6E18E95FBE00AC04E4 /* recording.png */; };
+		2C24BB8318E95FBE00AC04E4 /* record.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB6F18E95FBE00AC04E4 /* record.png */; };
+		2C24BB8418E95FBE00AC04E4 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB7018E95FBE00AC04E4 /* add.png */; };
+		2C24BB8518E95FBE00AC04E4 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB7118E95FBE00AC04E4 /* star.png */; };
+		2C24BB8618E95FBE00AC04E4 /* outdoors.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB7218E95FBE00AC04E4 /* outdoors.png */; };
+		2C24BB8718E95FBE00AC04E4 /* arts.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB7318E95FBE00AC04E4 /* arts.png */; };
+		2C24BB8818E95FBE00AC04E4 /* sights.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB7418E95FBE00AC04E4 /* sights.png */; };
+		2C24BB8918E95FBE00AC04E4 /* shopping.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB7518E95FBE00AC04E4 /* shopping.png */; };
+		2C24BB8A18E95FBE00AC04E4 /* nightlife.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB7618E95FBE00AC04E4 /* nightlife.png */; };
+		2C24BB8B18E95FBE00AC04E4 /* coffee.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB7718E95FBE00AC04E4 /* coffee.png */; };
+		2C24BB8C18E95FBE00AC04E4 /* burger.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB7818E95FBE00AC04E4 /* burger.png */; };
+		2C24BB8D18E95FBE00AC04E4 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB7918E95FBE00AC04E4 /* search.png */; };
+		2C24BB8E18E95FBE00AC04E4 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB7A18E95FBE00AC04E4 /* check.png */; };
+		2C24BB8F18E95FBE00AC04E4 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB7B18E95FBE00AC04E4 /* profile.png */; };
+		2C24BB9018E95FBE00AC04E4 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB7C18E95FBE00AC04E4 /* back.png */; };
+		2C24BB9118E95FBE00AC04E4 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB7D18E95FBE00AC04E4 /* close.png */; };
+		2C24BB9218E95FBE00AC04E4 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB7E18E95FBE00AC04E4 /* logo.png */; };
+		2C24BB9318E95FBE00AC04E4 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB7F18E95FBE00AC04E4 /* menu.png */; };
+		2C24BB9418E95FBE00AC04E4 /* capture_flip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB8018E95FBE00AC04E4 /* capture_flip@2x.png */; };
+		2C24BB9518E95FBE00AC04E4 /* capture_yep@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BB8118E95FBE00AC04E4 /* capture_yep@2x.png */; };
+		2C24BBE718E960C100AC04E4 /* CheckinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BBC718E960C100AC04E4 /* CheckinViewController.m */; };
+		2C24BBE818E960C100AC04E4 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BBC818E960C100AC04E4 /* MenuViewController.m */; };
+		2C24BBE918E960C100AC04E4 /* PBJViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BBCA18E960C100AC04E4 /* PBJViewController.m */; };
+		2C24BBEA18E960C100AC04E4 /* AddPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BBCB18E960C100AC04E4 /* AddPostViewController.m */; };
+		2C24BBEB18E960C100AC04E4 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BBCD18E960C100AC04E4 /* MainViewController.m */; };
+		2C24BBEC18E960C100AC04E4 /* PlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BBCE18E960C100AC04E4 /* PlaceViewController.m */; };
+		2C24BBED18E960C100AC04E4 /* StreamTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BBCF18E960C100AC04E4 /* StreamTableViewController.m */; };
+		2C24BBEE18E960C100AC04E4 /* StreamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BBD318E960C100AC04E4 /* StreamViewController.m */; };
+		2C24BBEF18E960C100AC04E4 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BBD418E960C100AC04E4 /* PostViewController.m */; };
+		2C24BBF018E960C100AC04E4 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BBD618E960C100AC04E4 /* SearchViewController.m */; };
+		2C24BBF118E960C100AC04E4 /* BlurViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BBD818E960C100AC04E4 /* BlurViewController.m */; };
+		2C24BBF218E960C100AC04E4 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BBDC18E960C100AC04E4 /* ProfileViewController.m */; };
+		2C24BBF318E960C100AC04E4 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BBDE18E960C100AC04E4 /* WelcomeViewController.m */; };
+		2C24BBF418E960C100AC04E4 /* SignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BBDF18E960C100AC04E4 /* SignupViewController.m */; };
+		2C24BBF518E960C100AC04E4 /* PBJFocusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BBE318E960C100AC04E4 /* PBJFocusView.m */; };
+		2C24BBF618E960C100AC04E4 /* PBJStrobeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BBE518E960C100AC04E4 /* PBJStrobeView.m */; };
+		2C24BBF918E960EA00AC04E4 /* NotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BBF718E960EA00AC04E4 /* NotificationViewController.m */; };
+		2C24BBFC18E9611500AC04E4 /* nearsightTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BBFA18E9611500AC04E4 /* nearsightTests-Info.plist */; };
+		2C24BC0018E9614D00AC04E4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BBFE18E9614D00AC04E4 /* InfoPlist.strings */; };
+		2C57B4F018DE6D20005E7244 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C57B4EF18DE6D20005E7244 /* AddressBook.framework */; };
+		2C7945B718D3D32A00FCF401 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7945B618D3D32A00FCF401 /* Accelerate.framework */; };
+		2C88AF5A18E16DCB0084227C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C88AF5918E16DCB0084227C /* CoreLocation.framework */; };
+		2CA1A2E418E4197500BB358A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CA1A2E318E4197500BB358A /* QuartzCore.framework */; };
+		2CA4DA5118E9648C00F231DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CA4DA4F18E9648C00F231DC /* Main.storyboard */; };
+		2CBE05BD18DA86FA00147743 /* proximanova-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CBE05B618DA86FA00147743 /* proximanova-bold-webfont.ttf */; };
+		2CBE05BE18DA86FA00147743 /* proximanova-light-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CBE05B718DA86FA00147743 /* proximanova-light-webfont.ttf */; };
+		2CBE05BF18DA86FA00147743 /* proximanova-lightitalic-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CBE05B818DA86FA00147743 /* proximanova-lightitalic-webfont.ttf */; };
+		2CBE05C018DA86FA00147743 /* proximanova-semibold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CBE05B918DA86FA00147743 /* proximanova-semibold-webfont.ttf */; };
+		2CBE05C118DA86FA00147743 /* proximanovacond-light-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CBE05BA18DA86FA00147743 /* proximanovacond-light-webfont.ttf */; };
+		2CBE05C218DA86FA00147743 /* proximanovacond-lightit-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CBE05BB18DA86FA00147743 /* proximanovacond-lightit-webfont.ttf */; };
+		2CBE05C318DA86FA00147743 /* proximanovacond-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CBE05BC18DA86FA00147743 /* proximanovacond-regular-webfont.ttf */; };
+		2CBE05C518DAA39B00147743 /* mrseavesitalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CBE05C418DAA39B00147743 /* mrseavesitalic.ttf */; };
+		9342F7DF59704EED89D84BD9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01B446E530F643C9BCC509E1 /* libPods.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2C080D7818CFC6EB0066F30E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2C080D4A18CFC6EA0066F30E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C080D5118CFC6EB0066F30E;
+			remoteInfo = fomo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		01B446E530F643C9BCC509E1 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C080D5218CFC6EB0066F30E /* nearsight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nearsight.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C080D5518CFC6EB0066F30E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2C080D5718CFC6EB0066F30E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2C080D5918CFC6EB0066F30E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2C080D7318CFC6EB0066F30E /* nearsightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nearsightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C080D7418CFC6EB0066F30E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		2C24BB4718E95D2200AC04E4 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = nearsight/AppDelegate.m; sourceTree = SOURCE_ROOT; };
+		2C24BB4818E95D2200AC04E4 /* Foursquare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Foursquare.m; path = nearsight/Foursquare.m; sourceTree = SOURCE_ROOT; };
+		2C24BB4918E95D2200AC04E4 /* Manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Manager.h; path = nearsight/Manager.h; sourceTree = SOURCE_ROOT; };
+		2C24BB4A18E95D2200AC04E4 /* Foursquare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Foursquare.h; path = nearsight/Foursquare.h; sourceTree = SOURCE_ROOT; };
+		2C24BB4B18E95D2200AC04E4 /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Client.m; path = nearsight/Client.m; sourceTree = SOURCE_ROOT; };
+		2C24BB4C18E95D2200AC04E4 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Client.h; path = nearsight/Client.h; sourceTree = SOURCE_ROOT; };
+		2C24BB4D18E95D2200AC04E4 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = nearsight/Constants.h; sourceTree = SOURCE_ROOT; };
+		2C24BB4E18E95D2200AC04E4 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = nearsight/AppDelegate.h; sourceTree = SOURCE_ROOT; };
+		2C24BB5418E95D5B00AC04E4 /* UIExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIExtensions.m; path = nearsight/UIExtensions.m; sourceTree = SOURCE_ROOT; };
+		2C24BB5518E95D5B00AC04E4 /* UIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIExtensions.h; path = nearsight/UIExtensions.h; sourceTree = SOURCE_ROOT; };
+		2C24BB5618E95D5B00AC04E4 /* CategoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CategoryCell.m; path = nearsight/CategoryCell.m; sourceTree = SOURCE_ROOT; };
+		2C24BB5718E95D5B00AC04E4 /* CategoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CategoryCell.h; path = nearsight/CategoryCell.h; sourceTree = SOURCE_ROOT; };
+		2C24BB5818E95D5B00AC04E4 /* PostCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostCell.h; path = nearsight/PostCell.h; sourceTree = SOURCE_ROOT; };
+		2C24BB5918E95D5B00AC04E4 /* PostCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostCell.m; path = nearsight/PostCell.m; sourceTree = SOURCE_ROOT; };
+		2C24BB5D18E95D8E00AC04E4 /* Place.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Place.h; path = nearsight/Place.h; sourceTree = SOURCE_ROOT; };
+		2C24BB5E18E95D8E00AC04E4 /* Place.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Place.m; path = nearsight/Place.m; sourceTree = SOURCE_ROOT; };
+		2C24BB5F18E95D8E00AC04E4 /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Post.m; path = nearsight/Post.m; sourceTree = SOURCE_ROOT; };
+		2C24BB6018E95D8E00AC04E4 /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Post.h; path = nearsight/Post.h; sourceTree = SOURCE_ROOT; };
+		2C24BB6318E95DE500AC04E4 /* Manager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Manager.m; path = nearsight/Manager.m; sourceTree = SOURCE_ROOT; };
+		2C24BB6518E95E6600AC04E4 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = nearsight/Constants.m; sourceTree = SOURCE_ROOT; };
+		2C24BB6718E95E8200AC04E4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = nearsight/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		2C24BB6918E95F1300AC04E4 /* nearsight-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "nearsight-Info.plist"; path = "nearsight/nearsight-Info.plist"; sourceTree = SOURCE_ROOT; };
+		2C24BB6A18E95F1300AC04E4 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = nearsight/main.m; sourceTree = SOURCE_ROOT; };
+		2C24BB6B18E95F1300AC04E4 /* nearsight-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "nearsight-Prefix.pch"; path = "nearsight/nearsight-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		2C24BB6E18E95FBE00AC04E4 /* recording.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = recording.png; path = nearsight/Images/recording.png; sourceTree = SOURCE_ROOT; };
+		2C24BB6F18E95FBE00AC04E4 /* record.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = record.png; path = nearsight/Images/record.png; sourceTree = SOURCE_ROOT; };
+		2C24BB7018E95FBE00AC04E4 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = add.png; path = nearsight/Images/add.png; sourceTree = SOURCE_ROOT; };
+		2C24BB7118E95FBE00AC04E4 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = star.png; path = nearsight/Images/star.png; sourceTree = SOURCE_ROOT; };
+		2C24BB7218E95FBE00AC04E4 /* outdoors.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = outdoors.png; path = nearsight/Images/outdoors.png; sourceTree = SOURCE_ROOT; };
+		2C24BB7318E95FBE00AC04E4 /* arts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arts.png; path = nearsight/Images/arts.png; sourceTree = SOURCE_ROOT; };
+		2C24BB7418E95FBE00AC04E4 /* sights.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sights.png; path = nearsight/Images/sights.png; sourceTree = SOURCE_ROOT; };
+		2C24BB7518E95FBE00AC04E4 /* shopping.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shopping.png; path = nearsight/Images/shopping.png; sourceTree = SOURCE_ROOT; };
+		2C24BB7618E95FBE00AC04E4 /* nightlife.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nightlife.png; path = nearsight/Images/nightlife.png; sourceTree = SOURCE_ROOT; };
+		2C24BB7718E95FBE00AC04E4 /* coffee.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = coffee.png; path = nearsight/Images/coffee.png; sourceTree = SOURCE_ROOT; };
+		2C24BB7818E95FBE00AC04E4 /* burger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = burger.png; path = nearsight/Images/burger.png; sourceTree = SOURCE_ROOT; };
+		2C24BB7918E95FBE00AC04E4 /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = search.png; path = nearsight/Images/search.png; sourceTree = SOURCE_ROOT; };
+		2C24BB7A18E95FBE00AC04E4 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = check.png; path = nearsight/Images/check.png; sourceTree = SOURCE_ROOT; };
+		2C24BB7B18E95FBE00AC04E4 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = profile.png; path = nearsight/Images/profile.png; sourceTree = SOURCE_ROOT; };
+		2C24BB7C18E95FBE00AC04E4 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = back.png; path = nearsight/Images/back.png; sourceTree = SOURCE_ROOT; };
+		2C24BB7D18E95FBE00AC04E4 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = close.png; path = nearsight/Images/close.png; sourceTree = SOURCE_ROOT; };
+		2C24BB7E18E95FBE00AC04E4 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = nearsight/Images/logo.png; sourceTree = SOURCE_ROOT; };
+		2C24BB7F18E95FBE00AC04E4 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menu.png; path = nearsight/Images/menu.png; sourceTree = SOURCE_ROOT; };
+		2C24BB8018E95FBE00AC04E4 /* capture_flip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "capture_flip@2x.png"; path = "nearsight/Images/capture_flip@2x.png"; sourceTree = SOURCE_ROOT; };
+		2C24BB8118E95FBE00AC04E4 /* capture_yep@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "capture_yep@2x.png"; path = "nearsight/Images/capture_yep@2x.png"; sourceTree = SOURCE_ROOT; };
+		2C24BBC718E960C100AC04E4 /* CheckinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckinViewController.m; path = nearsight/CheckinViewController.m; sourceTree = SOURCE_ROOT; };
+		2C24BBC818E960C100AC04E4 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuViewController.m; path = nearsight/MenuViewController.m; sourceTree = SOURCE_ROOT; };
+		2C24BBC918E960C100AC04E4 /* CheckinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckinViewController.h; path = nearsight/CheckinViewController.h; sourceTree = SOURCE_ROOT; };
+		2C24BBCA18E960C100AC04E4 /* PBJViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBJViewController.m; path = nearsight/PBJViewController.m; sourceTree = SOURCE_ROOT; };
+		2C24BBCB18E960C100AC04E4 /* AddPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddPostViewController.m; path = nearsight/AddPostViewController.m; sourceTree = SOURCE_ROOT; };
+		2C24BBCC18E960C100AC04E4 /* AddPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddPostViewController.h; path = nearsight/AddPostViewController.h; sourceTree = SOURCE_ROOT; };
+		2C24BBCD18E960C100AC04E4 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = nearsight/MainViewController.m; sourceTree = SOURCE_ROOT; };
+		2C24BBCE18E960C100AC04E4 /* PlaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaceViewController.m; path = nearsight/PlaceViewController.m; sourceTree = SOURCE_ROOT; };
+		2C24BBCF18E960C100AC04E4 /* StreamTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StreamTableViewController.m; path = nearsight/StreamTableViewController.m; sourceTree = SOURCE_ROOT; };
+		2C24BBD018E960C100AC04E4 /* StreamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StreamViewController.h; path = nearsight/StreamViewController.h; sourceTree = SOURCE_ROOT; };
+		2C24BBD118E960C100AC04E4 /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostViewController.h; path = nearsight/PostViewController.h; sourceTree = SOURCE_ROOT; };
+		2C24BBD218E960C100AC04E4 /* StreamTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StreamTableViewController.h; path = nearsight/StreamTableViewController.h; sourceTree = SOURCE_ROOT; };
+		2C24BBD318E960C100AC04E4 /* StreamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StreamViewController.m; path = nearsight/StreamViewController.m; sourceTree = SOURCE_ROOT; };
+		2C24BBD418E960C100AC04E4 /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostViewController.m; path = nearsight/PostViewController.m; sourceTree = SOURCE_ROOT; };
+		2C24BBD518E960C100AC04E4 /* PlaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaceViewController.h; path = nearsight/PlaceViewController.h; sourceTree = SOURCE_ROOT; };
+		2C24BBD618E960C100AC04E4 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchViewController.m; path = nearsight/SearchViewController.m; sourceTree = SOURCE_ROOT; };
+		2C24BBD718E960C100AC04E4 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchViewController.h; path = nearsight/SearchViewController.h; sourceTree = SOURCE_ROOT; };
+		2C24BBD818E960C100AC04E4 /* BlurViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BlurViewController.m; path = nearsight/BlurViewController.m; sourceTree = SOURCE_ROOT; };
+		2C24BBD918E960C100AC04E4 /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuViewController.h; path = nearsight/MenuViewController.h; sourceTree = SOURCE_ROOT; };
+		2C24BBDA18E960C100AC04E4 /* BlurViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlurViewController.h; path = nearsight/BlurViewController.h; sourceTree = SOURCE_ROOT; };
+		2C24BBDB18E960C100AC04E4 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = nearsight/MainViewController.h; sourceTree = SOURCE_ROOT; };
+		2C24BBDC18E960C100AC04E4 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProfileViewController.m; path = nearsight/ProfileViewController.m; sourceTree = SOURCE_ROOT; };
+		2C24BBDD18E960C100AC04E4 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProfileViewController.h; path = nearsight/ProfileViewController.h; sourceTree = SOURCE_ROOT; };
+		2C24BBDE18E960C100AC04E4 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WelcomeViewController.m; path = nearsight/WelcomeViewController.m; sourceTree = SOURCE_ROOT; };
+		2C24BBDF18E960C100AC04E4 /* SignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SignupViewController.m; path = nearsight/SignupViewController.m; sourceTree = SOURCE_ROOT; };
+		2C24BBE018E960C100AC04E4 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WelcomeViewController.h; path = nearsight/WelcomeViewController.h; sourceTree = SOURCE_ROOT; };
+		2C24BBE118E960C100AC04E4 /* SignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SignupViewController.h; path = nearsight/SignupViewController.h; sourceTree = SOURCE_ROOT; };
+		2C24BBE218E960C100AC04E4 /* PBJFocusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBJFocusView.h; path = nearsight/PBJFocusView.h; sourceTree = SOURCE_ROOT; };
+		2C24BBE318E960C100AC04E4 /* PBJFocusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBJFocusView.m; path = nearsight/PBJFocusView.m; sourceTree = SOURCE_ROOT; };
+		2C24BBE418E960C100AC04E4 /* PBJStrobeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBJStrobeView.h; path = nearsight/PBJStrobeView.h; sourceTree = SOURCE_ROOT; };
+		2C24BBE518E960C100AC04E4 /* PBJStrobeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PBJStrobeView.m; path = nearsight/PBJStrobeView.m; sourceTree = SOURCE_ROOT; };
+		2C24BBE618E960C100AC04E4 /* PBJViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PBJViewController.h; path = nearsight/PBJViewController.h; sourceTree = SOURCE_ROOT; };
+		2C24BBF718E960EA00AC04E4 /* NotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotificationViewController.m; path = nearsight/NotificationViewController.m; sourceTree = SOURCE_ROOT; };
+		2C24BBF818E960EA00AC04E4 /* NotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotificationViewController.h; path = nearsight/NotificationViewController.h; sourceTree = SOURCE_ROOT; };
+		2C24BBFA18E9611500AC04E4 /* nearsightTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "nearsightTests-Info.plist"; path = "nearsightTests/nearsightTests-Info.plist"; sourceTree = SOURCE_ROOT; };
+		2C24BBFF18E9614D00AC04E4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = nearsightTests/en.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
+		2C57B4EF18DE6D20005E7244 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		2C7945B618D3D32A00FCF401 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		2C88AF5918E16DCB0084227C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		2CA1A2E318E4197500BB358A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		2CA4DA5018E9648C00F231DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = nearsight/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
+		2CBE05B618DA86FA00147743 /* proximanova-bold-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "proximanova-bold-webfont.ttf"; path = "../../../ios-vanish-master/vanish-app/Vanish/Vanish/Resources/Fonts/proximanova-bold-webfont.ttf"; sourceTree = "<group>"; };
+		2CBE05B718DA86FA00147743 /* proximanova-light-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "proximanova-light-webfont.ttf"; path = "../../../ios-vanish-master/vanish-app/Vanish/Vanish/Resources/Fonts/proximanova-light-webfont.ttf"; sourceTree = "<group>"; };
+		2CBE05B818DA86FA00147743 /* proximanova-lightitalic-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "proximanova-lightitalic-webfont.ttf"; path = "../../../ios-vanish-master/vanish-app/Vanish/Vanish/Resources/Fonts/proximanova-lightitalic-webfont.ttf"; sourceTree = "<group>"; };
+		2CBE05B918DA86FA00147743 /* proximanova-semibold-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "proximanova-semibold-webfont.ttf"; path = "../../../ios-vanish-master/vanish-app/Vanish/Vanish/Resources/Fonts/proximanova-semibold-webfont.ttf"; sourceTree = "<group>"; };
+		2CBE05BA18DA86FA00147743 /* proximanovacond-light-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "proximanovacond-light-webfont.ttf"; path = "../../../ios-vanish-master/vanish-app/Vanish/Vanish/Resources/Fonts/proximanovacond-light-webfont.ttf"; sourceTree = "<group>"; };
+		2CBE05BB18DA86FA00147743 /* proximanovacond-lightit-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "proximanovacond-lightit-webfont.ttf"; path = "../../../ios-vanish-master/vanish-app/Vanish/Vanish/Resources/Fonts/proximanovacond-lightit-webfont.ttf"; sourceTree = "<group>"; };
+		2CBE05BC18DA86FA00147743 /* proximanovacond-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "proximanovacond-regular-webfont.ttf"; path = "../../../ios-vanish-master/vanish-app/Vanish/Vanish/Resources/Fonts/proximanovacond-regular-webfont.ttf"; sourceTree = "<group>"; };
+		2CBE05C418DAA39B00147743 /* mrseavesitalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = mrseavesitalic.ttf; path = ../../../../Downloads/mrseavesitalic.ttf; sourceTree = "<group>"; };
+		B9B0D5FE7C8B47A3878B3090 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2C080D4F18CFC6EB0066F30E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CA1A2E418E4197500BB358A /* QuartzCore.framework in Frameworks */,
+				2C88AF5A18E16DCB0084227C /* CoreLocation.framework in Frameworks */,
+				2C57B4F018DE6D20005E7244 /* AddressBook.framework in Frameworks */,
+				2C7945B718D3D32A00FCF401 /* Accelerate.framework in Frameworks */,
+				2C080D5818CFC6EB0066F30E /* CoreGraphics.framework in Frameworks */,
+				2C080D5A18CFC6EB0066F30E /* UIKit.framework in Frameworks */,
+				2C080D5618CFC6EB0066F30E /* Foundation.framework in Frameworks */,
+				9342F7DF59704EED89D84BD9 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C080D7018CFC6EB0066F30E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C080D7518CFC6EB0066F30E /* XCTest.framework in Frameworks */,
+				2C080D7718CFC6EB0066F30E /* UIKit.framework in Frameworks */,
+				2C080D7618CFC6EB0066F30E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2C080D4918CFC6EA0066F30E = {
+			isa = PBXGroup;
+			children = (
+				2C080D5B18CFC6EB0066F30E /* nearsight */,
+				2C080D7A18CFC6EB0066F30E /* nearsightTests */,
+				2C080D5418CFC6EB0066F30E /* Frameworks */,
+				2C080D5318CFC6EB0066F30E /* Products */,
+				B9B0D5FE7C8B47A3878B3090 /* Pods.xcconfig */,
+			);
+			sourceTree = "<group>";
+		};
+		2C080D5318CFC6EB0066F30E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2C080D5218CFC6EB0066F30E /* nearsight.app */,
+				2C080D7318CFC6EB0066F30E /* nearsightTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2C080D5418CFC6EB0066F30E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2CA1A2E318E4197500BB358A /* QuartzCore.framework */,
+				2C88AF5918E16DCB0084227C /* CoreLocation.framework */,
+				2C57B4EF18DE6D20005E7244 /* AddressBook.framework */,
+				2C7945B618D3D32A00FCF401 /* Accelerate.framework */,
+				2C080D5518CFC6EB0066F30E /* Foundation.framework */,
+				2C080D5718CFC6EB0066F30E /* CoreGraphics.framework */,
+				2C080D5918CFC6EB0066F30E /* UIKit.framework */,
+				2C080D7418CFC6EB0066F30E /* XCTest.framework */,
+				01B446E530F643C9BCC509E1 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2C080D5B18CFC6EB0066F30E /* nearsight */ = {
+			isa = PBXGroup;
+			children = (
+				2CA4DA4F18E9648C00F231DC /* Main.storyboard */,
+				2C24BBC618E9609B00AC04E4 /* Views */,
+				2C2752DF18E54D3E003D6C28 /* UI */,
+				2CCB3D1318D1880B0090DA1A /* Models */,
+				2C24BB4718E95D2200AC04E4 /* AppDelegate.m */,
+				2C24BB4A18E95D2200AC04E4 /* Foursquare.h */,
+				2C24BB4818E95D2200AC04E4 /* Foursquare.m */,
+				2C24BB4918E95D2200AC04E4 /* Manager.h */,
+				2C24BB6318E95DE500AC04E4 /* Manager.m */,
+				2C24BB4C18E95D2200AC04E4 /* Client.h */,
+				2C24BB4B18E95D2200AC04E4 /* Client.m */,
+				2C24BB4D18E95D2200AC04E4 /* Constants.h */,
+				2C24BB6518E95E6600AC04E4 /* Constants.m */,
+				2C24BB4E18E95D2200AC04E4 /* AppDelegate.h */,
+				2C24BB6718E95E8200AC04E4 /* Images.xcassets */,
+				2C080D5C18CFC6EB0066F30E /* Supporting Files */,
+			);
+			name = nearsight;
+			path = fomo;
+			sourceTree = "<group>";
+		};
+		2C080D5C18CFC6EB0066F30E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2C24BB6918E95F1300AC04E4 /* nearsight-Info.plist */,
+				2C24BB6A18E95F1300AC04E4 /* main.m */,
+				2C24BB6B18E95F1300AC04E4 /* nearsight-Prefix.pch */,
+				2CBE05B518DA867D00147743 /* Fonts */,
+				2C080D9C18CFDCB00066F30E /* Images */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2C080D7A18CFC6EB0066F30E /* nearsightTests */ = {
+			isa = PBXGroup;
+			children = (
+				2C080D7B18CFC6EB0066F30E /* Supporting Files */,
+			);
+			name = nearsightTests;
+			path = fomoTests;
+			sourceTree = "<group>";
+		};
+		2C080D7B18CFC6EB0066F30E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2C24BBFE18E9614D00AC04E4 /* InfoPlist.strings */,
+				2C24BBFA18E9611500AC04E4 /* nearsightTests-Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2C080D9C18CFDCB00066F30E /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				2C24BB6E18E95FBE00AC04E4 /* recording.png */,
+				2C24BB6F18E95FBE00AC04E4 /* record.png */,
+				2C24BB7018E95FBE00AC04E4 /* add.png */,
+				2C24BB7118E95FBE00AC04E4 /* star.png */,
+				2C24BB7218E95FBE00AC04E4 /* outdoors.png */,
+				2C24BB7318E95FBE00AC04E4 /* arts.png */,
+				2C24BB7418E95FBE00AC04E4 /* sights.png */,
+				2C24BB7518E95FBE00AC04E4 /* shopping.png */,
+				2C24BB7618E95FBE00AC04E4 /* nightlife.png */,
+				2C24BB7718E95FBE00AC04E4 /* coffee.png */,
+				2C24BB7818E95FBE00AC04E4 /* burger.png */,
+				2C24BB7918E95FBE00AC04E4 /* search.png */,
+				2C24BB7A18E95FBE00AC04E4 /* check.png */,
+				2C24BB7B18E95FBE00AC04E4 /* profile.png */,
+				2C24BB7C18E95FBE00AC04E4 /* back.png */,
+				2C24BB7D18E95FBE00AC04E4 /* close.png */,
+				2C24BB7E18E95FBE00AC04E4 /* logo.png */,
+				2C24BB7F18E95FBE00AC04E4 /* menu.png */,
+				2C24BB8018E95FBE00AC04E4 /* capture_flip@2x.png */,
+				2C24BB8118E95FBE00AC04E4 /* capture_yep@2x.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		2C24BBC618E9609B00AC04E4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2C24BBF718E960EA00AC04E4 /* NotificationViewController.m */,
+				2C24BBF818E960EA00AC04E4 /* NotificationViewController.h */,
+				2C24BBC718E960C100AC04E4 /* CheckinViewController.m */,
+				2C24BBC818E960C100AC04E4 /* MenuViewController.m */,
+				2C24BBC918E960C100AC04E4 /* CheckinViewController.h */,
+				2C24BBCA18E960C100AC04E4 /* PBJViewController.m */,
+				2C24BBCB18E960C100AC04E4 /* AddPostViewController.m */,
+				2C24BBCC18E960C100AC04E4 /* AddPostViewController.h */,
+				2C24BBCD18E960C100AC04E4 /* MainViewController.m */,
+				2C24BBCE18E960C100AC04E4 /* PlaceViewController.m */,
+				2C24BBCF18E960C100AC04E4 /* StreamTableViewController.m */,
+				2C24BBD018E960C100AC04E4 /* StreamViewController.h */,
+				2C24BBD118E960C100AC04E4 /* PostViewController.h */,
+				2C24BBD218E960C100AC04E4 /* StreamTableViewController.h */,
+				2C24BBD318E960C100AC04E4 /* StreamViewController.m */,
+				2C24BBD418E960C100AC04E4 /* PostViewController.m */,
+				2C24BBD518E960C100AC04E4 /* PlaceViewController.h */,
+				2C24BBD618E960C100AC04E4 /* SearchViewController.m */,
+				2C24BBD718E960C100AC04E4 /* SearchViewController.h */,
+				2C24BBD818E960C100AC04E4 /* BlurViewController.m */,
+				2C24BBD918E960C100AC04E4 /* MenuViewController.h */,
+				2C24BBDA18E960C100AC04E4 /* BlurViewController.h */,
+				2C24BBDB18E960C100AC04E4 /* MainViewController.h */,
+				2C24BBDC18E960C100AC04E4 /* ProfileViewController.m */,
+				2C24BBDD18E960C100AC04E4 /* ProfileViewController.h */,
+				2C24BBDE18E960C100AC04E4 /* WelcomeViewController.m */,
+				2C24BBDF18E960C100AC04E4 /* SignupViewController.m */,
+				2C24BBE018E960C100AC04E4 /* WelcomeViewController.h */,
+				2C24BBE118E960C100AC04E4 /* SignupViewController.h */,
+				2C24BBE218E960C100AC04E4 /* PBJFocusView.h */,
+				2C24BBE318E960C100AC04E4 /* PBJFocusView.m */,
+				2C24BBE418E960C100AC04E4 /* PBJStrobeView.h */,
+				2C24BBE518E960C100AC04E4 /* PBJStrobeView.m */,
+				2C24BBE618E960C100AC04E4 /* PBJViewController.h */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		2C2752DF18E54D3E003D6C28 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				2C24BB5418E95D5B00AC04E4 /* UIExtensions.m */,
+				2C24BB5518E95D5B00AC04E4 /* UIExtensions.h */,
+				2C24BB5618E95D5B00AC04E4 /* CategoryCell.m */,
+				2C24BB5718E95D5B00AC04E4 /* CategoryCell.h */,
+				2C24BB5818E95D5B00AC04E4 /* PostCell.h */,
+				2C24BB5918E95D5B00AC04E4 /* PostCell.m */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		2CBE05B518DA867D00147743 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				2CBE05C418DAA39B00147743 /* mrseavesitalic.ttf */,
+				2CBE05B618DA86FA00147743 /* proximanova-bold-webfont.ttf */,
+				2CBE05B718DA86FA00147743 /* proximanova-light-webfont.ttf */,
+				2CBE05B818DA86FA00147743 /* proximanova-lightitalic-webfont.ttf */,
+				2CBE05B918DA86FA00147743 /* proximanova-semibold-webfont.ttf */,
+				2CBE05BA18DA86FA00147743 /* proximanovacond-light-webfont.ttf */,
+				2CBE05BB18DA86FA00147743 /* proximanovacond-lightit-webfont.ttf */,
+				2CBE05BC18DA86FA00147743 /* proximanovacond-regular-webfont.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
+		2CCB3D1318D1880B0090DA1A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2C24BB5D18E95D8E00AC04E4 /* Place.h */,
+				2C24BB5E18E95D8E00AC04E4 /* Place.m */,
+				2C24BB5F18E95D8E00AC04E4 /* Post.m */,
+				2C24BB6018E95D8E00AC04E4 /* Post.h */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2C080D5118CFC6EB0066F30E /* nearsight */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C080D8418CFC6EB0066F30E /* Build configuration list for PBXNativeTarget "nearsight" */;
+			buildPhases = (
+				31AC8E779D404763A51FE523 /* Check Pods Manifest.lock */,
+				2C080D4E18CFC6EB0066F30E /* Sources */,
+				2C080D4F18CFC6EB0066F30E /* Frameworks */,
+				2C080D5018CFC6EB0066F30E /* Resources */,
+				F3025622884D4F8EB8DE5516 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = nearsight;
+			productName = fomo;
+			productReference = 2C080D5218CFC6EB0066F30E /* nearsight.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2C080D7218CFC6EB0066F30E /* nearsightTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C080D8718CFC6EB0066F30E /* Build configuration list for PBXNativeTarget "nearsightTests" */;
+			buildPhases = (
+				2C080D6F18CFC6EB0066F30E /* Sources */,
+				2C080D7018CFC6EB0066F30E /* Frameworks */,
+				2C080D7118CFC6EB0066F30E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2C080D7918CFC6EB0066F30E /* PBXTargetDependency */,
+			);
+			name = nearsightTests;
+			productName = fomoTests;
+			productReference = 2C080D7318CFC6EB0066F30E /* nearsightTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2C080D4A18CFC6EA0066F30E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Ebby Amir";
+				TargetAttributes = {
+					2C080D7218CFC6EB0066F30E = {
+						TestTargetID = 2C080D5118CFC6EB0066F30E;
+					};
+				};
+			};
+			buildConfigurationList = 2C080D4D18CFC6EA0066F30E /* Build configuration list for PBXProject "nearsight" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2C080D4918CFC6EA0066F30E;
+			productRefGroup = 2C080D5318CFC6EB0066F30E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2C080D5118CFC6EB0066F30E /* nearsight */,
+				2C080D7218CFC6EB0066F30E /* nearsightTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2C080D5018CFC6EB0066F30E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CBE05BF18DA86FA00147743 /* proximanova-lightitalic-webfont.ttf in Resources */,
+				2C24BC0018E9614D00AC04E4 /* InfoPlist.strings in Resources */,
+				2C24BB8818E95FBE00AC04E4 /* sights.png in Resources */,
+				2C24BB8E18E95FBE00AC04E4 /* check.png in Resources */,
+				2C24BB8F18E95FBE00AC04E4 /* profile.png in Resources */,
+				2C24BB6C18E95F1300AC04E4 /* nearsight-Info.plist in Resources */,
+				2C24BB9318E95FBE00AC04E4 /* menu.png in Resources */,
+				2C24BB8418E95FBE00AC04E4 /* add.png in Resources */,
+				2C24BB8218E95FBE00AC04E4 /* recording.png in Resources */,
+				2C24BB9118E95FBE00AC04E4 /* close.png in Resources */,
+				2CBE05BD18DA86FA00147743 /* proximanova-bold-webfont.ttf in Resources */,
+				2CBE05C518DAA39B00147743 /* mrseavesitalic.ttf in Resources */,
+				2C24BB9518E95FBE00AC04E4 /* capture_yep@2x.png in Resources */,
+				2C24BB8D18E95FBE00AC04E4 /* search.png in Resources */,
+				2C24BB8318E95FBE00AC04E4 /* record.png in Resources */,
+				2C24BB8618E95FBE00AC04E4 /* outdoors.png in Resources */,
+				2C24BB8518E95FBE00AC04E4 /* star.png in Resources */,
+				2C24BB8718E95FBE00AC04E4 /* arts.png in Resources */,
+				2C24BB8A18E95FBE00AC04E4 /* nightlife.png in Resources */,
+				2CBE05C018DA86FA00147743 /* proximanova-semibold-webfont.ttf in Resources */,
+				2CBE05C318DA86FA00147743 /* proximanovacond-regular-webfont.ttf in Resources */,
+				2CBE05C118DA86FA00147743 /* proximanovacond-light-webfont.ttf in Resources */,
+				2C24BB8918E95FBE00AC04E4 /* shopping.png in Resources */,
+				2C24BB9218E95FBE00AC04E4 /* logo.png in Resources */,
+				2C24BB6818E95E8200AC04E4 /* Images.xcassets in Resources */,
+				2CBE05BE18DA86FA00147743 /* proximanova-light-webfont.ttf in Resources */,
+				2C24BB8C18E95FBE00AC04E4 /* burger.png in Resources */,
+				2CA4DA5118E9648C00F231DC /* Main.storyboard in Resources */,
+				2C24BB8B18E95FBE00AC04E4 /* coffee.png in Resources */,
+				2C24BB9418E95FBE00AC04E4 /* capture_flip@2x.png in Resources */,
+				2CBE05C218DA86FA00147743 /* proximanovacond-lightit-webfont.ttf in Resources */,
+				2C24BB9018E95FBE00AC04E4 /* back.png in Resources */,
+				2C24BBFC18E9611500AC04E4 /* nearsightTests-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C080D7118CFC6EB0066F30E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		31AC8E779D404763A51FE523 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F3025622884D4F8EB8DE5516 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2C080D4E18CFC6EB0066F30E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C24BB5218E95D2200AC04E4 /* Client.m in Sources */,
+				2C24BBE918E960C100AC04E4 /* PBJViewController.m in Sources */,
+				2C24BB5118E95D2200AC04E4 /* Foursquare.m in Sources */,
+				2C24BBF118E960C100AC04E4 /* BlurViewController.m in Sources */,
+				2C24BBEC18E960C100AC04E4 /* PlaceViewController.m in Sources */,
+				2C24BBF318E960C100AC04E4 /* WelcomeViewController.m in Sources */,
+				2C24BBEF18E960C100AC04E4 /* PostViewController.m in Sources */,
+				2C24BBEB18E960C100AC04E4 /* MainViewController.m in Sources */,
+				2C24BBF618E960C100AC04E4 /* PBJStrobeView.m in Sources */,
+				2C24BBF218E960C100AC04E4 /* ProfileViewController.m in Sources */,
+				2C24BB5C18E95D5B00AC04E4 /* PostCell.m in Sources */,
+				2C24BBF518E960C100AC04E4 /* PBJFocusView.m in Sources */,
+				2C24BB6D18E95F1300AC04E4 /* main.m in Sources */,
+				2C24BBE818E960C100AC04E4 /* MenuViewController.m in Sources */,
+				2C24BB6618E95E6600AC04E4 /* Constants.m in Sources */,
+				2C24BB5A18E95D5B00AC04E4 /* UIExtensions.m in Sources */,
+				2C24BB5B18E95D5B00AC04E4 /* CategoryCell.m in Sources */,
+				2C24BBED18E960C100AC04E4 /* StreamTableViewController.m in Sources */,
+				2C24BBF018E960C100AC04E4 /* SearchViewController.m in Sources */,
+				2C24BB5018E95D2200AC04E4 /* AppDelegate.m in Sources */,
+				2C24BB6418E95DE500AC04E4 /* Manager.m in Sources */,
+				2C24BBF918E960EA00AC04E4 /* NotificationViewController.m in Sources */,
+				2C24BBF418E960C100AC04E4 /* SignupViewController.m in Sources */,
+				2C24BB6218E95D8E00AC04E4 /* Post.m in Sources */,
+				2C24BBEE18E960C100AC04E4 /* StreamViewController.m in Sources */,
+				2C24BBE718E960C100AC04E4 /* CheckinViewController.m in Sources */,
+				2C24BB6118E95D8E00AC04E4 /* Place.m in Sources */,
+				2C24BBEA18E960C100AC04E4 /* AddPostViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C080D6F18CFC6EB0066F30E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2C080D7918CFC6EB0066F30E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C080D5118CFC6EB0066F30E /* nearsight */;
+			targetProxy = 2C080D7818CFC6EB0066F30E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		2C24BBFE18E9614D00AC04E4 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2C24BBFF18E9614D00AC04E4 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		2CA4DA4F18E9648C00F231DC /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2CA4DA5018E9648C00F231DC /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2C080D8218CFC6EB0066F30E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		2C080D8318CFC6EB0066F30E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2C080D8518CFC6EB0066F30E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B9B0D5FE7C8B47A3878B3090 /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "nearsight/nearsight-Prefix.pch";
+				INFOPLIST_FILE = "nearsight/nearsight-Info.plist";
+				PRODUCT_NAME = nearsight;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		2C080D8618CFC6EB0066F30E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B9B0D5FE7C8B47A3878B3090 /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "nearsight/nearsight-Prefix.pch";
+				INFOPLIST_FILE = "nearsight/nearsight-Info.plist";
+				PRODUCT_NAME = nearsight;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		2C080D8818CFC6EB0066F30E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/fomo.app/fomo";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fomo/fomo-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "fomoTests/nearsightTests-Info.plist";
+				PRODUCT_NAME = nearsightTests;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		2C080D8918CFC6EB0066F30E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/fomo.app/fomo";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fomo/fomo-Prefix.pch";
+				INFOPLIST_FILE = "fomoTests/nearsightTests-Info.plist";
+				PRODUCT_NAME = nearsightTests;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2C080D4D18CFC6EA0066F30E /* Build configuration list for PBXProject "nearsight" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C080D8218CFC6EB0066F30E /* Debug */,
+				2C080D8318CFC6EB0066F30E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2C080D8418CFC6EB0066F30E /* Build configuration list for PBXNativeTarget "nearsight" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C080D8518CFC6EB0066F30E /* Debug */,
+				2C080D8618CFC6EB0066F30E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2C080D8718CFC6EB0066F30E /* Build configuration list for PBXNativeTarget "nearsightTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C080D8818CFC6EB0066F30E /* Debug */,
+				2C080D8918CFC6EB0066F30E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2C080D4A18CFC6EA0066F30E /* Project object */;
+}

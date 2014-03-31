@@ -8,8 +8,9 @@
 #import "PBJVideoPlayerController.h"
 #import "PBJVideoView.h"
 
-#import <AVFoundation/AVFoundation.h>
 #import "AFHTTPRequestOperation.h"
+#import <MobileCoreServices/UTCoreTypes.h>
+#import <ImageIO/ImageIO.h>
 
 #define LOG_PLAYER 0
 #if !defined(NDEBUG) && LOG_PLAYER
@@ -109,7 +110,7 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
             
             [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
                 AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:_downloadPath] options:nil];
-                [self _setAsset:asset];
+                [self setAsset:asset];
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"Error: %@", error);
             }];
@@ -118,11 +119,11 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
             //[operation start];
         } else {
             AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:_downloadPath] options:nil];
-            [self _setAsset:asset];
+            [self setAsset:asset];
         }
     } else {
         AVURLAsset *asset = [AVURLAsset URLAssetWithURL:videoURL options:nil];
-        [self _setAsset:asset];
+        [self setAsset:asset];
     }
 }
 
@@ -144,7 +145,7 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
     }
 }
 
-- (void)_setAsset:(AVAsset *)asset
+- (void)setAsset:(AVAsset *)asset
 {
     if (_asset == asset)
         return;
@@ -345,6 +346,37 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
     [_delegate videoPlayerPlaybackDidEnd:self];
 }
 
+- (void)exportAssetWithPath:(NSString*)path andCallback:(void (^)(AVAssetExportSessionStatus status))callback;
+{
+    AVAssetExportSession* assetExport = [[AVAssetExportSession alloc] initWithAsset:_asset presetName:AVAssetExportPresetPassthrough];
+    assetExport.outputFileType = (NSString *)kUTTypeQuickTimeMovie;
+    assetExport.shouldOptimizeForNetworkUse = YES;
+    assetExport.videoComposition = [AVVideoComposition videoCompositionWithPropertiesOfAsset:_asset];
+    assetExport.outputURL = [NSURL fileURLWithPath:path];
+
+    [assetExport exportAsynchronouslyWithCompletionHandler:
+     ^(void ) {
+         callback(assetExport.status);
+         switch (assetExport.status)
+         {
+             case AVAssetExportSessionStatusCompleted:
+                 //                export complete
+                 NSLog(@"Export Complete");
+                 break;
+             case AVAssetExportSessionStatusFailed:
+                 NSLog(@"Export Failed");
+                 NSLog(@"ExportSessionError: %@", [assetExport.error localizedDescription]);
+                 //                export error (see exportSession.error)
+                 break;
+             case AVAssetExportSessionStatusCancelled:
+                 NSLog(@"Export Failed");
+                 NSLog(@"ExportSessionError: %@", [assetExport.error localizedDescription]);
+                 //                export cancelled
+                 break;
+         }
+     }];
+}
+
 #pragma mark - main queue helper
 
 typedef void (^PBJVideoPlayerBlock)();
@@ -359,7 +391,7 @@ typedef void (^PBJVideoPlayerBlock)();
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if (_videoPath) {
+    if (_videoPath || _asset) {
         
         switch (_playbackState) {
             case PBJVideoPlayerPlaybackStateStopped:
@@ -450,7 +482,19 @@ typedef void (^PBJVideoPlayerBlock)();
         {
             case AVPlayerStatusReadyToPlay:
             {
-                // Take snapshot
+                // Take first frame snapshot
+                NSTimeInterval beginning = CMTimeGetSeconds(kCMTimeZero);
+                AVAssetImageGenerator *firstImageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:_asset];
+                firstImageGenerator.requestedTimeToleranceAfter = kCMTimeZero;
+                firstImageGenerator.requestedTimeToleranceBefore = kCMTimeZero;
+                CGImageRef firstThumb = [firstImageGenerator copyCGImageAtTime:CMTimeMakeWithSeconds(beginning, 600)
+                                                          actualTime:NULL
+                                                               error:NULL];
+                self.firstFrame = [[UIImage alloc] initWithCGImage:firstThumb];
+                CGImageRelease(firstThumb);
+
+                
+                // Take last frame snapshot
                 NSTimeInterval duration = CMTimeGetSeconds(_asset.duration);
                 AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:_asset];
                 imageGenerator.requestedTimeToleranceAfter = kCMTimeZero;

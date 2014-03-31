@@ -1396,8 +1396,6 @@ typedef void (^PBJVisionBlock)();
             CGRect screenRect = [[UIScreen mainScreen] bounds];
             NSUInteger screenWidth = screenRect.size.width;
             NSUInteger screenHeight = screenRect.size.height;
-            NSLog(@"height: %d", screenHeight);
-            NSLog(@"width: %d", screenWidth);
             videoDimensions.width = screenWidth;
             videoDimensions.height = screenHeight;
             break;

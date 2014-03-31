@@ -77,7 +77,7 @@
     AVMutableMetadataItem *softwareItem = [[AVMutableMetadataItem alloc] init];
     [softwareItem setKeySpace:AVMetadataKeySpaceCommon];
     [softwareItem setKey:AVMetadataCommonKeySoftware];
-    [softwareItem setValue:[NSString stringWithFormat:@"%@ %@ PBJVision", [currentDevice systemName], [currentDevice systemVersion]]];
+    [softwareItem setValue:[NSString stringWithFormat:@"%@ %@ FOMO APP", [currentDevice systemName], [currentDevice systemVersion]]];
 
     // creation date
     AVMutableMetadataItem *creationDateItem = [[AVMutableMetadataItem alloc] init];
