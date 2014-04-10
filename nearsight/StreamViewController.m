@@ -8,15 +8,17 @@
 
 #import "StreamViewController.h"
 #import "StreamTableViewController.h"
+#import <GoogleMaps/GoogleMaps.h>
 
-@interface StreamViewController ()
+@interface StreamViewController () <UIScrollViewDelegate>
 
 @property (strong, nonatomic) StreamTableViewController *streamTableViewController;
 
 @end
 
 @implementation StreamViewController {
-    UISegmentedControl *_streamSegment;
+    UIScrollView *_scrollView;
+    GMSMapView *_mapView;
 }
 
 
@@ -32,19 +34,40 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor blackColor];
+    
+//    // Map
+//    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:-33.868
+//                                                            longitude:151.2086
+//                                                                 zoom:15];
+//    _mapView = [GMSMapView mapWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) camera:camera];
+//    _mapView.settings.scrollGestures = NO;
+//    _mapView.settings.zoomGestures = NO;
+//    _mapView.settings.tiltGestures = NO;
+//    _mapView.settings.rotateGestures = NO;
+//    
+//    GMSMarker *marker = [[GMSMarker alloc] init];
+//    marker.position = camera.target;
+//    marker.snippet = @"Hello World";
+//    [self.view addSubview:_mapView];
+    
+//    // Scroll View
+//    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+//    _scrollView.bounces = YES;
+//    _scrollView.alwaysBounceVertical = YES;
+//    _scrollView.delegate = self;
+//    _scrollView.showsVerticalScrollIndicator = NO;
+//    _scrollView.showsHorizontalScrollIndicator = NO;
+//    _scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height+200);
+//    [_scrollView setBackgroundColor:[UIColor clearColor]];
+//    [self.view addSubview:_scrollView];
 	
     self.streamTableViewController = [[StreamTableViewController alloc] init];
-    self.streamTableViewController.view.frame = self.view.frame;
+    self.streamTableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     [self.view addSubview:self.streamTableViewController.view];
     [self addChildViewController:self.streamTableViewController];
     [self.streamTableViewController loadStream];
-    
-    _streamSegment = [[UISegmentedControl alloc] initWithItems:@[@"Following", @"Nearby"]];
-    _streamSegment.frame = CGRectMake(self.view.frame.size.width/2 - 80, 25, 160, 30.0f);
-    _streamSegment.selectedSegmentIndex = 0;
-    _streamSegment.tintColor = [UIColor whiteColor];
-    _streamSegment.alpha = 0.8;
-    [self.view addSubview:_streamSegment];
 
     UIView *statusBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20.0f)];
     statusBar.backgroundColor = [UIColor blackColor];
@@ -78,6 +101,17 @@
     
 //    [self.pageViewController setViewControllers:@[self.notificationViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
     
+}
+
+#pragma mark - ScrollView Delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    if (scrollView == _scrollView){
+        
+        _mapView.frame = CGRectMake(_mapView.frame.origin.x, -150 - scrollView.contentOffset.y*.75, _mapView.frame.size.width, MAX(self.view.frame.size.height - scrollView.contentOffset.y, self.view.frame.size.height));
+    }
+    self.streamTableViewController.view.userInteractionEnabled = scrollView.contentOffset.y >= 200;
 }
 
 @end

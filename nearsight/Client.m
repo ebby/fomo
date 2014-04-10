@@ -119,6 +119,32 @@
     }];
 }
 
+- (RACSignal *)fetchPlaces
+{
+    return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+        NSString *endpoint = @"_places";
+        AFHTTPRequestOperation *operation = [self GET:endpoint parameters:params resultClass:Place.class resultKeyPath:@""
+                                           completion:^(AFHTTPRequestOperation *operation, id responseObject, NSError *error) {
+                                               NSLog(@"Fetched stream");
+                                               if (! error) {
+                                                   [subscriber sendNext:responseObject];
+                                               }
+                                               else {
+                                                   [subscriber sendError:error];
+                                               }
+                                               
+                                               [subscriber sendCompleted];
+                                           }];
+        
+        return [RACDisposable disposableWithBlock:^{
+            [operation cancel];
+        }];
+    }] doError:^(NSError *error) {
+        NSLog(@"%@",error);
+    }];
+}
+
 
 
 @end

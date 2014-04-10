@@ -12,7 +12,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "AFNetworking.h"
 #import "Client.h"
-#import "RNGridMenu.h"
+#import "CheckinViewController.h"
 #import "Place.h"
 #import "Manager.h"
 #import <LBBlurredImage/UIImageView+LBBlurredImage.h>
@@ -45,7 +45,7 @@
 
 
 
-@interface AddPostViewController () <PBJVideoPlayerControllerDelegate, UITextViewDelegate, RNGridMenuDelegate>
+@interface AddPostViewController () <PBJVideoPlayerControllerDelegate, UITextViewDelegate, CheckinViewControllerDelegate>
 {
     PBJVideoPlayerController *_videoPlayerController;
     ExtendedHitButton *_backButton;
@@ -55,7 +55,7 @@
     UIERealTimeBlurView *_blurredView;
     UITapGestureRecognizer *_tapRecognizer;
     ALAssetsLibrary *_assetLibrary;
-    RNGridMenu *_emotions;
+    CheckinViewController *_checkinView;
     UIImageView *_blurredImageView;
     UIView *_shareOptions;
     UILabel *_shareLabel;
@@ -66,6 +66,7 @@
 @property (nonatomic) NSString *videoPath;
 @property (nonatomic) AVAsset *asset;
 @property (nonatomic) NSString *exportPath;
+@property (nonatomic) NSArray *timeline;
 @property (nonatomic) BOOL exported;
 @property (nonatomic) NSString *caption;
 @property (nonatomic) NSString *emotion;
@@ -85,12 +86,13 @@
     return self;
 }
 
-- (id)initWithAsset:(AVAsset *)asset andExportPath:(NSString *)exportPath
+- (id)initWithAsset:(AVAsset *)asset andExportPath:(NSString *)exportPath andTimeline:(NSArray *)timeline
 {
     self = [super init];
     if (self) {
         self.asset = asset;
         self.exportPath = exportPath;
+        self.timeline = timeline;
     }
     return self;
 }
@@ -165,9 +167,15 @@
     _emotionButton = [[ColoredButton alloc] initWithFrame:CGRectMake(viewWidth/2 - 140.0f, viewHeight/2 - 20.0f, 280.0f, 40.0f)];
     _emotionButton.layer.cornerRadius = 6.0f;
     _emotionButton.clipsToBounds = YES;
+    [_emotionButton.titleLabel setFont:[UIFont fontWithName:@"MrsEaves-Italic" size:24]];
+    NSDictionary *underlineAttribute = @{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle),
+                                         NSForegroundColorAttributeName: [UIColor whiteColor]};
+    
     if ([[Manager sharedClient].places count]) {
         Place *place = [Manager sharedClient].places[0];
-        [_emotionButton setTitle:[NSString stringWithFormat:@"Are you at %@?", place.name] forState:UIControlStateNormal];
+        [_emotionButton setAttributedTitle:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"Are you at %@?", place.name] attributes:underlineAttribute] forState:UIControlStateNormal];
+    } else {
+        [_emotionButton setAttributedTitle:[[NSAttributedString alloc] initWithString:@"Where are you?" attributes:underlineAttribute] forState:UIControlStateNormal];
     }
     
     [_emotionButton addTarget:self action:@selector(_handleEmotionButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -182,7 +190,7 @@
 //    [self.view addSubview:_emotionButton];
     
     // Caption Input
-    _captionInput = [[UITextView alloc] initWithFrame:CGRectMake(viewWidth/2 - 140.0f, viewHeight/2 - 20.0f, 280.0f, 40.0f)];
+    _captionInput = [[UITextView alloc] initWithFrame:CGRectMake(viewWidth/2 - 140.0f, viewHeight/2 - 20.0f, 280.0f, 36.0f)];
     _captionInput.layer.borderWidth = 1.0f;
     _captionInput.layer.borderColor = [[UIColor whiteColor] CGColor];
     _captionInput.layer.cornerRadius = 6.0f;
@@ -195,57 +203,60 @@
     [_captionInput setFont:_emotionButton.titleLabel.font];
     _captionInput.text = @"How do you feel?";
     _captionInput.hidden = YES;
+    [_captionInput setFont:[UIFont fontWithName:@"ProximaNovaCond-Regular" size:16]];
     [self.view addSubview:_captionInput];
     
     // Share options
     
-    _shareOptions = [[UIView alloc] initWithFrame:CGRectMake(0, viewHeight - 40.0f, viewWidth, 40.0f)];
-    _shareOptions.hidden = YES;
-    _shareOptions.alpha = 0;
-    
-    _shareLabel = [[UILabel alloc] initWithFrame:CGRectMake(viewWidth - 190.0f, 5.0f, viewWidth - 20.0f, 20.0f)];
-    _shareLabel.text = @"Share anonymously";
-    _shareLabel.textColor = [UIColor whiteColor];
-    _shareLabel.alpha = 0.8f;
-    _shareLabel.font = [UIFont boldSystemFontOfSize:14.0f];
-    [_shareOptions addSubview:_shareLabel];
-    
-    _shareSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(viewWidth - 60.0f, 0, 0, 0)];
-    _shareSwitch.on = YES;
-    _shareSwitch.transform = CGAffineTransformMakeScale(0.75, 0.75);
-    [_shareOptions addSubview:_shareSwitch];
-    
-    [self.view addSubview:_shareOptions];
-    
+//    _shareOptions = [[UIView alloc] initWithFrame:CGRectMake(0, viewHeight - 40.0f, viewWidth, 40.0f)];
+//    _shareOptions.hidden = YES;
+//    _shareOptions.alpha = 0;
+//    
+//    _shareLabel = [[UILabel alloc] initWithFrame:CGRectMake(viewWidth - 190.0f, 5.0f, viewWidth - 20.0f, 20.0f)];
+//    _shareLabel.text = @"Share anonymously";
+//    _shareLabel.textColor = [UIColor whiteColor];
+//    _shareLabel.alpha = 0.8f;
+//    _shareLabel.font = [UIFont boldSystemFontOfSize:14.0f];
+//    [_shareOptions addSubview:_shareLabel];
+//    
+//    _shareSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(viewWidth - 60.0f, 0, 0, 0)];
+//    _shareSwitch.on = YES;
+//    _shareSwitch.transform = CGAffineTransformMakeScale(0.75, 0.75);
+//    [_shareOptions addSubview:_shareSwitch];
+//    
+//    [self.view addSubview:_shareOptions];
+//    
     // Emotion Menu
-   // NSArray *images = //...
+    // NSArray *images = //...
     NSMutableArray *placeNames = [[NSMutableArray alloc] init];
     for (Place *p in [Manager sharedClient].places) {
         [placeNames addObject:p.name];
     }
-    _emotions = [[RNGridMenu alloc] initWithTitles:placeNames];
-    _emotions.itemSize = CGSizeMake(200, 70);
-    _emotions.delegate = self;
-    [self addChildViewController:_emotions];
+    _checkinView = [[CheckinViewController alloc] initWithPlaces:[Manager sharedClient].places];
+    _checkinView.delegate = self;
+    [self addChildViewController:_checkinView];
+    [self.view addSubview:_checkinView.view];
     
-    // Export the video
-    [_videoPlayerController exportAssetWithPath:self.exportPath andCallback:^(AVAssetExportSessionStatus status) {
-        switch (status)
-        {
-            case AVAssetExportSessionStatusCompleted:
-                //                export complete
-                NSLog(@"Export Complete");
-                self.exported = YES;
-                self.videoPath = self.exportPath;
-                break;
-            case AVAssetExportSessionStatusFailed:
-                NSLog(@"Export Failed");
-                break;
-            case AVAssetExportSessionStatusCancelled:
-                NSLog(@"Export Failed");
-                break;
-        }
-    }];
+    if (self.asset && self.exportPath) {
+        // Export the video
+        [_videoPlayerController exportAssetWithPath:self.exportPath andCallback:^(AVAssetExportSessionStatus status) {
+            switch (status)
+            {
+                case AVAssetExportSessionStatusCompleted:
+                    //                export complete
+                    NSLog(@"Export Complete");
+                    self.exported = YES;
+                    self.videoPath = self.exportPath;
+                    break;
+                case AVAssetExportSessionStatusFailed:
+                    NSLog(@"Export Failed");
+                    break;
+                case AVAssetExportSessionStatusCancelled:
+                    NSLog(@"Export Failed");
+                    break;
+            }
+        }];
+    }
 }
 
 
@@ -253,6 +264,10 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
 }
 
 - (void)_handleBackButton:(UIButton *)button
@@ -268,12 +283,12 @@
     
     [_assetLibrary writeVideoAtPathToSavedPhotosAlbum:[NSURL URLWithString:self.videoPath] completionBlock:^(NSURL *assetURL, NSError *error1) {
     }];
-    
-    NSLog(@"Caption: %@, and emotion: %@", self.caption, self.emotion);
 
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSDictionary *parameters = @{@"caption":_captionInput.text,
-                                  @"emotion":self.emotion};
+    NSDictionary *parameters = @{@"caption": _captionInput.text,
+                                   @"place": self.place.id,
+                               @"placename": self.place.name,
+                                @"timeline": [[self.timeline valueForKey:@"description"] componentsJoinedByString:@","]};
     NSURL *filePath = [NSURL fileURLWithPath:self.videoPath];
     [manager POST:[Client sharedClient].uploadUrl parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileURL:filePath name:@"video" error:nil];
@@ -294,16 +309,12 @@
     [containerView.layer addAnimation:transition forKey:nil];
     [self dismissViewControllerAnimated:NO completion:nil];
     [self.navigationController popViewControllerAnimated:NO];
-    
-
 }
 
 -(void)_handleEmotionButton:(UIButton *)button
 {
-    CGFloat viewWidth = CGRectGetWidth(self.view.frame);
-    CGFloat viewHeight = CGRectGetHeight(self.view.frame);
     _blurredImageView.alpha = 1;
-    [_emotions showInViewController:self center:CGPointMake(viewWidth/2, viewHeight/2)];
+    [_checkinView show];
 }
 
 -(void)_handleTapGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
@@ -315,18 +326,25 @@
     
     UITouch *touch = [[event allTouches] anyObject];
     if ([touch view] == _captionInput) {
-        CGFloat viewWidth = CGRectGetWidth(self.view.frame);
-        CGFloat viewHeight = CGRectGetHeight(self.view.frame);
-        [_emotions showInViewController:self center:CGPointMake(viewWidth/2, viewHeight/2)];
+        [_checkinView show];
         return;
     }
     if ([_captionInput isFirstResponder] && [touch view] != _captionInput) {
         [_captionInput resignFirstResponder];
         if ([_captionInput.text length] > 0) {
             self.caption = _captionInput.text;
+            [UIView animateWithDuration:0.3 animations:^(void) {
+                _captionInput.frame = CGRectMake(self.view.frame.size.width/2 - 140.0f, self.view.frame.size.height/2 - 20.0f, 280.0f, 36.0f);
+            }];
         } else {
             _captionInput.text = self.placeholder;
-        } 
+            [UIView animateWithDuration:0.3 animations:^(void) {
+                _captionInput.frame = CGRectMake(self.view.frame.size.width/2 - 140.0f, self.view.frame.size.height/2 - 20.0f, 280.0f, 36.0f);
+                _captionInput.textAlignment = NSTextAlignmentCenter;
+            }];
+
+        }
+
     }
     [super touchesBegan:touches withEvent:event];
 }
@@ -367,6 +385,8 @@
     }
     [UIView animateWithDuration:0.3 animations:^(void) {
         _blurredView.alpha = 1;
+        textView.frame = CGRectMake(self.view.frame.size.width/2 - 140.0f, 65, 280.0f, 40.0f);
+        textView.textAlignment = NSTextAlignmentLeft;
     }];
 }
 
@@ -401,38 +421,68 @@
     }];
 }
 
-# pragma mark - RNGridMenuDelegate
+#pragma mark - CheckinViewControllerDelegate
 
-- (void)gridMenu:(RNGridMenu *)gridMenu willDismissWithSelectedItem:(RNGridMenuItem *)item atIndex:(NSInteger)itemIndex
+-(void)checkInViewPlaceSelected:(Place *)place
 {
     CGFloat viewWidth = CGRectGetWidth(self.view.frame);
     CGFloat viewHeight = CGRectGetHeight(self.view.frame);
-    
-    self.emotion = item.title;
-
-    CGSize stringsize = [self.emotion sizeWithAttributes:@{NSFontAttributeName:_emotionButton.titleLabel.font}];
+    self.place = place;
+    CGSize stringsize = [place.name sizeWithAttributes:@{NSFontAttributeName:_emotionButton.titleLabel.font}];
     float newWidth = stringsize.width + 10;
     float newHeight = stringsize.height + 10;
-    [_emotionButton setColor:[UIColor colorWithRed:231.0/255 green:76.0/255 blue:60.0/255 alpha:1] forState:UIControlStateNormal];
-    [_emotionButton setTitle:[self.emotion lowercaseString] forState:UIControlStateNormal];
-     _emotionButton.frame=CGRectMake(viewWidth/2 - newWidth/2, viewHeight/2 - newHeight/2,newWidth, newHeight);
-    
-    self.placeholder = [NSString stringWithFormat:@"Thoughts on %@?", self.emotion];
+    [_emotionButton setTitle:place.name forState:UIControlStateNormal];
+    NSDictionary *underlineAttribute = @{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle),
+                                         NSForegroundColorAttributeName: [UIColor whiteColor]};
+    [_emotionButton setAttributedTitle:[[NSAttributedString alloc] initWithString:place.name attributes:underlineAttribute] forState:UIControlStateNormal];
+
+     _emotionButton.frame=CGRectMake(viewWidth/2 - newWidth/2, viewHeight/2 - newHeight/2, newWidth, newHeight);
+
+    self.placeholder = [NSString stringWithFormat:@"Thoughts on %@?", self.place.name];
     _captionInput.text = self.placeholder;
     _captionInput.hidden = NO;
     _shareOptions.hidden = NO;
     _postButton.hidden = NO;
     [UIView animateWithDuration:0.5 animations:^{
-        _emotionButton.frame=CGRectMake(viewWidth/2 - newWidth/2, viewHeight/2 - newHeight/2 - 50.0f, newWidth, newHeight);
+        _emotionButton.frame=CGRectMake(viewWidth/2 - newWidth/2, 25, newWidth, newHeight);
         _shareOptions.alpha = 0.8f;
         _captionInput.alpha = 0.8f;
         _postButton.alpha = 0.8f;
     }];
 }
 
-- (void)gridMenuWillDismiss:(RNGridMenu *)gridMenu
-{
-    
-}
+//# pragma mark - RNGridMenuDelegate
+//
+//- (void)gridMenu:(RNGridMenu *)gridMenu willDismissWithSelectedItem:(RNGridMenuItem *)item atIndex:(NSInteger)itemIndex
+//{
+//    CGFloat viewWidth = CGRectGetWidth(self.view.frame);
+//    CGFloat viewHeight = CGRectGetHeight(self.view.frame);
+//    
+//    self.emotion = item.title;
+//
+//    CGSize stringsize = [self.emotion sizeWithAttributes:@{NSFontAttributeName:_emotionButton.titleLabel.font}];
+//    float newWidth = stringsize.width + 10;
+//    float newHeight = stringsize.height + 10;
+//    [_emotionButton setColor:[UIColor colorWithRed:231.0/255 green:76.0/255 blue:60.0/255 alpha:1] forState:UIControlStateNormal];
+//    [_emotionButton setTitle:[self.emotion lowercaseString] forState:UIControlStateNormal];
+//     _emotionButton.frame=CGRectMake(viewWidth/2 - newWidth/2, viewHeight/2 - newHeight/2,newWidth, newHeight);
+//    
+//    self.placeholder = [NSString stringWithFormat:@"Thoughts on %@?", self.emotion];
+//    _captionInput.text = self.placeholder;
+//    _captionInput.hidden = NO;
+//    _shareOptions.hidden = NO;
+//    _postButton.hidden = NO;
+//    [UIView animateWithDuration:0.5 animations:^{
+//        _emotionButton.frame=CGRectMake(viewWidth/2 - newWidth/2, viewHeight/2 - newHeight/2 - 50.0f, newWidth, newHeight);
+//        _shareOptions.alpha = 0.8f;
+//        _captionInput.alpha = 0.8f;
+//        _postButton.alpha = 0.8f;
+//    }];
+//}
+//
+//- (void)gridMenuWillDismiss:(RNGridMenu *)gridMenu
+//{
+//    
+//}
 
 @end

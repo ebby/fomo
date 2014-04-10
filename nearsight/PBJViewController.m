@@ -14,6 +14,7 @@
 #import "PBJVision.h"
 #import "PBJVisionUtilities.h"
 #import "PBJVideoPlayerController.h"
+#import "SceneViewController.h"
 
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <GLKit/GLKit.h>
@@ -55,6 +56,7 @@
 }
 
 @property (nonatomic, strong, readwrite) NSMutableArray *tracks;
+@property (nonatomic, strong, readwrite) NSMutableArray *timeline;
 @property (nonatomic, strong, readwrite) NSString *outputPath;
 @property (nonatomic, strong, readwrite) AVMutableComposition *composition;
 
@@ -179,6 +181,7 @@
     
     // Tracks
     self.tracks = [[NSMutableArray alloc] init];
+    self.timeline = [[NSMutableArray alloc] init];
     _tracksView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 250, self.view.frame.size.width, 150)];
     _tracksView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1];
     _tracksView.showsHorizontalScrollIndicator = NO;
@@ -241,15 +244,9 @@
 - (void)_endCapture
 {
     [self _displayRecording:FALSE];
-    #if TARGET_IPHONE_SIMULATOR
-        AddPostViewController *addPostViewController = [[AddPostViewController alloc] initWithVideoPath:@"http://fomo-app.appspot.com/media/AMIfv976SCe-w9WNcTopJL9mnWt1842L6sJkWlMsAOLDlBg9gIgD5l5K_Gv1QT5DOBs1UotZaWNrnGYzx1kRsNLaiIrdFY_JNpYJsNFOsXESdd-W0bxGCZyylVWJqvY-1MNrhi3YwOpGzbp1z9ZUqyEpocWlh6jPaw"];
-        [self addChildViewController:addPostViewController];
-        [self.navigationController pushViewController:addPostViewController animated:NO];
-    #else
-        [UIApplication sharedApplication].idleTimerDisabled = NO;
-        [[PBJVision sharedInstance] endVideoCapture];
-        _effectsViewController.view.hidden = YES;
-    #endif
+    [UIApplication sharedApplication].idleTimerDisabled = NO;
+    [[PBJVision sharedInstance] endVideoCapture];
+    _effectsViewController.view.hidden = YES;
 }
 
 - (void)_resetCapture
@@ -322,7 +319,13 @@
 
 - (void)_handleDoneButton:(UIButton *)button
 {
-    [self _composeVideo];
+    #if TARGET_IPHONE_SIMULATOR
+        AddPostViewController *addPostViewController = [[AddPostViewController alloc] initWithVideoPath:@"http://fomo-app.appspot.com/media/AMIfv976SCe-w9WNcTopJL9mnWt1842L6sJkWlMsAOLDlBg9gIgD5l5K_Gv1QT5DOBs1UotZaWNrnGYzx1kRsNLaiIrdFY_JNpYJsNFOsXESdd-W0bxGCZyylVWJqvY-1MNrhi3YwOpGzbp1z9ZUqyEpocWlh6jPaw"];
+        [self addChildViewController:addPostViewController];
+        [self.navigationController pushViewController:addPostViewController animated:NO];
+    #else
+        [self _composeVideo];
+    #endif
 }
 
 - (void)_composeVideo
@@ -332,7 +335,7 @@
     CMTime current = kCMTimeZero;
     NSError *compositionError = nil;
     AVURLAsset * asset = nil;
-    for(NSString *videoPath in self.tracks) {
+    for (NSString *videoPath in self.tracks) {
         NSLog(@"Composite path: %@", videoPath);
         
         asset = [AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:videoPath] options:nil];
@@ -347,10 +350,11 @@
             }
         } else {
             current = CMTimeAdd(current, [asset duration]);
+            [self.timeline addObject:[NSNumber numberWithFloat:CMTimeGetSeconds(current)]];
         }
     }
     
-    AddPostViewController *addPostViewController = [[AddPostViewController alloc] initWithAsset:composition andExportPath:self.outputPath];
+    AddPostViewController *addPostViewController = [[AddPostViewController alloc] initWithAsset:composition andExportPath:self.outputPath andTimeline:self.timeline];
     [self.navigationController pushViewController:addPostViewController animated:NO];
 }
 
@@ -543,14 +547,10 @@
     NSString *videoPath = [_currentVideo objectForKey:PBJVisionVideoPathKey];
     [self.tracks addObject:videoPath];
     
-    PBJVideoPlayerController *videoPlayerController;
-    videoPlayerController = [[PBJVideoPlayerController alloc] initWithDownloadPath:videoPath];
+    SceneViewController *videoPlayerController;
+    videoPlayerController = [[SceneViewController alloc] initWithDownloadPath:videoPath];
     //videoPlayerController.delegate = self;
-    NSLog(@"X pos: %d", 80*([self.tracks count] - 1));
     videoPlayerController.view.frame = CGRectMake(4 + 84*([self.tracks count] - 1), 4, 80, 142);
-    videoPlayerController.view.backgroundColor = [UIColor whiteColor];
-    videoPlayerController.view.layer.cornerRadius = 6.0f;
-    videoPlayerController.view.clipsToBounds = YES;
     [self addChildViewController:videoPlayerController];
     [_tracksView addSubview:videoPlayerController.view];
     _tracksView.contentSize = CGSizeMake(MAX(self.view.frame.size.width + 1, 4 + 84*([self.tracks count])), _tracksView.bounds.size.height);

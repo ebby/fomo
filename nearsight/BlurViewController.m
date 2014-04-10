@@ -196,10 +196,11 @@ CGFloat const BLUR_LEVEL = 1.0f;
     // Start hidden
     self.view.hidden = YES;
     self.view.alpha = 0;
-    self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor blackColor];
     
     // Blurred View
     self.blurView = [[UIView alloc] initWithFrame:self.view.frame];
+    self.blurView.alpha = .7;
     [self.view addSubview:self.blurView];
 }
 
@@ -241,7 +242,7 @@ CGFloat const BLUR_LEVEL = 1.0f;
         UIImage *screenshot = ([self.parentViewController.view isKindOfClass:[UIScrollView class]] ?
                                [self.parentViewController.view rn_screenshotForScrollViewWithContentOffset:[(UIScrollView *)self.parentViewController.view contentOffset]] :
                                [self.parentViewController.view rn_screenshot]);
-        self.blurView.alpha = 1.f;
+        self.blurView.alpha = .7f;
         self.blurView.layer.contents = (id)screenshot.CGImage;
         
         if (screenshotCompletion != nil) {

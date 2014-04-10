@@ -7,9 +7,13 @@
 //
 
 #import "Mantle.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface Place : MTLModel <MTLJSONSerializing>
 
+@property (nonatomic) NSNumber *id;
 @property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *picture;
+@property (nonatomic, assign) CLLocationCoordinate2D location;
 
 @end

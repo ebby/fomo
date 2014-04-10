@@ -7,16 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Place.h"
 #import "Post.h"
 #import "Constants.h"
-#import "ACParallaxView.h"
 
-@interface PostViewController : UIViewController <ACParallaxViewDelegate>
+@interface PostViewController : UIViewController
 
-@property (nonatomic, strong) IBOutlet ACParallaxView *parallaxView;
-@property (nonatomic, readwrite) BOOL place;
+@property (nonatomic, readwrite) Place *place;
+@property (nonatomic, readwrite) Post *post;
 
 -(id)initWithPost:(Post *)post;
+-(id)initWithPost:(Post *)post andFrame:(CGRect)frame;
 -(void)play;
 -(void)stop;
 

@@ -12,8 +12,34 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-             @"name": @"name"
+               @"id": @"id",
+             @"name": @"name",
+          @"picture": @"picture",
+         @"location": @"location",
              };
+}
+
+//
+//+ (NSValueTransformer *)locationJSONTransformer {
+//    return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSDictionary *placeDict) {
+//        CLLocationCoordinate2D *location = CLLocationCoordinate2DMake([[placeDict objectForKey:@"lat"] floatValue],
+//                                                           [[placeDict objectForKey:@"lon"] floatValue]);
+//        return location;
+//    } reverseBlock:^(Place *place) {
+//        return [MTLJSONAdapter JSONDictionaryFromModel:place];
+//    }];
+//}
+
++ (NSValueTransformer *)locationJSONTransformer {
+    return [MTLValueTransformer reversibleTransformerWithForwardBlock:^id(NSDictionary *locationData) {
+        CLLocationCoordinate2D location = CLLocationCoordinate2DMake([[locationData objectForKey:@"lat"] floatValue],
+                                                           [[locationData objectForKey:@"lon"] floatValue]);
+        return [NSValue value:&location
+                 withObjCType:@encode(CLLocationCoordinate2D)];
+    } reverseBlock:^(NSValue *location) {
+        //NSString *locStr = [NSString stringWithFormat:@"{\"lat\":\"%f\", \"lon\":\"%f\"}", location.longitude, location.longitude];
+        return @"";//[locStr to];
+    }];
 }
 
 @end

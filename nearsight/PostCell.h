@@ -16,5 +16,6 @@
 @property (nonatomic) PostViewController *postView;
 
 -(id)initWithPost:(Post *)post;
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier andPost:(Post *)post;
 
 @end

@@ -15,8 +15,12 @@
 #import "WelcomeViewController.h"
 #import "MenuViewController.h"
 #import "SearchViewController.h"
+#import "MapListViewController.h"
 #import "Manager.h"
 #import "UIExtensions.h"
+#import "Client.h"
+#import <TSMessages/TSMessage.h>
+
 
 
 @interface MainViewController () <UIPageViewControllerDelegate, UIPageViewControllerDataSource>
@@ -29,6 +33,7 @@
 @property (strong, nonatomic) NotificationViewController *notificationViewController;
 @property (strong, nonatomic) WelcomeViewController *welcomeViewController;
 @property (strong, nonatomic) MenuViewController *menuViewController;
+@property (strong, nonatomic) MapListViewController *trendingViewController;
 @property (strong, nonatomic) SearchViewController *searchViewController;
 @property (strong, nonatomic) UINavigationController *addFlowViewController;
 @property (strong, nonatomic) UIPageViewController *pageViewController;
@@ -41,6 +46,7 @@
     ExtendedHitButton *_menuButton;
     ExtendedHitButton *_notificationHomeButton;
     ExtendedHitButton *_searchButton;
+    UISegmentedControl *_streamSegment;
 }
 
 - (void)viewDidLoad
@@ -90,22 +96,37 @@
     [self addChildViewController:self.streamViewController];
     [self.view addSubview:self.streamViewController.view];
     
-    // Setup profile view controller
-    self.profileViewController = [[ProfileViewController alloc] init];
-    [self addChildViewController:self.profileViewController];
-    [self.view addSubview:self.profileViewController.view];
+    // Trending View controller
+    self.trendingViewController = [[MapListViewController alloc] init];
+    [self addChildViewController:self.trendingViewController];
+    [self.view addSubview:self.trendingViewController.view];
     
-    // Notification View Controller
-    self.notificationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"NotificationViewController"];
-    [self addChildViewController:self.notificationViewController];
-    [self.view addSubview:self.notificationViewController.view];
+    [[[[[Client sharedClient] fetchPlaces]
+       doNext:^(NSMutableArray *places) {
+           [self.trendingViewController loadPlaces:places];
+       }]
+      // Now the assignment will be done on the main thread.
+      deliverOn:RACScheduler.mainThreadScheduler]
+     subscribeError:^(NSError *error) {
+         [TSMessage showNotificationWithTitle:@"Error" subtitle:@"There was a problem fetching the stream: " type:TSMessageNotificationTypeError];
+     }];
+    
+//    // Setup profile view controller
+//    self.profileViewController = [[ProfileViewController alloc] init];
+//    [self addChildViewController:self.profileViewController];
+//    [self.view addSubview:self.profileViewController.view];
+//    
+//    // Notification View Controller
+//    self.notificationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"NotificationViewController"];
+//    [self addChildViewController:self.notificationViewController];
+//    [self.view addSubview:self.notificationViewController.view];
     
     // Create page view controller
     self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PageViewController"];
     self.pageViewController.dataSource = self;
     
-    self.pageIndex = 1;
-    self.pageViewControllers = @[self.notificationViewController, self.streamViewController, self.profileViewController];
+    self.pageIndex = 0;
+    self.pageViewControllers = @[self.trendingViewController, self.streamViewController];
     
     UIViewController *startingViewController = [self viewControllerAtIndex:self.pageIndex];
     NSArray *viewControllers = @[startingViewController];
@@ -122,7 +143,7 @@
     CGFloat viewWidth = CGRectGetWidth(self.view.frame);
     CGFloat viewHeight = CGRectGetHeight(self.view.frame);
     _addButton = [ExtendedHitButton extendedHitButton];
-    _addButton.frame = CGRectMake(viewWidth/2 - 32.0f, viewHeight - 75.0f, 75.0f, 75.0f);
+    _addButton.frame = CGRectMake(viewWidth/2 - 37.5f, viewHeight - 75.0f, 75.0f, 75.0f);
     _addButton.alpha = 0.8;
     UIImage *addButtonImage = [UIImage imageNamed:@"add"];
     [_addButton setImage:addButtonImage forState:UIControlStateNormal];
@@ -136,7 +157,7 @@
     UIImage *menuImage = [UIImage imageNamed:@"menu"];
     [_menuButton setImage:menuImage forState:UIControlStateNormal];
     [_menuButton addTarget:self action:@selector(_handleMenuButton:) forControlEvents:UIControlEventTouchUpInside];
-    [self.streamViewController.view addSubview:_menuButton];
+    [self.view addSubview:_menuButton];
     
     // Search button
     _searchButton = [ExtendedHitButton extendedHitButton];
@@ -145,17 +166,16 @@
     UIImage *searchImage = [UIImage imageNamed:@"search"];
     [_searchButton setImage:searchImage forState:UIControlStateNormal];
     [_searchButton addTarget:self action:@selector(_handleSearchButton:) forControlEvents:UIControlEventTouchUpInside];
-    [self.streamViewController.view addSubview:_searchButton];
+    [self.view addSubview:_searchButton];
     
-    // Notification-Home button
-    _notificationHomeButton = [ExtendedHitButton extendedHitButton];
-    _notificationHomeButton.frame = CGRectMake(viewWidth - 30.0f, 28.0f, 19.0f, 27.0f);
-    _notificationHomeButton.alpha = 0.8;
-    UIImage *logoImage = [UIImage imageNamed:@"logo"];
-    [_notificationHomeButton setImage:logoImage forState:UIControlStateNormal];
-    [_notificationHomeButton addTarget:self action:@selector(_handleNotificationHomeButton:) forControlEvents:UIControlEventTouchUpInside];
-    [self.notificationViewController.view addSubview:_notificationHomeButton];
-    
+    _streamSegment = [[UISegmentedControl alloc] initWithItems:@[@"Trending", @"Following"]];
+    _streamSegment.frame = CGRectMake(self.view.frame.size.width/2 - 80, 25, 160, 30.0f);
+    _streamSegment.selectedSegmentIndex = 0;
+    _streamSegment.tintColor = [UIColor whiteColor];
+    _streamSegment.alpha = 0.8;
+    [_streamSegment addTarget:self action:@selector(changeStream:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:_streamSegment];
+
     // Menu view controller
     self.menuViewController = [[MenuViewController alloc] init];
     [self.view addSubview:self.menuViewController.view];
@@ -169,6 +189,8 @@
 
 - (void)_handleAddButton:(UIButton *)button
 {
+    [[Manager sharedClient] findCurrentLocation];
+    
     CATransition *transition = [CATransition animation];
     transition.duration = 0.35;
     transition.timingFunction =
@@ -196,21 +218,29 @@
     [self.pageViewController setViewControllers:@[self.streamViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
 }
 
+-(void)changeStream:(id)sender
+{
+    NSInteger index = [_streamSegment selectedSegmentIndex];
+    UIPageViewControllerNavigationDirection direction = index == 1 ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse;
+    //[self.pageViewController setViewControllers:@[self.pageViewController[index]] direction:direction animated:YES completion:nil];
+}
+
 #pragma mark - Page View Controller Data Source
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
 {
     NSUInteger index = [self.pageViewControllers indexOfObject:viewController];
+    _streamSegment.selectedSegmentIndex = 0;
     if (index == 0) {
         return nil;
     }
-    
     return [self viewControllerAtIndex:--index];
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
 {
     NSUInteger index = [self.pageViewControllers indexOfObject:viewController];
+    _streamSegment.selectedSegmentIndex = 1;
     if (index == [self.pageViewControllers count] - 1) {
         return nil;
     }
@@ -219,10 +249,6 @@
 
 - (UIViewController *)viewControllerAtIndex:(NSUInteger)index
 {
-    if (index == 2) {
-        // if it's the profile
-        [self.profileViewController loadProfile];
-    }
     return self.pageViewControllers[index];
 }
 

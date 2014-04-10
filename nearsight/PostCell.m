@@ -10,6 +10,20 @@
 
 @implementation PostCell
 
+//@synthesize post = _post;
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier andPost:(Post *)post
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        self.post = post;
+        self.postView = [[PostViewController alloc] initWithPost:post];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        [self.contentView addSubview:self.postView.view];
+    }
+    return self;
+}
+
 - (id)initWithPost:(Post *)post
 {
     self = [super init];
@@ -29,6 +43,12 @@
         // Initialization code
     }
     return self;
+}
+
+-(void)setPost:(Post *)post
+{
+    _post = post;
+    [self.postView setPost:post];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

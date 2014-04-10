@@ -18,13 +18,14 @@
 {
     PBJVideoPlayerController *_videoPlayerController;
     UIImageView *_playButton;
-    Post *_post;
     UIActivityIndicatorView *_spinner;
     UITextView *_caption;
     UIImageView *_blurredImage;
     UIView *_blurredImageView;
-    ACParallaxView *_parallaxView;
-    UIView *_emotion;
+    UIView *_placeView;
+    UIButton *_placeButton;
+    UILabel *_atLabel;
+    CGRect _frame;
 }
 
 
@@ -32,12 +33,25 @@
 
 @implementation PostViewController
 
+@synthesize post = _post;
+@synthesize place = _place;
+
 
 - (id)initWithPost:(Post *)post
 {
     self = [super init];
     if (self) {
-        _post = post;
+        self.post = post;
+    }
+    return self;
+}
+
+- (id)initWithPost:(Post *)post andFrame:(CGRect)frame
+{
+    self = [super init];
+    if (self) {
+        self.post = post;
+        _frame = frame;
     }
     return self;
 }
@@ -55,15 +69,18 @@
 {
     [super viewDidLoad];
     
+    //if (_frame) {
+    //    self.view.frame = _frame;
+    //}
+    
     CGFloat viewWidth = CGRectGetWidth(self.view.frame);
     CGFloat viewHeight = CGRectGetHeight(self.view.frame);
     
     self.view.backgroundColor = [UIColor blackColor];
     
-    NSString *downloadPath = [NSHomeDirectory() stringByAppendingPathComponent:[@"Documents/" stringByAppendingString:[NSString stringWithFormat:@"%@.mp4", _post.id]]];
-    _videoPlayerController = [[PBJVideoPlayerController alloc] initWithDownloadPath:downloadPath];
+    _videoPlayerController = [[PBJVideoPlayerController alloc] init];
     _videoPlayerController.delegate = self;
-    _videoPlayerController.view.frame = self.view.bounds;
+    _videoPlayerController.view.frame = self.view.frame;
     _videoPlayerController.view.backgroundColor = [UIColor blackColor];
     
     [self addChildViewController:_videoPlayerController];
@@ -80,13 +97,13 @@
     [self.view addSubview:_playButton];
     [self.view bringSubviewToFront:_playButton];
     
-    
+    // Blurred Image
     _blurredImageView = [[UIView alloc] initWithFrame:self.view.frame];
     _blurredImageView.backgroundColor = [UIColor blackColor];
     _blurredImageView.alpha = 1;
-    //_blurredImageView.userInteractionEnabled = NO;
     _blurredImage = [[UIImageView alloc] initWithFrame:self.view.frame];
     _blurredImage.alpha = 0;
+    //_blurredImage.contentMode = UIViewContentModeScaleAspectFit;
     [_blurredImageView addSubview:_blurredImage];
     [self.view addSubview:_blurredImageView];
     
@@ -102,7 +119,6 @@
     
     // Caption
     _caption = [[UITextView alloc] initWithFrame:CGRectMake(20.0f, 0, viewWidth - 40.0f, viewHeight)];
-    _caption.text = _post.caption;
     _caption.backgroundColor = [UIColor clearColor];
     _caption.textColor = [UIColor whiteColor];
     _caption.textAlignment = NSTextAlignmentLeft;
@@ -113,40 +129,30 @@
     [_caption addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
     [_blurredImageView addSubview:_caption];
     
+    // Place
+    _placeView = [[UIView alloc] initWithFrame:CGRectMake(20.0f, 0, viewWidth - 40.0f, viewHeight)];
+    _placeView.backgroundColor = [UIColor clearColor];
+    _placeView.alpha = .9;
     
-    
-    // Emotion
-    _emotion = [[UIView alloc] initWithFrame:CGRectMake(20.0f, 0, viewWidth - 40.0f, viewHeight)];
-    _emotion.backgroundColor = [UIColor clearColor];
-    _emotion.alpha = .9;
-    UITextView *feelingText = [[UITextView alloc] init];
-    feelingText.text = @"— At";
-    feelingText.backgroundColor = [UIColor clearColor];
-    feelingText.textColor = [UIColor whiteColor];
-    [feelingText setFont:[UIFont fontWithName:@"MrsEaves-Italic" size:22]];
-    feelingText.editable = NO;
-    [_emotion addSubview:feelingText];
+    _atLabel = [[UILabel alloc] init];
+    _atLabel.text = @"— At";
+    _atLabel.backgroundColor = [UIColor clearColor];
+    _atLabel.textColor = [UIColor whiteColor];
+    [_atLabel setFont:[UIFont fontWithName:@"MrsEaves-Italic" size:22]];
+    [_placeView addSubview:_atLabel];
 
-    UIButton *emotionButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 40.0f)];
-    emotionButton.userInteractionEnabled = YES;
-    NSDictionary *underlineAttribute = @{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle),
-                                        NSForegroundColorAttributeName: [UIColor whiteColor]};
-    [emotionButton setAttributedTitle:[[NSAttributedString alloc] initWithString:_post.emotion attributes:underlineAttribute] forState:UIControlStateNormal];
-    [emotionButton addTarget:self action:@selector(_handlePlaceButton:) forControlEvents:UIControlEventTouchUpInside];
-    emotionButton.titleLabel.font = [UIFont fontWithName:@"MrsEaves-Italic" size:22];
+    _placeButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 40.0f)];
+    _placeButton.userInteractionEnabled = YES;
+    _placeButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     
-    CGSize stringsize = [_post.emotion sizeWithAttributes:@{NSFontAttributeName:emotionButton.titleLabel.font}];
-    float newWidth = stringsize.width + 10;
-    float newHeight = stringsize.height + 10;
+
+    [_placeButton addTarget:self action:@selector(_handlePlaceButton:) forControlEvents:UIControlEventTouchUpInside];
+    _placeButton.titleLabel.font = [UIFont fontWithName:@"MrsEaves-Italic" size:22];
     
-    emotionButton.frame = CGRectMake(viewWidth - newWidth - 40.0f, 5.0f, newWidth, newHeight);
-    feelingText.frame = CGRectMake(viewWidth - newWidth - 80.0f, 0, viewWidth, 40.0f);
-    [_emotion addSubview:emotionButton];
-    [_blurredImageView addSubview:_emotion];
+    [_placeView addSubview:_placeButton];
+    [_blurredImageView addSubview:_placeView];
 
     
-    NSString *videoPath = [NSString stringWithFormat:@"%@%@", HOST_URL, _post.media];
-    [_videoPlayerController setVideoPath:videoPath];
     
     [_spinner startAnimating];
     
@@ -154,13 +160,15 @@
                                              selector:@selector(receivePauseNotification:)
                                                  name:@"Pause"
                                                object:nil];
+    
+    [self setPost:self.post];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     CGFloat viewHeight = CGRectGetHeight(self.view.frame);
     float newY = viewHeight/4 - [_caption contentSize].height/2;
     [_caption setFrame:CGRectMake(20.0f, newY, self.view.frame.size.width - 40.0f, [_caption contentSize].height)];
-    [_emotion setFrame:CGRectMake(20.0f, newY + [_caption contentSize].height + 10.0f, self.view.frame.size.width - 40.0f, 40.0f)];
+    [_placeView setFrame:CGRectMake(20.0f, newY + [_caption contentSize].height + 10.0f, self.view.frame.size.width - 40.0f, 40.0f)];
 }
 
 - (void)didReceiveMemoryWarning
@@ -171,6 +179,56 @@
 
 - (void)handleBlurTap:(UITapGestureRecognizer *)recognizer {
     [self play];
+}
+
+-(void)setPost:(Post *)post
+{
+    _post = post;
+    _caption.text = post.caption;
+
+    [self setPlace:post.place];
+    
+    //NSString *downloadPath = [NSHomeDirectory() stringByAppendingPathComponent:[@"Documents/" stringByAppendingString:[NSString stringWithFormat:@"%@.mp4", self.post.id]]];
+    
+    [_blurredImage setImageToBlur:[post getLastFrame] blurRadius:2 completionBlock:nil];
+    [UIView animateWithDuration:0.3f animations:^{
+        _blurredImage.alpha = 0.6f;
+    } completion:^(BOOL finished) {
+    }];
+    
+    if (post.asset) {
+        [_videoPlayerController setAsset:post.asset];
+    } else {
+        NSString *videoPath = post.downloaded ? [post getDownloadPath] : [post getVideoPath];
+        [_videoPlayerController setVideoPath:videoPath];
+    }
+    
+    
+}
+
+-(void)setPlace:(Place *)place
+{
+    _place = place;
+    
+    CGFloat viewWidth = CGRectGetWidth(self.view.frame);
+    
+    NSDictionary *underlineAttribute = @{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle),
+                                         NSForegroundColorAttributeName: [UIColor whiteColor]};
+
+    if (self.post.place) {
+        NSString *placeName = self.post.place.name ? self.post.place.name : (self.post.emotion ? self.post.emotion : @"Glasslands Gallery");
+        [_placeButton setAttributedTitle:[[NSAttributedString alloc] initWithString:placeName attributes:underlineAttribute] forState:UIControlStateNormal];
+    } else if (self.post.emotion) {
+        [_placeButton setAttributedTitle:[[NSAttributedString alloc] initWithString:self.post.emotion attributes:underlineAttribute] forState:UIControlStateNormal];
+    }
+    
+    CGSize stringsize = [_placeButton.titleLabel.text sizeWithAttributes:@{NSFontAttributeName:_placeButton.titleLabel.font}];
+    float newWidth = stringsize.width + 10;
+    float newHeight = stringsize.height + 10;
+
+    _placeButton.frame = CGRectMake(viewWidth - newWidth - 40.0f, 5.0f, newWidth, newHeight);
+    _atLabel.frame = CGRectMake(viewWidth - newWidth - 80.0f, 0, viewWidth, 40.0f);
+
 }
 
 -(void)play
@@ -203,13 +261,13 @@
     [_spinner stopAnimating];
     
     
-    if (videoPlayer.lastFrame) {
-        [_blurredImage setImageToBlur:videoPlayer.lastFrame blurRadius:.1 completionBlock:nil];
-        [UIView animateWithDuration:0.3f animations:^{
-            _blurredImage.alpha = 0.8f;
-        } completion:^(BOOL finished) {
-        }];
-    }
+//    if (videoPlayer.lastFrame) {
+//        [_blurredImage setImageToBlur:videoPlayer.lastFrame blurRadius:2 completionBlock:nil];
+//        [UIView animateWithDuration:0.3f animations:^{
+//            _blurredImage.alpha = 0.6f;
+//        } completion:^(BOOL finished) {
+//        }];
+//    }
 }
 
 - (void)videoPlayerPlaybackStateDidChange:(PBJVideoPlayerController *)videoPlayer

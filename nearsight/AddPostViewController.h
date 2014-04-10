@@ -12,6 +12,6 @@
 @interface AddPostViewController : UIViewController
 
 -(id)initWithVideoPath:(NSString *)videoPath;
--(id)initWithAsset:(AVAsset *)asset andExportPath:(NSString *)exportPath;
+-(id)initWithAsset:(AVAsset *)asset andExportPath:(NSString *)exportPath andTimeline:(NSArray *)timeline;
 
 @end

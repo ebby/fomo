@@ -54,34 +54,34 @@
     
     // Discover button
     _homeButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 160.0f, 200, 40.0f)];
-    [_homeButton setTitle:@"Teleport" forState:UIControlStateNormal];
+    [_homeButton setTitle:@"Farsight" forState:UIControlStateNormal];
     _homeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [_homeButton.titleLabel setFont:[UIFont fontWithName:@"ProximaNovaCond-Regular" size:32]];
     [self.view addSubview:_homeButton];
     
     // Profile button
     _profileButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 220.0f, 200, 40.0f)];
-    [_profileButton setTitle:@"My Profile" forState:UIControlStateNormal];
+    [_profileButton setTitle:@"Me" forState:UIControlStateNormal];
     _profileButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [_profileButton.titleLabel setFont:[UIFont fontWithName:@"ProximaNovaCond-Regular" size:32]];
     [self.view addSubview:_profileButton];
     
     // Bookmarks button
-    _bookmarksButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 280.0f, 200, 40.0f)];
-    [_bookmarksButton setTitle:@"Bookmarks" forState:UIControlStateNormal];
-    _bookmarksButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [_bookmarksButton.titleLabel setFont:[UIFont fontWithName:@"ProximaNovaCond-Regular" size:32]];
-    [self.view addSubview:_bookmarksButton];
+//    _bookmarksButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 280.0f, 200, 40.0f)];
+//    [_bookmarksButton setTitle:@"Bookmarks" forState:UIControlStateNormal];
+//    _bookmarksButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+//    [_bookmarksButton.titleLabel setFont:[UIFont fontWithName:@"ProximaNovaCond-Regular" size:32]];
+//    [self.view addSubview:_bookmarksButton];
     
     // Notifications button
-    _notificationsButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 340.0f, 200, 40.0f)];
+    _notificationsButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 280.0f, 200, 40.0f)];
     [_notificationsButton setTitle:@"Notifications" forState:UIControlStateNormal];
     _notificationsButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [_notificationsButton.titleLabel setFont:[UIFont fontWithName:@"ProximaNovaCond-Regular" size:32]];
     [self.view addSubview:_notificationsButton];
     
     // Friends button
-    _friendsButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 400.0f, 200, 40.0f)];
+    _friendsButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 340.0f, 200, 40.0f)];
     [_friendsButton setTitle:@"Friends" forState:UIControlStateNormal];
     _friendsButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [_friendsButton.titleLabel setFont:[UIFont fontWithName:@"ProximaNovaCond-Regular" size:32]];

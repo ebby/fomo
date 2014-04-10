@@ -70,10 +70,7 @@
     [_scrollView setBackgroundColor:[UIColor clearColor]];
     [self.view addSubview:_scrollView];
     
-    
-    
-    
-    
+
     UIView *statusBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20.0f)];
     statusBar.backgroundColor = [UIColor blackColor];
     statusBar.alpha = 0.3;

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C01FA8418E9853100047EAD /* SceneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C01FA8318E9853100047EAD /* SceneViewController.m */; };
+		2C01FA8618E985BD00047EAD /* circledclose.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C01FA8518E985BD00047EAD /* circledclose.png */; };
 		2C080D5618CFC6EB0066F30E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C080D5518CFC6EB0066F30E /* Foundation.framework */; };
 		2C080D5818CFC6EB0066F30E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C080D5718CFC6EB0066F30E /* CoreGraphics.framework */; };
 		2C080D5A18CFC6EB0066F30E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C080D5918CFC6EB0066F30E /* UIKit.framework */; };
@@ -66,6 +68,12 @@
 		2C24BBFC18E9611500AC04E4 /* nearsightTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BBFA18E9611500AC04E4 /* nearsightTests-Info.plist */; };
 		2C24BC0018E9614D00AC04E4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BBFE18E9614D00AC04E4 /* InfoPlist.strings */; };
 		2C57B4F018DE6D20005E7244 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C57B4EF18DE6D20005E7244 /* AddressBook.framework */; };
+		2C6E48DF18EBF07D00C3AA08 /* DualPostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6E48DE18EBF07D00C3AA08 /* DualPostCell.m */; };
+		2C6E48E218EC060500C3AA08 /* ThumbView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6E48E118EC060500C3AA08 /* ThumbView.m */; };
+		2C6E48E518EC07BE00C3AA08 /* ThumbViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6E48E418EC07BE00C3AA08 /* ThumbViewController.m */; };
+		2C6E48E818EC0B1100C3AA08 /* ThumbTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6E48E718EC0B1100C3AA08 /* ThumbTableViewController.m */; };
+		2C6E48EB18ECC8D900C3AA08 /* MapListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6E48EA18ECC8D900C3AA08 /* MapListViewController.m */; };
+		2C6E48EE18ED5E4C00C3AA08 /* PlaceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6E48ED18ED5E4C00C3AA08 /* PlaceCell.m */; };
 		2C7945B718D3D32A00FCF401 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7945B618D3D32A00FCF401 /* Accelerate.framework */; };
 		2C88AF5A18E16DCB0084227C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C88AF5918E16DCB0084227C /* CoreLocation.framework */; };
 		2CA1A2E418E4197500BB358A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CA1A2E318E4197500BB358A /* QuartzCore.framework */; };
@@ -93,6 +101,9 @@
 
 /* Begin PBXFileReference section */
 		01B446E530F643C9BCC509E1 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C01FA8218E9853100047EAD /* SceneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneViewController.h; path = nearsight/SceneViewController.h; sourceTree = SOURCE_ROOT; };
+		2C01FA8318E9853100047EAD /* SceneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SceneViewController.m; path = nearsight/SceneViewController.m; sourceTree = SOURCE_ROOT; };
+		2C01FA8518E985BD00047EAD /* circledclose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circledclose.png; path = nearsight/Images/circledclose.png; sourceTree = SOURCE_ROOT; };
 		2C080D5218CFC6EB0066F30E /* nearsight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nearsight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C080D5518CFC6EB0066F30E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2C080D5718CFC6EB0066F30E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -180,6 +191,18 @@
 		2C24BBFA18E9611500AC04E4 /* nearsightTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "nearsightTests-Info.plist"; path = "nearsightTests/nearsightTests-Info.plist"; sourceTree = SOURCE_ROOT; };
 		2C24BBFF18E9614D00AC04E4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = nearsightTests/en.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
 		2C57B4EF18DE6D20005E7244 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		2C6E48DD18EBF07D00C3AA08 /* DualPostCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DualPostCell.h; path = nearsight/DualPostCell.h; sourceTree = SOURCE_ROOT; };
+		2C6E48DE18EBF07D00C3AA08 /* DualPostCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DualPostCell.m; path = nearsight/DualPostCell.m; sourceTree = SOURCE_ROOT; };
+		2C6E48E018EC060500C3AA08 /* ThumbView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThumbView.h; path = nearsight/ThumbView.h; sourceTree = SOURCE_ROOT; };
+		2C6E48E118EC060500C3AA08 /* ThumbView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThumbView.m; path = nearsight/ThumbView.m; sourceTree = SOURCE_ROOT; };
+		2C6E48E318EC07BE00C3AA08 /* ThumbViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbViewController.h; sourceTree = SOURCE_ROOT; };
+		2C6E48E418EC07BE00C3AA08 /* ThumbViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbViewController.m; sourceTree = SOURCE_ROOT; };
+		2C6E48E618EC0B1100C3AA08 /* ThumbTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThumbTableViewController.h; path = nearsight/ThumbTableViewController.h; sourceTree = SOURCE_ROOT; };
+		2C6E48E718EC0B1100C3AA08 /* ThumbTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThumbTableViewController.m; path = nearsight/ThumbTableViewController.m; sourceTree = SOURCE_ROOT; };
+		2C6E48E918ECC8D900C3AA08 /* MapListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapListViewController.h; path = nearsight/MapListViewController.h; sourceTree = SOURCE_ROOT; };
+		2C6E48EA18ECC8D900C3AA08 /* MapListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapListViewController.m; path = nearsight/MapListViewController.m; sourceTree = SOURCE_ROOT; };
+		2C6E48EC18ED5E4C00C3AA08 /* PlaceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaceCell.h; path = nearsight/PlaceCell.h; sourceTree = SOURCE_ROOT; };
+		2C6E48ED18ED5E4C00C3AA08 /* PlaceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaceCell.m; path = nearsight/PlaceCell.m; sourceTree = SOURCE_ROOT; };
 		2C7945B618D3D32A00FCF401 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		2C88AF5918E16DCB0084227C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		2CA1A2E318E4197500BB358A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -263,10 +286,11 @@
 		2C080D5B18CFC6EB0066F30E /* nearsight */ = {
 			isa = PBXGroup;
 			children = (
-				2CA4DA4F18E9648C00F231DC /* Main.storyboard */,
 				2C24BBC618E9609B00AC04E4 /* Views */,
 				2C2752DF18E54D3E003D6C28 /* UI */,
 				2CCB3D1318D1880B0090DA1A /* Models */,
+				2CA4DA4F18E9648C00F231DC /* Main.storyboard */,
+				2C24BB4E18E95D2200AC04E4 /* AppDelegate.h */,
 				2C24BB4718E95D2200AC04E4 /* AppDelegate.m */,
 				2C24BB4A18E95D2200AC04E4 /* Foursquare.h */,
 				2C24BB4818E95D2200AC04E4 /* Foursquare.m */,
@@ -276,7 +300,6 @@
 				2C24BB4B18E95D2200AC04E4 /* Client.m */,
 				2C24BB4D18E95D2200AC04E4 /* Constants.h */,
 				2C24BB6518E95E6600AC04E4 /* Constants.m */,
-				2C24BB4E18E95D2200AC04E4 /* AppDelegate.h */,
 				2C24BB6718E95E8200AC04E4 /* Images.xcassets */,
 				2C080D5C18CFC6EB0066F30E /* Supporting Files */,
 			);
@@ -317,6 +340,7 @@
 		2C080D9C18CFDCB00066F30E /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				2C01FA8518E985BD00047EAD /* circledclose.png */,
 				2C24BB6E18E95FBE00AC04E4 /* recording.png */,
 				2C24BB6F18E95FBE00AC04E4 /* record.png */,
 				2C24BB7018E95FBE00AC04E4 /* add.png */,
@@ -344,40 +368,48 @@
 		2C24BBC618E9609B00AC04E4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2C24BBF718E960EA00AC04E4 /* NotificationViewController.m */,
-				2C24BBF818E960EA00AC04E4 /* NotificationViewController.h */,
-				2C24BBC718E960C100AC04E4 /* CheckinViewController.m */,
-				2C24BBC818E960C100AC04E4 /* MenuViewController.m */,
-				2C24BBC918E960C100AC04E4 /* CheckinViewController.h */,
-				2C24BBCA18E960C100AC04E4 /* PBJViewController.m */,
-				2C24BBCB18E960C100AC04E4 /* AddPostViewController.m */,
 				2C24BBCC18E960C100AC04E4 /* AddPostViewController.h */,
-				2C24BBCD18E960C100AC04E4 /* MainViewController.m */,
-				2C24BBCE18E960C100AC04E4 /* PlaceViewController.m */,
-				2C24BBCF18E960C100AC04E4 /* StreamTableViewController.m */,
-				2C24BBD018E960C100AC04E4 /* StreamViewController.h */,
-				2C24BBD118E960C100AC04E4 /* PostViewController.h */,
-				2C24BBD218E960C100AC04E4 /* StreamTableViewController.h */,
-				2C24BBD318E960C100AC04E4 /* StreamViewController.m */,
-				2C24BBD418E960C100AC04E4 /* PostViewController.m */,
-				2C24BBD518E960C100AC04E4 /* PlaceViewController.h */,
-				2C24BBD618E960C100AC04E4 /* SearchViewController.m */,
-				2C24BBD718E960C100AC04E4 /* SearchViewController.h */,
-				2C24BBD818E960C100AC04E4 /* BlurViewController.m */,
-				2C24BBD918E960C100AC04E4 /* MenuViewController.h */,
+				2C24BBCB18E960C100AC04E4 /* AddPostViewController.m */,
 				2C24BBDA18E960C100AC04E4 /* BlurViewController.h */,
+				2C24BBD818E960C100AC04E4 /* BlurViewController.m */,
+				2C24BBC918E960C100AC04E4 /* CheckinViewController.h */,
+				2C24BBC718E960C100AC04E4 /* CheckinViewController.m */,
 				2C24BBDB18E960C100AC04E4 /* MainViewController.h */,
-				2C24BBDC18E960C100AC04E4 /* ProfileViewController.m */,
-				2C24BBDD18E960C100AC04E4 /* ProfileViewController.h */,
-				2C24BBDE18E960C100AC04E4 /* WelcomeViewController.m */,
-				2C24BBDF18E960C100AC04E4 /* SignupViewController.m */,
-				2C24BBE018E960C100AC04E4 /* WelcomeViewController.h */,
-				2C24BBE118E960C100AC04E4 /* SignupViewController.h */,
+				2C24BBCD18E960C100AC04E4 /* MainViewController.m */,
+				2C24BBD918E960C100AC04E4 /* MenuViewController.h */,
+				2C24BBC818E960C100AC04E4 /* MenuViewController.m */,
+				2C24BBF818E960EA00AC04E4 /* NotificationViewController.h */,
+				2C24BBF718E960EA00AC04E4 /* NotificationViewController.m */,
 				2C24BBE218E960C100AC04E4 /* PBJFocusView.h */,
 				2C24BBE318E960C100AC04E4 /* PBJFocusView.m */,
 				2C24BBE418E960C100AC04E4 /* PBJStrobeView.h */,
 				2C24BBE518E960C100AC04E4 /* PBJStrobeView.m */,
 				2C24BBE618E960C100AC04E4 /* PBJViewController.h */,
+				2C24BBCA18E960C100AC04E4 /* PBJViewController.m */,
+				2C24BBD518E960C100AC04E4 /* PlaceViewController.h */,
+				2C24BBCE18E960C100AC04E4 /* PlaceViewController.m */,
+				2C24BBD118E960C100AC04E4 /* PostViewController.h */,
+				2C24BBD418E960C100AC04E4 /* PostViewController.m */,
+				2C24BBDD18E960C100AC04E4 /* ProfileViewController.h */,
+				2C24BBDC18E960C100AC04E4 /* ProfileViewController.m */,
+				2C01FA8218E9853100047EAD /* SceneViewController.h */,
+				2C01FA8318E9853100047EAD /* SceneViewController.m */,
+				2C24BBD718E960C100AC04E4 /* SearchViewController.h */,
+				2C24BBD618E960C100AC04E4 /* SearchViewController.m */,
+				2C24BBE118E960C100AC04E4 /* SignupViewController.h */,
+				2C24BBDF18E960C100AC04E4 /* SignupViewController.m */,
+				2C24BBD218E960C100AC04E4 /* StreamTableViewController.h */,
+				2C24BBCF18E960C100AC04E4 /* StreamTableViewController.m */,
+				2C24BBD018E960C100AC04E4 /* StreamViewController.h */,
+				2C24BBD318E960C100AC04E4 /* StreamViewController.m */,
+				2C24BBE018E960C100AC04E4 /* WelcomeViewController.h */,
+				2C24BBDE18E960C100AC04E4 /* WelcomeViewController.m */,
+				2C6E48E318EC07BE00C3AA08 /* ThumbViewController.h */,
+				2C6E48E418EC07BE00C3AA08 /* ThumbViewController.m */,
+				2C6E48E618EC0B1100C3AA08 /* ThumbTableViewController.h */,
+				2C6E48E718EC0B1100C3AA08 /* ThumbTableViewController.m */,
+				2C6E48E918ECC8D900C3AA08 /* MapListViewController.h */,
+				2C6E48EA18ECC8D900C3AA08 /* MapListViewController.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -391,6 +423,12 @@
 				2C24BB5718E95D5B00AC04E4 /* CategoryCell.h */,
 				2C24BB5818E95D5B00AC04E4 /* PostCell.h */,
 				2C24BB5918E95D5B00AC04E4 /* PostCell.m */,
+				2C6E48DD18EBF07D00C3AA08 /* DualPostCell.h */,
+				2C6E48DE18EBF07D00C3AA08 /* DualPostCell.m */,
+				2C6E48E018EC060500C3AA08 /* ThumbView.h */,
+				2C6E48E118EC060500C3AA08 /* ThumbView.m */,
+				2C6E48EC18ED5E4C00C3AA08 /* PlaceCell.h */,
+				2C6E48ED18ED5E4C00C3AA08 /* PlaceCell.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -415,8 +453,8 @@
 			children = (
 				2C24BB5D18E95D8E00AC04E4 /* Place.h */,
 				2C24BB5E18E95D8E00AC04E4 /* Place.m */,
-				2C24BB5F18E95D8E00AC04E4 /* Post.m */,
 				2C24BB6018E95D8E00AC04E4 /* Post.h */,
+				2C24BB5F18E95D8E00AC04E4 /* Post.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -518,6 +556,7 @@
 				2C24BB8518E95FBE00AC04E4 /* star.png in Resources */,
 				2C24BB8718E95FBE00AC04E4 /* arts.png in Resources */,
 				2C24BB8A18E95FBE00AC04E4 /* nightlife.png in Resources */,
+				2C01FA8618E985BD00047EAD /* circledclose.png in Resources */,
 				2CBE05C018DA86FA00147743 /* proximanova-semibold-webfont.ttf in Resources */,
 				2CBE05C318DA86FA00147743 /* proximanovacond-regular-webfont.ttf in Resources */,
 				2CBE05C118DA86FA00147743 /* proximanovacond-light-webfont.ttf in Resources */,
@@ -583,7 +622,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C24BB5218E95D2200AC04E4 /* Client.m in Sources */,
+				2C6E48EE18ED5E4C00C3AA08 /* PlaceCell.m in Sources */,
+				2C01FA8418E9853100047EAD /* SceneViewController.m in Sources */,
 				2C24BBE918E960C100AC04E4 /* PBJViewController.m in Sources */,
+				2C6E48DF18EBF07D00C3AA08 /* DualPostCell.m in Sources */,
 				2C24BB5118E95D2200AC04E4 /* Foursquare.m in Sources */,
 				2C24BBF118E960C100AC04E4 /* BlurViewController.m in Sources */,
 				2C24BBEC18E960C100AC04E4 /* PlaceViewController.m in Sources */,
@@ -591,16 +633,20 @@
 				2C24BBEF18E960C100AC04E4 /* PostViewController.m in Sources */,
 				2C24BBEB18E960C100AC04E4 /* MainViewController.m in Sources */,
 				2C24BBF618E960C100AC04E4 /* PBJStrobeView.m in Sources */,
+				2C6E48EB18ECC8D900C3AA08 /* MapListViewController.m in Sources */,
 				2C24BBF218E960C100AC04E4 /* ProfileViewController.m in Sources */,
 				2C24BB5C18E95D5B00AC04E4 /* PostCell.m in Sources */,
 				2C24BBF518E960C100AC04E4 /* PBJFocusView.m in Sources */,
 				2C24BB6D18E95F1300AC04E4 /* main.m in Sources */,
+				2C6E48E518EC07BE00C3AA08 /* ThumbViewController.m in Sources */,
 				2C24BBE818E960C100AC04E4 /* MenuViewController.m in Sources */,
 				2C24BB6618E95E6600AC04E4 /* Constants.m in Sources */,
 				2C24BB5A18E95D5B00AC04E4 /* UIExtensions.m in Sources */,
+				2C6E48E218EC060500C3AA08 /* ThumbView.m in Sources */,
 				2C24BB5B18E95D5B00AC04E4 /* CategoryCell.m in Sources */,
 				2C24BBED18E960C100AC04E4 /* StreamTableViewController.m in Sources */,
 				2C24BBF018E960C100AC04E4 /* SearchViewController.m in Sources */,
+				2C6E48E818EC0B1100C3AA08 /* ThumbTableViewController.m in Sources */,
 				2C24BB5018E95D2200AC04E4 /* AppDelegate.m in Sources */,
 				2C24BB6418E95DE500AC04E4 /* Manager.m in Sources */,
 				2C24BBF918E960EA00AC04E4 /* NotificationViewController.m in Sources */,

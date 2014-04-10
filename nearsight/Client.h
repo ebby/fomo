@@ -18,6 +18,7 @@
 - (RACSignal *)fetchStreamForProfile:(BOOL)profile;
 - (RACSignal *)updateStream:(NSDate *)lastFetch forProfile:(BOOL)profile;
 - (RACSignal *)loadMoreStream:(NSDate *)past forProfile:(BOOL)profile;
+- (RACSignal *)fetchPlaces;
 
 @property NSString *uploadUrl;
 

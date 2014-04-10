@@ -6,7 +6,6 @@
 //
 
 #import "PBJVideoPlayerController.h"
-#import "PBJVideoView.h"
 
 #import "AFHTTPRequestOperation.h"
 #import <MobileCoreServices/UTCoreTypes.h>
@@ -63,6 +62,8 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
 @synthesize videoPath = _videoPath;
 @synthesize playbackState = _playbackState;
 @synthesize bufferingState = _bufferingState;
+@synthesize videoView = _videoView;
+@synthesize player = _player;
 
 + (NSOperationQueue *)sharedQueue {
     static NSOperationQueue *_sharedQueue = nil;
@@ -93,6 +94,11 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
 
 - (void)setVideoPath:(NSString *)videoPath
 {
+    [self setVideoPath:videoPath withDownloadPath:nil];
+}
+
+- (void)setVideoPath:(NSString *)videoPath withDownloadPath:(NSString *)downloadPath
+{
     if (!videoPath || [videoPath length] == 0)
         return;
 
@@ -101,7 +107,7 @@ static NSString * const PBJVideoPlayerControllerPlayerKeepUpKey = @"playbackLike
         videoURL = [NSURL fileURLWithPath:videoPath];
     }
     _videoPath = videoPath;
-
+    _downloadPath = downloadPath;
     if (_downloadPath) {
         if (![[NSFileManager defaultManager] fileExistsAtPath:_downloadPath]) {
             NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_videoPath]];
