@@ -11,6 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <Accelerate/Accelerate.h>
 #import <LBBlurredImage/UIImageView+LBBlurredImage.h>
+#import "UIERealTimeBlurView.h"
 
 CGFloat const BLUR_LEVEL = 1.0f;
 
@@ -171,6 +172,7 @@ CGFloat const BLUR_LEVEL = 1.0f;
 @interface BlurViewController ()
 
 @property (nonatomic, strong) UIView *blurView;
+@property (nonatomic, strong) UIERealTimeBlurView *liveBlurView;
 @property (nonatomic, strong) UIBezierPath *blurExclusionPath;
 @property (nonatomic, assign) BOOL parentViewCouldScroll;
 
@@ -178,6 +180,7 @@ CGFloat const BLUR_LEVEL = 1.0f;
 
 @implementation BlurViewController {
     UIView *_blurView;
+    UIERealTimeBlurView *_liveBlurView;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -196,12 +199,19 @@ CGFloat const BLUR_LEVEL = 1.0f;
     // Start hidden
     self.view.hidden = YES;
     self.view.alpha = 0;
-    self.view.backgroundColor = [UIColor blackColor];
     
-    // Blurred View
-    self.blurView = [[UIView alloc] initWithFrame:self.view.frame];
-    self.blurView.alpha = .7;
-    [self.view addSubview:self.blurView];
+    if (self.live) {
+        // Live blur
+        self.liveBlurView = [[UIERealTimeBlurView alloc] initWithFrame:self.view.frame];
+        self.liveBlurView.alpha = 1;
+        [self.view addSubview:self.liveBlurView];
+    } else {
+        // Blurred View
+        self.view.backgroundColor = [UIColor blackColor];
+        self.blurView = [[UIView alloc] initWithFrame:self.view.frame];
+        self.blurView.alpha = .7;
+        [self.view addSubview:self.blurView];
+    }
 }
 
 - (void)didReceiveMemoryWarning

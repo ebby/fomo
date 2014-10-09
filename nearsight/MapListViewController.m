@@ -11,6 +11,10 @@
 #import "PlaceViewController.h"
 #import "PlaceCell.h"
 #import "Manager.h"
+#import "UIExtensions.h"
+#import <MapKit/MapKit.h>
+
+#define METERS_PER_MILE 1609.344
 
 @interface MapListViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -18,10 +22,14 @@
 
 @implementation MapListViewController {
     UIScrollView *_scrollView;
-    GMSMapView *_mapView;
+//    GMSMapView *_mapView;
+    MKMapView * _mapView;
     UITableView *_placesTable;
     BOOL _firstLocationUpdate;
+    ExtendedHitButton *_closeButton;
+    UILabel *_title;
 }
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,24 +44,46 @@
 {
     [super loadView];
     
+    [self setNeedsStatusBarAppearanceUpdate];
+    
     self.view.backgroundColor = [UIColor blackColor];
 
     // Map
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:[Manager sharedClient].currentLocation.coordinate.latitude - .1
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:[Manager sharedClient].currentLocation.coordinate.latitude - 1
                                                             longitude:[Manager sharedClient].currentLocation.coordinate.longitude
                                                                  zoom:12];
-    _mapView = [GMSMapView mapWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height + 1000) camera:camera];
-    _mapView.settings.scrollGestures = NO;
-    _mapView.settings.zoomGestures = NO;
-    _mapView.settings.tiltGestures = NO;
-    _mapView.settings.rotateGestures = NO;
-    _mapView.myLocationEnabled = YES;
-    // Listen to the myLocation property of GMSMapView.
-    [_mapView addObserver:self
-               forKeyPath:@"myLocation"
-                  options:NSKeyValueObservingOptionNew
-                  context:NULL];
+//    _mapView = [GMSMapView mapWithFrame:CGRectMake(0, -250, self.view.frame.size.width, self.view.frame.size.height + 500) camera:camera];
+//    _mapView.settings.scrollGestures = NO;
+//    _mapView.settings.zoomGestures = NO;
+//    _mapView.settings.tiltGestures = NO;
+//    _mapView.settings.rotateGestures = NO;
+//    _mapView.myLocationEnabled = YES;
+//    // Listen to the myLocation property of GMSMapView.
+//    [_mapView addObserver:self
+//               forKeyPath:@"myLocation"
+//                  options:NSKeyValueObservingOptionNew
+//                  context:NULL];
+//    [self.view addSubview:_mapView];
+    
+    
+    
+    _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, -250, self.view.frame.size.width, self.view.frame.size.height + 500)];
+    CLLocationCoordinate2D zoomLocation;
+    zoomLocation.latitude = [Manager sharedClient].currentLocation.coordinate.latitude - 1;
+    zoomLocation.longitude= [Manager sharedClient].currentLocation.coordinate.longitude;
+    // 2
+    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(zoomLocation, 0.3*METERS_PER_MILE, 0.3*METERS_PER_MILE);
+    [_mapView setRegion:viewRegion animated:YES];
     [self.view addSubview:_mapView];
+    
+//    RMMapboxSource *tileSource = [[RMMapboxSource alloc] initWithMapID:@"examples.map-zswgei2n"];
+//    
+//    _mapView = [[RMMapView alloc] initWithFrame:CGRectMake(0, -500, self.view.frame.size.width, self.view.frame.size.height + 1000) andTilesource:tileSource];
+//    _mapView.zoom = 13;
+//    _mapView.userTrackingMode = RMUserTrackingModeFollow;
+//    //_mapView.centerCoordinate = [Manager sharedClient].currentLocation.coordinate;
+//    [self.view addSubview:_mapView];
+    
     
     // Scroll View
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height + 200)];
@@ -74,6 +104,23 @@
     [statusBar.layer insertSublayer:gradient atIndex:0];
     statusBar.alpha = 0.8;
     [self.view addSubview:statusBar];
+    
+    // Close button
+    _closeButton = [ExtendedHitButton extendedHitButton];
+    _closeButton.frame = CGRectMake(6, 17.0f, 40.0f, 40.0f);
+    _closeButton.alpha = 0.8;
+    UIImage *closeButtonImage = [UIImage imageNamed:@"close"];
+    [_closeButton setImage:closeButtonImage forState:UIControlStateNormal];
+    [_closeButton addTarget:self action:@selector(_handleCloseButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_closeButton];
+    
+    // Title
+    _title = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 40)];
+    _title.textColor = [UIColor whiteColor];
+    _title.text = @"trending nearby";
+    _title.textAlignment = NSTextAlignmentCenter;
+    [_title setFont:[UIFont fontWithName:@"MrsEaves-Italic" size:28]];
+    [self.view addSubview:_title];
     
     // Results table
     _placesTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 200, self.view.frame.size.width, self.view.frame.size.height)];
@@ -98,10 +145,19 @@
     
 }
 
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)_handleCloseButton:(UIButton *)button
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)loadPlaces:(NSArray *)places
@@ -127,8 +183,12 @@
         // location.
         _firstLocationUpdate = YES;
         CLLocation *location = [change objectForKey:NSKeyValueChangeNewKey];
-        _mapView.camera = [GMSCameraPosition cameraWithTarget:location.coordinate
-                                                         zoom:_mapView.camera.zoom];
+        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, 0.3*METERS_PER_MILE, 0.3*METERS_PER_MILE);
+        [_mapView setRegion:viewRegion animated:YES];
+        
+//        _mapView.camera = [GMSCameraPosition cameraWithLatitude:location.coordinate.latitude - .04
+//                                                      longitude:location.coordinate.longitude
+//                                                         zoom:_mapView.camera.zoom];
     }
 }
 
@@ -137,7 +197,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
     if (scrollView == _scrollView){
-        _mapView.frame = CGRectMake(_mapView.frame.origin.x, MAX(-150 - scrollView.contentOffset.y*.75, -200), _mapView.frame.size.width, MAX(self.view.frame.size.height - scrollView.contentOffset.y, self.view.frame.size.height + 200));
+        _mapView.frame = CGRectMake(_mapView.frame.origin.x, MAX(-250 - scrollView.contentOffset.y*.75, -500), _mapView.frame.size.width, MAX(self.view.frame.size.height - scrollView.contentOffset.y, self.view.frame.size.height + 500));
     }
 //    _placesTable.userInteractionEnabled = scrollView.contentOffset.y >= 200;
     

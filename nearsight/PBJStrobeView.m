@@ -70,7 +70,6 @@
         _strobeViewRecordIdle.frame = strobeFrame;
         _strobeViewRecordIdle.transform = CGAffineTransformMakeScale(0.7f, 0.7f);
         [self addSubview:_strobeViewRecordIdle];
-
     }
     return self;
 }

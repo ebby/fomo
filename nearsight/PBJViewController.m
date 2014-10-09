@@ -20,11 +20,18 @@
 #import <GLKit/GLKit.h>
 #import "Client.h"
 #import "UIExtensions.h"
+#import <CoreMotion/CoreMotion.h>
+#import <float.h>
+#import "Draft.h"
+
+static CMMotionManager *sharedMotionManager;
 
 @interface PBJViewController () <
+    UIApplicationDelegate,
     UIGestureRecognizerDelegate,
     PBJVisionDelegate,
-    UIAlertViewDelegate>
+    UIAlertViewDelegate,
+    UIActionSheetDelegate>
 {
 //    PBJStrobeView *_strobeView;
     UIButton *_doneButton;
@@ -48,6 +55,17 @@
     UITapGestureRecognizer *_tapGestureRecognizer;
     UITapGestureRecognizer *_tapCaptureGestureRecognizer;
     
+    UIActionSheet *_saveSheet;
+    
+    double _lastPitch;
+    double _lastYaw;
+    double _lastRoll;
+    
+    double _pitchDelta;
+    double _yawDelta;
+    double _rollDelta;
+    double _motionDelta;
+    
     BOOL _recording;
 
     ALAssetsLibrary *_assetLibrary;
@@ -55,10 +73,8 @@
     __block NSDictionary *_currentVideo;
 }
 
-@property (nonatomic, strong, readwrite) NSMutableArray *tracks;
-@property (nonatomic, strong, readwrite) NSMutableArray *timeline;
-@property (nonatomic, strong, readwrite) NSString *outputPath;
 @property (nonatomic, strong, readwrite) AVMutableComposition *composition;
+@property (nonatomic, strong, readwrite) Draft *draft;
 
 @end
 
@@ -72,6 +88,25 @@
 }
 
 #pragma mark - init
+
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        self.draft = [Draft getDraft];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(applicationWillResignActive:)
+                                                     name:UIApplicationWillResignActiveNotification
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(applicationWillTerminate:)
+                                                     name:UIApplicationWillTerminateNotification
+                                                   object:nil];
+    }
+    return self;
+}
 
 - (void)dealloc
 {
@@ -91,7 +126,7 @@
     _assetLibrary = [[ALAssetsLibrary alloc] init];
     
     NSString *guid = [[NSUUID new] UUIDString];
-    self.outputPath = [NSString stringWithFormat:@"%@video_%@.mp4", NSTemporaryDirectory(), guid];
+    self.draft.outputPath = [NSString stringWithFormat:@"%@video_%@.mp4", NSTemporaryDirectory(), guid];
     
     CGFloat viewWidth = CGRectGetWidth(self.view.frame);
     CGFloat viewHeight = CGRectGetHeight(self.view.frame);
@@ -166,8 +201,7 @@
     _flipButton.frame = flipFrame;
     [_flipButton addTarget:self action:@selector(_handleFlipButton:) forControlEvents:UIControlEventTouchUpInside];
     [_captureDock addSubview:_flipButton];
-    
-    
+
     _tapGestureRecognizer.enabled = YES;
     _gestureView.hidden = YES;
     
@@ -180,13 +214,29 @@
     [_previewView addSubview:_progress];
     
     // Tracks
-    self.tracks = [[NSMutableArray alloc] init];
-    self.timeline = [[NSMutableArray alloc] init];
     _tracksView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 250, self.view.frame.size.width, 150)];
     _tracksView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1];
     _tracksView.showsHorizontalScrollIndicator = NO;
     _tracksView.contentSize = CGSizeMake(self.view.frame.size.width, _tracksView.bounds.size.height);
     [_previewView addSubview:_tracksView];
+    
+    // Action sheet
+    _saveSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete draft" otherButtonTitles:@"Save draft", nil];
+    
+    if (self.draft.restored) {
+        [self restoreDraft];
+    }
+}
+
+
+- (void)restoreDraft
+{
+    NSLog(@"Tracks: %@", self.draft.tracks);
+    for (NSUInteger i = 0; i < [self.draft.tracks count]; i++) {
+        NSLog(@"restored track: %@", self.draft.tracks[i]);
+        [self addSceneWithPath:self.draft.tracks[i] atIndex:(i + 1)];
+    }
+    NSLog(@"Tracks after restore: %@", self.draft.tracks);
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -217,6 +267,7 @@
     [UIApplication sharedApplication].idleTimerDisabled = YES;
 
     [self _displayRecording:TRUE];
+    [self beginMotionTracking];
     [[PBJVision sharedInstance] setCameraMode:PBJCameraModeVideo];
     [[PBJVision sharedInstance] startVideoCapture];
 }
@@ -244,6 +295,8 @@
 - (void)_endCapture
 {
     [self _displayRecording:FALSE];
+    [self endMotionTracking];
+    [self.draft.motionDeltas addObject:[NSNumber numberWithDouble:_motionDelta]];
     [UIApplication sharedApplication].idleTimerDisabled = NO;
     [[PBJVision sharedInstance] endVideoCapture];
     _effectsViewController.view.hidden = YES;
@@ -267,8 +320,6 @@
         _flipButton.hidden = YES;
         _focusButton.hidden = YES;
     }
-    
-    [self.tracks removeAllObjects];
 
     [vision setCameraMode:PBJCameraModeVideo];
     [vision setCameraOrientation:PBJCameraOrientationPortrait];
@@ -335,43 +386,69 @@
     CMTime current = kCMTimeZero;
     NSError *compositionError = nil;
     AVURLAsset * asset = nil;
-    for (NSString *videoPath in self.tracks) {
-        NSLog(@"Composite path: %@", videoPath);
-        
+    BOOL result = YES;
+    
+    AVMutableComposition  * mixComposition = [AVMutableComposition composition];
+    AVMutableCompositionTrack *compositionVideoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo
+                                                                                   preferredTrackID:kCMPersistentTrackID_Invalid];
+    AVMutableCompositionTrack *compsitionAudioTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio
+                                                                                  preferredTrackID:kCMPersistentTrackID_Invalid];
+    
+    for (int i = 0; i < [self.draft.tracks count]; i++) {
+        NSString *videoPath = self.draft.tracks[i];
         asset = [AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:videoPath] options:nil];
-        NSLog(@"Composite duration: %f", CMTimeGetSeconds([asset duration]));
-        BOOL result = [composition insertTimeRange:CMTimeRangeMake(kCMTimeZero, [asset duration])
+        
+        
+        
+//        result = result && [compositionVideoTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, asset.duration)
+//                                                          ofTrack:[[asset tracksWithMediaType:AVMediaTypeVideo] lastObject]
+//                                                           atTime:kCMTimeZero
+//                                                            error:&compositionError];
+//        
+//        
+//        result = result && [compsitionAudioTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, asset.duration)
+//                                                                ofTrack:[[asset tracksWithMediaType:AVMediaTypeAudio] lastObject]
+//                                                                 atTime:kCMTimeZero
+//                                                                  error:&compositionError];
+//        
+//        double scale = MIN(MAX([self.motionDeltas[i] doubleValue]/10, 1), 4);
+//        NSLog(@"Scale: %f", scale);
+//        [compositionVideoTrack scaleTimeRange:CMTimeRangeMake(current,
+//                                                              CMTimeMakeWithSeconds(CMTimeGetSeconds(current) + CMTimeGetSeconds([asset duration]), current.timescale))
+//                                   toDuration:CMTimeMake([asset duration].value * scale, [asset duration].timescale)];
+//        [compsitionAudioTrack scaleTimeRange:CMTimeRangeMake(current,
+//                                                              CMTimeMakeWithSeconds(CMTimeGetSeconds(current) + CMTimeGetSeconds([asset duration]), current.timescale))
+//                                   toDuration:CMTimeMake([asset duration].value * scale, [asset duration].timescale)];
+//    
+        
+        result = result && [composition insertTimeRange:CMTimeRangeMake(kCMTimeZero, [asset duration])
                                            ofAsset:asset
                                             atTime:current
                                              error:&compositionError];
+        
+        
         if(!result) {
             if(compositionError) {
                 // manage the composition error case
             }
         } else {
-            current = CMTimeAdd(current, [asset duration]);
-            [self.timeline addObject:[NSNumber numberWithFloat:CMTimeGetSeconds(current)]];
+            current = CMTimeAdd(current, CMTimeMake([asset duration].value, [asset duration].timescale));
+            [self.draft.timeline addObject:[NSNumber numberWithFloat:CMTimeGetSeconds(current)]];
         }
     }
-    
-    AddPostViewController *addPostViewController = [[AddPostViewController alloc] initWithAsset:composition andExportPath:self.outputPath andTimeline:self.timeline];
+
+//    AddPostViewController *addPostViewController = [[AddPostViewController alloc] initWithAsset:composition
+//                                                                                  andExportPath:self.draft.outputPath
+//                                                                                    andTimeline:self.draft.timeline];
+    AddPostViewController *addPostViewController = [[AddPostViewController alloc] initWithAsset:composition
+                                                                                       andDraft:self.draft];
     [self.navigationController pushViewController:addPostViewController animated:NO];
 }
 
 
 - (void)_handleCloseButton:(UIButton *)button
 {
-    [self _resetCapture];
-    CATransition *transition = [CATransition animation];
-    transition.duration = 0.35;
-    transition.timingFunction =
-    [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    transition.type = kCATransitionMoveIn;
-    transition.subtype = kCATransitionFromTop;
-    
-    UIView *containerView = self.view.window;
-    [containerView.layer addAnimation:transition forKey:nil];
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [_saveSheet showInView:self.view];
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -388,17 +465,13 @@
     switch (gestureRecognizer.state) {
       case UIGestureRecognizerStateBegan:
         {
-//            if (!_recording)
-                [self _startCapture];
-//            else
-//                [self _resumeCapture];
+            [self _startCapture];
             break;
         }
       case UIGestureRecognizerStateEnded:
       case UIGestureRecognizerStateCancelled:
       case UIGestureRecognizerStateFailed:
         {
-            //[self _pauseCapture];
             [self _endCapture];
             break;
         }
@@ -446,6 +519,37 @@
                         animations:^{ _captureButton.selected = NO; }
                         completion:nil];
     }
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 2) {
+        return;
+    }
+
+    if (buttonIndex == 0) {
+        [self.draft clear];
+        self.draft = [Draft getDraft];
+        for (UIView *view in _tracksView.subviews) {
+            [view removeFromSuperview];
+        }
+        [self _resetCapture];
+    } else if (buttonIndex == 1) {
+        [self.draft save];
+    }
+
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.35;
+    transition.timingFunction =
+    [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionMoveIn;
+    transition.subtype = kCATransitionFromTop;
+    
+    UIView *containerView = self.view.window;
+    [containerView.layer addAnimation:transition forKey:nil];
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 
@@ -545,23 +649,23 @@
     _currentVideo = videoDict;
     
     NSString *videoPath = [_currentVideo objectForKey:PBJVisionVideoPathKey];
-    [self.tracks addObject:videoPath];
-    
+    NSLog(@"before add tracks: %@", self.draft.tracks);
+    [self.draft.tracks addObject:videoPath];
+    NSLog(@"tracks: %@", self.draft.tracks);
+    [self addSceneWithPath:videoPath atIndex:[self.draft.tracks count]];
+}
+
+- (void)addSceneWithPath:(NSString *)videoPath atIndex:(NSUInteger)index
+{
+    NSLog(@"At index: %d", index);
     SceneViewController *videoPlayerController;
     videoPlayerController = [[SceneViewController alloc] initWithDownloadPath:videoPath];
-    //videoPlayerController.delegate = self;
-    videoPlayerController.view.frame = CGRectMake(4 + 84*([self.tracks count] - 1), 4, 80, 142);
+    videoPlayerController.view.frame = CGRectMake(4 + 84*(index - 1), 4, 80, 142);
     [self addChildViewController:videoPlayerController];
     [_tracksView addSubview:videoPlayerController.view];
-    _tracksView.contentSize = CGSizeMake(MAX(self.view.frame.size.width + 1, 4 + 84*([self.tracks count])), _tracksView.bounds.size.height);
-
-    
+    _tracksView.contentSize = CGSizeMake(MAX(self.view.frame.size.width + 1, 4 + 84*index), _tracksView.bounds.size.height);
     [videoPlayerController didMoveToParentViewController:self];
     [videoPlayerController setVideoPath:videoPath];
-
-    
-    
-
 }
 
 // progress
@@ -600,6 +704,87 @@
     
     return @[modelItem, softwareItem, creationDateItem];
 }
+
+#pragma mark - motion
+
++ (CMMotionManager*)sharedMotionManager {
+    if (!sharedMotionManager) {
+        sharedMotionManager = [[CMMotionManager alloc] init];
+    }
+    return sharedMotionManager;
+}
+
++ (void)setSharedMotionManager:(CMMotionManager*)motionManager {
+    sharedMotionManager = motionManager;
+}
+
+- (void)beginMotionTracking {
+
+    _lastPitch = 0;
+    _lastRoll = 0;
+    _lastYaw = 0;
+    _pitchDelta = 0;
+    _rollDelta = 0;
+    _yawDelta = 0;
+    _motionDelta = 0;
+    
+    CMMotionManager *motionManager = [self.class sharedMotionManager];
+    if (motionManager.deviceMotionAvailable) {
+        [motionManager
+         startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue]
+         withHandler: ^(CMDeviceMotion *motion, NSError *error) {
+             
+             _pitchDelta += fabs(_lastPitch - motion.attitude.pitch) < 500 ? fabs(_lastPitch - motion.attitude.pitch) : 0;
+             _rollDelta += fabs(_lastRoll - motion.attitude.roll) < 500 ? fabs(_lastRoll - motion.attitude.roll) : 0;
+             _yawDelta += fabs(_lastYaw - motion.attitude.yaw) < 500 ? fabs(_lastYaw - motion.attitude.yaw) : 0;
+             
+             _lastPitch = motion.attitude.pitch;
+             _lastRoll = motion.attitude.roll;
+             _lastYaw = motion.attitude.yaw;
+         }];
+    }
+}
+
+- (void)endMotionTracking {
+    CMMotionManager *motionManager = [self.class sharedMotionManager];
+    if ([motionManager isDeviceMotionActive] == YES) {
+        _motionDelta = _pitchDelta + _rollDelta + _yawDelta;
+        NSLog(@"Motion delta: %f", _motionDelta);
+        [motionManager stopDeviceMotionUpdates];
+    }
+}
+
+#pragma mark - App NSNotifications
+
+- (void)applicationWillResignActive:(UIApplication *)application
+{
+    NSLog(@"app resign active");
+    [self.draft save];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+    NSLog(@"app will terminate");
+    [self.draft save];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    NSLog(@"app will terminate");
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    NSLog(@"app did become active");
+    [self.draft save];
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    NSLog(@"app entered background");
+    [self.draft save];
+}
+
 
 
 @end

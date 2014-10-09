@@ -18,14 +18,26 @@ PODS:
   - AFNetworking/UIKit (2.2.0):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - FMDB (2.0):
+    - FMDB/standard
+  - FMDB/common (2.0)
+  - FMDB/standard (2.0):
+    - FMDB/common
   - Google-Maps-iOS-SDK (1.7.2)
+  - GRMustache (6.8.3):
+    - JRSwizzle (~> 1.0)
   - HexColors (2.2.1)
   - ios-realtimeblur (0.0.1)
+  - JRSwizzle (1.0)
   - LBBlurredImage (0.2.0)
   - libPhoneNumber-iOS (0.7.1)
   - Mantle (1.4.1):
     - Mantle/extobjc
   - Mantle/extobjc (1.4.1)
+  - Mapbox (1.1.0):
+    - FMDB (= 2.0)
+    - GRMustache (= 6.8.3)
+    - SMCalloutView (= 1.1)
   - NSHash (1.0.1)
   - Overcoat (1.2.1):
     - AFNetworking (~> 2.0)
@@ -40,6 +52,7 @@ PODS:
     - ReactiveCocoa/no-arc
   - ReactiveCocoa/no-arc (2.2.4)
   - RNGridMenu (0.1.3)
+  - SMCalloutView (1.1)
   - TSMessages (0.9.6):
     - HexColors
 
@@ -50,6 +63,7 @@ DEPENDENCIES:
   - LBBlurredImage
   - libPhoneNumber-iOS
   - Mantle
+  - Mapbox (from `https://github.com/mapbox/mapbox-ios-sdk`)
   - NSHash (~> 1.0.1)
   - Overcoat (~> 1.2)
   - Parallax (~> 0.0.1)
@@ -62,15 +76,21 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   ios-realtimeblur:
     :git: https://github.com/alexdrone/ios-realtimeblur.git
+  Mapbox:
+    :git: https://github.com/mapbox/mapbox-ios-sdk
 
 SPEC CHECKSUMS:
   AFNetworking: e8cfd8f3fe3bfe19124a0cc63f4d45752d892a56
-  Google-Maps-iOS-SDK: 5ac063b3d020b6a7f91dcbf59b3b0e3c17170d27
-  HexColors: 3a68db077cd6572a8f7d4aa1add284dd2436a934
+  FMDB: 9e9052f4e9bfb3ccf237abf7a4edee9e915029fa
+  Google-Maps-iOS-SDK: 14de93ec6d63ac83655a5029e3e7788c5ba70900
+  GRMustache: 1c40b78b8ef5df41738db4bf2b8b2749b9b09253
+  HexColors: 99211502e17904af7891fc8f687d0e4958a6d66e
   ios-realtimeblur: 3e60b57921c9e617fd9984e909f49ec1ec8f4a46
+  JRSwizzle: 6242ff38485d870fc2636899048ee1ab883ae587
   LBBlurredImage: 26bacd10063a6e886de6a374f4727c3cefb22fc2
   libPhoneNumber-iOS: 7052b3e419f5512dfe74098a32f7382a562efb0e
   Mantle: 0714cdb2b8559d9e6c2410d6a8529e3307bff189
+  Mapbox: 8a9f794e4a529db690e0aa2dc3e1dfc102e018d1
   NSHash: 7e728a3e7fdff6828f3fce387049b1e0ca7fe8a0
   Overcoat: cb0b3f254f347d8a09a8980c3b25a70bb6a28294
   Parallax: eba3a12827ae8e79a2a6536d3cdb1940412ca036
@@ -78,6 +98,7 @@ SPEC CHECKSUMS:
   PBJVision: 5714460922443881ff331618302e615059168318
   ReactiveCocoa: 953a45dda30674fe704d1d9c77cc874141742f47
   RNGridMenu: 8aed69538abb8280f496a88fb24e0cf7dd180caf
+  SMCalloutView: 1c7d62044508a8d405c25495c380b17c613f769e
   TSMessages: 839edc3164b99ced48c30af9dde9710cd67bea4d
 
 COCOAPODS: 0.29.0

@@ -67,12 +67,12 @@
     self.streamTableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     [self.view addSubview:self.streamTableViewController.view];
     [self addChildViewController:self.streamTableViewController];
-    [self.streamTableViewController loadStream];
+    //[self.streamTableViewController loadStream];
 
-    UIView *statusBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20.0f)];
-    statusBar.backgroundColor = [UIColor blackColor];
-    statusBar.alpha = 0.3;
-    [self.view addSubview:statusBar];
+//    UIView *statusBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20.0f)];
+//    statusBar.backgroundColor = [UIColor blackColor];
+//    statusBar.alpha = 0.3;
+//    [self.view addSubview:statusBar];
 }
 
 - (void)didReceiveMemoryWarning

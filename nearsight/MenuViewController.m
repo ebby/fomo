@@ -24,6 +24,15 @@
     UIButton *_friendsButton;
 }
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        //self.live = YES;
+    }
+    return self;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -42,7 +51,7 @@
     _logo.textColor = [UIColor whiteColor];
     _logo.text = @"nearsight";
     _logo.textAlignment = NSTextAlignmentCenter;
-    [_logo setFont:[UIFont fontWithName:@"MrsEaves-Italic" size:32]];
+    [_logo setFont:[UIFont fontWithName:@"MrsEaves-Italic" size:28]];
     [self.view addSubview:_logo];
     
     // Home button

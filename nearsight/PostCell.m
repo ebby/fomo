@@ -29,6 +29,7 @@
     self = [super init];
     if (self) {
         self.post = post;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.postView = [[PostViewController alloc] initWithPost:post];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self.contentView addSubview:self.postView.view];

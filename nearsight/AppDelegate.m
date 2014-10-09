@@ -8,13 +8,15 @@
 
 #import "AppDelegate.h"
 #import <GoogleMaps/GoogleMaps.h>
+#import <FacebookSDK/FacebookSDK.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
-    [GMSServices provideAPIKey:@"AIzaSyALQjSCLOJERKePvlBShL9RAbnYGC_nXvA"];
+//    [GMSServices provideAPIKey:@"AIzaSyALQjSCLOJERKePvlBShL9RAbnYGC_nXvA"];
+//    [FBLoginView class];
     
     return YES;
 }
@@ -39,6 +41,8 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
   // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

@@ -15,10 +15,16 @@
 
 @property (nonatomic, readwrite) Place *place;
 @property (nonatomic, readwrite) Post *post;
+@property (nonatomic, assign) BOOL *played;
 
 -(id)initWithPost:(Post *)post;
 -(id)initWithPost:(Post *)post andFrame:(CGRect)frame;
+-(void)load;
+-(void)loadAndPlay;
 -(void)play;
 -(void)stop;
+-(void)eject;
+
+- (void)observeValueForKeyPath:(NSString*) path ofObject:(id)object change:(NSDictionary*)change context:(void*)context;
 
 @end

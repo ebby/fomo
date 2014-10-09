@@ -7,9 +7,12 @@
 //
 
 #import "PlaceViewController.h"
-#import <GoogleMaps/GoogleMaps.h>
+#import <MapKit/MapKit.h>
+#import "Manager.h"
 #import "UIExtensions.h"
 #import "StreamTableViewController.h"
+
+#define METERS_PER_MILE 1609.344
 
 @interface PlaceViewController () <UIScrollViewDelegate>
 
@@ -28,6 +31,7 @@
     
     UILabel *_hours;
     UIButton *_todaysHours;
+    MKMapView *_mapView;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -85,7 +89,7 @@
     NSShadow* shadow = [[NSShadow alloc] init];
     //shadow.shadowColor = [UIColor blackColor];
     //shadow.shadowOffset = CGSizeMake(0.0f, 0.0f);
-    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:@"Glasslands Gallery"];
+    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:@"Hemispheres Cafe"];
     NSRange range = NSMakeRange(0, [attributedTitle length]);
     [attributedTitle addAttribute:NSShadowAttributeName value:shadow range:range];
     _title.attributedText = attributedTitle;
@@ -109,36 +113,49 @@
     // Name
     _name = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, self.view.frame.size.width, 40)];
     [_name setFont:[UIFont fontWithName:@"ProximaNovaCond-Regular" size:22]];
-    _name.text = @"Glasslands Gallery";
+    _name.text = @"Hemispheres Cafe";
     [_info addSubview:_name];
     
     // Category
     _category = [[UILabel alloc] initWithFrame:CGRectMake(20, 27, self.view.frame.size.width, 40)];
     [_category setFont:[UIFont fontWithName:@"ProximaNovaCond-Regular" size:14]];
-    _category.text = @"Music Venue, Rock Club, Bar";
+    _category.text = @"Restaurant, Cafe";
     [_info addSubview:_category];
 
     // Address
     _address = [[UILabel alloc] initWithFrame:CGRectMake(20, 47, self.view.frame.size.width, 40)];
     [_address setFont:[UIFont fontWithName:@"ProximaNovaCond-Regular" size:14]];
-    _address.text = @"289 Kent St, Brooklyn, New York 11211";
+    _address.text = @"111 8th Ave, New York, NY 10011";
     [_info addSubview:_address];
     
     // Map
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:-33.868
-                                                            longitude:151.2086
-                                                                 zoom:15];
-    GMSMapView *mapView = [GMSMapView mapWithFrame:CGRectMake(20, 80, self.view.frame.size.width-40, 100) camera:camera];
-    mapView.layer.cornerRadius = 6;
-    mapView.clipsToBounds = YES;
-    mapView.settings.scrollGestures = NO;
-    mapView.settings.zoomGestures = NO;
-    mapView.settings.tiltGestures = NO;
-    mapView.settings.rotateGestures = NO;
+    _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(20, 80, self.view.frame.size.width-40, 100)];
+    _mapView.layer.cornerRadius = 6;
+    _mapView.clipsToBounds = YES;
     
-    GMSMarker *marker = [[GMSMarker alloc] init];
-    marker.position = camera.target;
-    marker.snippet = @"Hello World";
+    CLLocationCoordinate2D zoomLocation;
+    zoomLocation.latitude = [Manager sharedClient].currentLocation.coordinate.latitude;
+    zoomLocation.longitude= [Manager sharedClient].currentLocation.coordinate.longitude;
+    // 2
+    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(zoomLocation, 0.3*METERS_PER_MILE, 0.3*METERS_PER_MILE);
+    [_mapView setRegion:viewRegion animated:YES];
+    [_info addSubview:_mapView];
+    
+    // Map
+//    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:40.7414445
+//                                                            longitude:-74.0035922
+//                                                                 zoom:14];
+//    GMSMapView *mapView = [GMSMapView mapWithFrame:CGRectMake(20, 80, self.view.frame.size.width-40, 100) camera:camera];
+//    mapView.layer.cornerRadius = 6;
+//    mapView.clipsToBounds = YES;
+//    mapView.settings.scrollGestures = NO;
+//    mapView.settings.zoomGestures = NO;
+//    mapView.settings.tiltGestures = NO;
+//    mapView.settings.rotateGestures = NO;
+//    
+//    GMSMarker *marker = [[GMSMarker alloc] init];
+//    marker.position = camera.target;
+//    marker.snippet = @"Hello World";
     
     // Implement GMSTileURLConstructor
     // Returns a Tile based on the x,y,zoom coordinates, and the requested floor
@@ -154,7 +171,7 @@
 //    layer.zIndex = 100;
 //    layer.map = mapView;
     
-    [_info addSubview:mapView];
+//    [_info addSubview:mapView];
     
     // Hours
     _hours = [[UILabel alloc] initWithFrame:CGRectMake(20, 200, self.view.frame.size.width, 20)];
@@ -168,7 +185,7 @@
     _todaysHours.layer.borderColor = [[UIColor colorWithRed:236.0f/255 green:240.0f/255 blue:241.0f/255 alpha:1.0] CGColor];
     [_todaysHours.titleLabel setFont:[UIFont fontWithName:@"ProximaNovaCond-Regular" size:14]];
     [_todaysHours setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    [_todaysHours setTitle:@"Closed Today" forState:UIControlStateNormal];
+    [_todaysHours setTitle:@"Closed Now" forState:UIControlStateNormal];
     _todaysHours.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     _todaysHours.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
     [_info addSubview:_todaysHours];

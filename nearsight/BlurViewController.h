@@ -12,6 +12,7 @@
 
 @property (nonatomic, assign) CGFloat animationDuration;
 @property (nonatomic, assign) BOOL bounces;
+@property (nonatomic, assign) BOOL live;
 @property (nonatomic, copy) dispatch_block_t dismissAction;
 
 -(void)show;

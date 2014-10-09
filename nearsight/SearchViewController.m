@@ -39,6 +39,7 @@
 - (id)init {
     self = [super init];
     if (self) {
+        //self.live = YES;
         self.categories = @[@"Popular", @"Food", @"Nightlife", @"Coffee", @"Shopping", @"Sights", @"Outdoors", @"Arts"];
         self.categoryImages = @{@"Popular":@"star",
                                 @"Food": @"burger",
@@ -66,7 +67,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    _searchBar = [[UIView alloc] initWithFrame:CGRectMake(50, 20, self.view.frame.size.width-65, 36)];
+    _searchBar = [[UIView alloc] initWithFrame:CGRectMake(50, 50, self.view.frame.size.width-65, 36)];
     CALayer *bottomBorder = [CALayer layer];
     bottomBorder.frame = CGRectMake(0.0f, 34.0f, _searchBar.frame.size.width, 1.0f);
     bottomBorder.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.8f].CGColor;
@@ -75,7 +76,7 @@
     
     _searchInput = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width-65, 36)];
     _searchInput.textColor = [UIColor whiteColor];
-    _searchInput.placeholder = @"Search nearby";
+    _searchInput.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Search nearby" attributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
     [_searchInput setFont:[UIFont fontWithName:@"ProximaNovaCond-Regular" size:20]];
     [_searchBar addSubview:_searchInput];
     

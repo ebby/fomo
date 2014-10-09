@@ -33,7 +33,6 @@ NSString *const VERSION = @"20140320";
         [params setObject:CLIENT_SECRET forKey:@"client_secret"];
         [params setObject:VERSION forKey:@"v"];
         [params setObject:[[NSString stringWithFormat:@"%f,%f", coordinate.latitude, coordinate.longitude] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] forKey:@"ll"];
-        NSLog(@"Fetching places");
         AFHTTPRequestOperation *operation = [self GET:SEARCH_ENDPOINT
                                            parameters:params
                                           resultClass:Place.class

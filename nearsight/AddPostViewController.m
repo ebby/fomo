@@ -63,6 +63,7 @@
 }
 
 
+@property (nonatomic) Draft *draft;
 @property (nonatomic) NSString *videoPath;
 @property (nonatomic) AVAsset *asset;
 @property (nonatomic) NSString *exportPath;
@@ -93,6 +94,16 @@
         self.asset = asset;
         self.exportPath = exportPath;
         self.timeline = timeline;
+    }
+    return self;
+}
+
+- (id)initWithAsset:(AVAsset *)asset andDraft:(Draft *)draft
+{
+    self = [super init];
+    if (self) {
+        self.asset = asset;
+        self.draft = draft;
     }
     return self;
 }
@@ -201,7 +212,7 @@
     _captionInput.backgroundColor = [UIColor clearColor];
     _captionInput.textAlignment = NSTextAlignmentCenter;
     [_captionInput setFont:_emotionButton.titleLabel.font];
-    _captionInput.text = @"How do you feel?";
+    _captionInput.text = self.draft.caption ? self.draft.caption : @"How's this spot?";
     _captionInput.hidden = YES;
     [_captionInput setFont:[UIFont fontWithName:@"ProximaNovaCond-Regular" size:16]];
     [self.view addSubview:_captionInput];
@@ -237,16 +248,16 @@
     [self addChildViewController:_checkinView];
     [self.view addSubview:_checkinView.view];
     
-    if (self.asset && self.exportPath) {
+    if (self.asset && self.draft.outputPath) {
         // Export the video
-        [_videoPlayerController exportAssetWithPath:self.exportPath andCallback:^(AVAssetExportSessionStatus status) {
+        [_videoPlayerController exportAssetWithPath:self.draft.outputPath andCallback:^(AVAssetExportSessionStatus status) {
             switch (status)
             {
                 case AVAssetExportSessionStatusCompleted:
                     //                export complete
                     NSLog(@"Export Complete");
                     self.exported = YES;
-                    self.videoPath = self.exportPath;
+                    self.videoPath = self.draft.outputPath;
                     break;
                 case AVAssetExportSessionStatusFailed:
                     NSLog(@"Export Failed");
@@ -256,6 +267,10 @@
                     break;
             }
         }];
+    }
+    
+    if (self.draft.place) {
+        [self checkInViewPlaceSelected:self.draft.place];
     }
 }
 
@@ -278,25 +293,10 @@
 - (void)_handlePostButton:(UIButton *)button
 {
     if (_captionInput.text != self.placeholder) {
-        self.caption = _captionInput.text;
+        self.draft.caption = _captionInput.text;
     }
-    
-    [_assetLibrary writeVideoAtPathToSavedPhotosAlbum:[NSURL URLWithString:self.videoPath] completionBlock:^(NSURL *assetURL, NSError *error1) {
-    }];
 
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSDictionary *parameters = @{@"caption": _captionInput.text,
-                                   @"place": self.place.id,
-                               @"placename": self.place.name,
-                                @"timeline": [[self.timeline valueForKey:@"description"] componentsJoinedByString:@","]};
-    NSURL *filePath = [NSURL fileURLWithPath:self.videoPath];
-    [manager POST:[Client sharedClient].uploadUrl parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileURL:filePath name:@"video" error:nil];
-    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Success: %@", responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-    }];
+    [self.draft upload];
     
     CATransition *transition = [CATransition animation];
     transition.duration = 0.35;
@@ -332,7 +332,7 @@
     if ([_captionInput isFirstResponder] && [touch view] != _captionInput) {
         [_captionInput resignFirstResponder];
         if ([_captionInput.text length] > 0) {
-            self.caption = _captionInput.text;
+            self.draft.caption = _captionInput.text;
             [UIView animateWithDuration:0.3 animations:^(void) {
                 _captionInput.frame = CGRectMake(self.view.frame.size.width/2 - 140.0f, self.view.frame.size.height/2 - 20.0f, 280.0f, 36.0f);
             }];
@@ -356,31 +356,50 @@
     [_blurredImageView setImageToBlur:videoPlayer.lastFrame blurRadius:1 completionBlock:nil];
 }
 
+
 - (void)videoPlayerPlaybackStateDidChange:(PBJVideoPlayerController *)videoPlayer
 {
-    if (videoPlayer.playbackState == PBJVideoPlayerPlaybackStateStopped) {
-        [UIView animateWithDuration:0.3 animations:^(void) {
-            _blurredImageView.alpha = 1;
+    if (videoPlayer.playbackState == PBJVideoPlayerPlaybackStatePlaying) {
+        [UIView animateWithDuration:0.3f
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseOut animations:^{
+                                _blurredImageView.alpha = 0.0f;
+                            } completion:^(BOOL finished) {
+                                _blurredImageView.hidden = YES;
+                            }];
+    } else if (videoPlayer.playbackState == PBJVideoPlayerPlaybackStatePaused
+               || videoPlayer.playbackState == PBJVideoPlayerPlaybackStateStopped) {
+        _blurredImageView.hidden = NO;
+        _blurredImageView.backgroundColor = [UIColor blackColor];
+        
+        [UIView animateWithDuration:0.3f animations:^{
+            _blurredImageView.alpha = 1.0f;
+        } completion:^(BOOL finished) {
         }];
+        
     }
 }
 
 - (void)videoPlayerPlaybackWillStartFromBeginning:(PBJVideoPlayerController *)videoPlayer
 {
-
 }
 
 - (void)videoPlayerPlaybackDidEnd:(PBJVideoPlayerController *)videoPlayer
 {
-    [_blurredImageView setImageToBlur:videoPlayer.lastFrame blurRadius:1 completionBlock:nil];
+    _blurredImageView.hidden = NO;
+    _blurredImageView.backgroundColor = [UIColor blackColor];
+    
+    [UIView animateWithDuration:0.3f animations:^{
+        _blurredImageView.alpha = 1.0f;
+    } completion:^(BOOL finished) {
+    }];
 }
 
 #pragma mark - UITextViewDelegate
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
-    NSLog(@"caption text: %@", self.caption);
-    if ([self.caption length] == 0) {
+    if ([self.draft.caption length] == 0) {
         textView.text = @"";
     }
     [UIView animateWithDuration:0.3 animations:^(void) {
@@ -427,7 +446,7 @@
 {
     CGFloat viewWidth = CGRectGetWidth(self.view.frame);
     CGFloat viewHeight = CGRectGetHeight(self.view.frame);
-    self.place = place;
+    self.draft.place = place;
     CGSize stringsize = [place.name sizeWithAttributes:@{NSFontAttributeName:_emotionButton.titleLabel.font}];
     float newWidth = stringsize.width + 10;
     float newHeight = stringsize.height + 10;
@@ -438,7 +457,8 @@
 
      _emotionButton.frame=CGRectMake(viewWidth/2 - newWidth/2, viewHeight/2 - newHeight/2, newWidth, newHeight);
 
-    self.placeholder = [NSString stringWithFormat:@"Thoughts on %@?", self.place.name];
+    NSLog(@"Caption input: %@", self.draft.caption);
+    self.placeholder = self.draft.caption ? self.draft.caption : [NSString stringWithFormat:@"Thoughts on %@?", self.draft.place.name];
     _captionInput.text = self.placeholder;
     _captionInput.hidden = NO;
     _shareOptions.hidden = NO;

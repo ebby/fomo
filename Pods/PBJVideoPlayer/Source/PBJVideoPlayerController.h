@@ -31,6 +31,7 @@ typedef NS_ENUM(NSInteger, PBJVideoPlayerBufferingState) {
 @property (nonatomic, weak) id<PBJVideoPlayerControllerDelegate> delegate;
 
 @property (nonatomic) NSString *videoPath;
+@property (nonatomic) AVAsset *asset;
 @property (nonatomic) BOOL playbackLoops;
 @property (nonatomic) UIImage *firstFrame;
 @property (nonatomic) UIImage *lastFrame;

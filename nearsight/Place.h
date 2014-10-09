@@ -9,7 +9,7 @@
 #import "Mantle.h"
 #import <CoreLocation/CoreLocation.h>
 
-@interface Place : MTLModel <MTLJSONSerializing>
+@interface Place : MTLModel <MTLJSONSerializing, NSCoding>
 
 @property (nonatomic) NSNumber *id;
 @property (nonatomic, strong) NSString *name;

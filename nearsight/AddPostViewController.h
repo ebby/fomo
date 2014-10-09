@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import "Draft.h"
 
 @interface AddPostViewController : UIViewController
 
 -(id)initWithVideoPath:(NSString *)videoPath;
 -(id)initWithAsset:(AVAsset *)asset andExportPath:(NSString *)exportPath andTimeline:(NSArray *)timeline;
+-(id)initWithAsset:(AVAsset *)asset andDraft:(Draft *)draft;
 
 @end

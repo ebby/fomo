@@ -9,6 +9,7 @@
 #import "Mantle.h"
 #import "Place.h"
 #import <AVFoundation/AVFoundation.h>
+#import <ReactiveCocoa/ReactiveCocoa/ReactiveCocoa.h>
 
 @interface Post : MTLModel <MTLJSONSerializing>
 
@@ -20,12 +21,15 @@
 @property (nonatomic, strong) NSDate *added;
 
 @property (nonatomic, assign) BOOL downloaded;
+@property (nonatomic, assign) BOOL downloading;
 @property (nonatomic, strong) AVAsset *asset;
+@property (nonatomic, strong) UIImage *firstFrame;
 @property (nonatomic, strong) UIImage *lastFrame;
 
-- (void)download;
+- (void)downloadWithCompletionBlock:(void (^)(AVAsset *asset))block;
 - (NSString *)getVideoPath;
 - (NSString *)getDownloadPath;
+- (void)getFirstFrame:(void (^)(UIImage *frame))completionBlock;
 - (UIImage *)getLastFrame;
 
 @end

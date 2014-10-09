@@ -841,7 +841,27 @@ typedef void (^PBJVisionBlock)();
         [_currentDevice addObserver:self forKeyPath:@"adjustingFocus" options:NSKeyValueObservingOptionNew context:(__bridge void *)PBJVisionFocusObserverContext];
         [_currentDevice addObserver:self forKeyPath:@"flashAvailable" options:NSKeyValueObservingOptionNew context:(__bridge void *)PBJVisionFlashAvailabilityObserverContext];
         [_currentDevice addObserver:self forKeyPath:@"torchAvailable" options:NSKeyValueObservingOptionNew context:(__bridge void *)PBJVisionTorchAvailabilityObserverContext];
+        
+//      60 FPS
+//        for(AVCaptureDeviceFormat *vFormat in [_currentDevice formats] )
+//        {
+//            CMFormatDescriptionRef description= vFormat.formatDescription;
+//            float maxrate=((AVFrameRateRange*)[vFormat.videoSupportedFrameRateRanges objectAtIndex:0]).maxFrameRate;
+//            
+//            if(maxrate>59 && CMFormatDescriptionGetMediaSubType(description)==kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)
+//            {
+//                if ( YES == [_currentDevice lockForConfiguration:NULL] )
+//                {
+//                    _currentDevice.activeFormat = vFormat;
+//                    [_currentDevice setActiveVideoMinFrameDuration:CMTimeMake(10,600)];
+//                    [_currentDevice setActiveVideoMaxFrameDuration:CMTimeMake(10,600)];
+//                    [_currentDevice unlockForConfiguration];
+//                    NSLog(@"formats  %@ %@ %@",vFormat.mediaType,vFormat.formatDescription,vFormat.videoSupportedFrameRateRanges);
+//                }
+//            }
+//        }
     }
+    
     
     if (newDeviceInput)
         _currentInput = newDeviceInput;

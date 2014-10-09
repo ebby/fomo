@@ -67,6 +67,10 @@
 		2C24BBF918E960EA00AC04E4 /* NotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C24BBF718E960EA00AC04E4 /* NotificationViewController.m */; };
 		2C24BBFC18E9611500AC04E4 /* nearsightTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BBFA18E9611500AC04E4 /* nearsightTests-Info.plist */; };
 		2C24BC0018E9614D00AC04E4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C24BBFE18E9614D00AC04E4 /* InfoPlist.strings */; };
+		2C3DCC5A191206DD0059AC7F /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C3DCC59191206DD0059AC7F /* FacebookSDK.framework */; };
+		2C3DCC5C191454DB0059AC7F /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C3DCC5B191454DB0059AC7F /* Social.framework */; };
+		2C3DCC5E191454E20059AC7F /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C3DCC5D191454E20059AC7F /* Accounts.framework */; };
+		2C3DCC60191454E80059AC7F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C3DCC5F191454E80059AC7F /* SystemConfiguration.framework */; };
 		2C57B4F018DE6D20005E7244 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C57B4EF18DE6D20005E7244 /* AddressBook.framework */; };
 		2C6E48DF18EBF07D00C3AA08 /* DualPostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6E48DE18EBF07D00C3AA08 /* DualPostCell.m */; };
 		2C6E48E218EC060500C3AA08 /* ThumbView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C6E48E118EC060500C3AA08 /* ThumbView.m */; };
@@ -78,6 +82,8 @@
 		2C88AF5A18E16DCB0084227C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C88AF5918E16DCB0084227C /* CoreLocation.framework */; };
 		2CA1A2E418E4197500BB358A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CA1A2E318E4197500BB358A /* QuartzCore.framework */; };
 		2CA4DA5118E9648C00F231DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CA4DA4F18E9648C00F231DC /* Main.storyboard */; };
+		2CAD0C1418FC6C8900D4CF29 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD0C1318FC6C8900D4CF29 /* User.m */; };
+		2CAD0C1718FC8BF000D4CF29 /* LoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD0C1618FC8BF000D4CF29 /* LoadingViewController.m */; };
 		2CBE05BD18DA86FA00147743 /* proximanova-bold-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CBE05B618DA86FA00147743 /* proximanova-bold-webfont.ttf */; };
 		2CBE05BE18DA86FA00147743 /* proximanova-light-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CBE05B718DA86FA00147743 /* proximanova-light-webfont.ttf */; };
 		2CBE05BF18DA86FA00147743 /* proximanova-lightitalic-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CBE05B818DA86FA00147743 /* proximanova-lightitalic-webfont.ttf */; };
@@ -86,6 +92,7 @@
 		2CBE05C218DA86FA00147743 /* proximanovacond-lightit-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CBE05BB18DA86FA00147743 /* proximanovacond-lightit-webfont.ttf */; };
 		2CBE05C318DA86FA00147743 /* proximanovacond-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CBE05BC18DA86FA00147743 /* proximanovacond-regular-webfont.ttf */; };
 		2CBE05C518DAA39B00147743 /* mrseavesitalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CBE05C418DAA39B00147743 /* mrseavesitalic.ttf */; };
+		2CD2DBC018FE213500B4684D /* Draft.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CD2DBBF18FE213500B4684D /* Draft.m */; };
 		9342F7DF59704EED89D84BD9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01B446E530F643C9BCC509E1 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -190,6 +197,10 @@
 		2C24BBF818E960EA00AC04E4 /* NotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotificationViewController.h; path = nearsight/NotificationViewController.h; sourceTree = SOURCE_ROOT; };
 		2C24BBFA18E9611500AC04E4 /* nearsightTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "nearsightTests-Info.plist"; path = "nearsightTests/nearsightTests-Info.plist"; sourceTree = SOURCE_ROOT; };
 		2C24BBFF18E9614D00AC04E4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = nearsightTests/en.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
+		2C3DCC59191206DD0059AC7F /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		2C3DCC5B191454DB0059AC7F /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		2C3DCC5D191454E20059AC7F /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		2C3DCC5F191454E80059AC7F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		2C57B4EF18DE6D20005E7244 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		2C6E48DD18EBF07D00C3AA08 /* DualPostCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DualPostCell.h; path = nearsight/DualPostCell.h; sourceTree = SOURCE_ROOT; };
 		2C6E48DE18EBF07D00C3AA08 /* DualPostCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DualPostCell.m; path = nearsight/DualPostCell.m; sourceTree = SOURCE_ROOT; };
@@ -207,6 +218,10 @@
 		2C88AF5918E16DCB0084227C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		2CA1A2E318E4197500BB358A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		2CA4DA5018E9648C00F231DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = nearsight/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
+		2CAD0C1218FC6C8900D4CF29 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = SOURCE_ROOT; };
+		2CAD0C1318FC6C8900D4CF29 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = SOURCE_ROOT; };
+		2CAD0C1518FC8BF000D4CF29 /* LoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingViewController.h; sourceTree = SOURCE_ROOT; };
+		2CAD0C1618FC8BF000D4CF29 /* LoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingViewController.m; sourceTree = SOURCE_ROOT; };
 		2CBE05B618DA86FA00147743 /* proximanova-bold-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "proximanova-bold-webfont.ttf"; path = "../../../ios-vanish-master/vanish-app/Vanish/Vanish/Resources/Fonts/proximanova-bold-webfont.ttf"; sourceTree = "<group>"; };
 		2CBE05B718DA86FA00147743 /* proximanova-light-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "proximanova-light-webfont.ttf"; path = "../../../ios-vanish-master/vanish-app/Vanish/Vanish/Resources/Fonts/proximanova-light-webfont.ttf"; sourceTree = "<group>"; };
 		2CBE05B818DA86FA00147743 /* proximanova-lightitalic-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "proximanova-lightitalic-webfont.ttf"; path = "../../../ios-vanish-master/vanish-app/Vanish/Vanish/Resources/Fonts/proximanova-lightitalic-webfont.ttf"; sourceTree = "<group>"; };
@@ -215,6 +230,8 @@
 		2CBE05BB18DA86FA00147743 /* proximanovacond-lightit-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "proximanovacond-lightit-webfont.ttf"; path = "../../../ios-vanish-master/vanish-app/Vanish/Vanish/Resources/Fonts/proximanovacond-lightit-webfont.ttf"; sourceTree = "<group>"; };
 		2CBE05BC18DA86FA00147743 /* proximanovacond-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "proximanovacond-regular-webfont.ttf"; path = "../../../ios-vanish-master/vanish-app/Vanish/Vanish/Resources/Fonts/proximanovacond-regular-webfont.ttf"; sourceTree = "<group>"; };
 		2CBE05C418DAA39B00147743 /* mrseavesitalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = mrseavesitalic.ttf; path = ../../../../Downloads/mrseavesitalic.ttf; sourceTree = "<group>"; };
+		2CD2DBBE18FE213500B4684D /* Draft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Draft.h; sourceTree = SOURCE_ROOT; };
+		2CD2DBBF18FE213500B4684D /* Draft.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Draft.m; sourceTree = SOURCE_ROOT; };
 		B9B0D5FE7C8B47A3878B3090 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -223,11 +240,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C3DCC60191454E80059AC7F /* SystemConfiguration.framework in Frameworks */,
+				2C3DCC5E191454E20059AC7F /* Accounts.framework in Frameworks */,
+				2C3DCC5C191454DB0059AC7F /* Social.framework in Frameworks */,
 				2CA1A2E418E4197500BB358A /* QuartzCore.framework in Frameworks */,
 				2C88AF5A18E16DCB0084227C /* CoreLocation.framework in Frameworks */,
 				2C57B4F018DE6D20005E7244 /* AddressBook.framework in Frameworks */,
 				2C7945B718D3D32A00FCF401 /* Accelerate.framework in Frameworks */,
 				2C080D5818CFC6EB0066F30E /* CoreGraphics.framework in Frameworks */,
+				2C3DCC5A191206DD0059AC7F /* FacebookSDK.framework in Frameworks */,
 				2C080D5A18CFC6EB0066F30E /* UIKit.framework in Frameworks */,
 				2C080D5618CFC6EB0066F30E /* Foundation.framework in Frameworks */,
 				9342F7DF59704EED89D84BD9 /* libPods.a in Frameworks */,
@@ -270,6 +291,10 @@
 		2C080D5418CFC6EB0066F30E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2C3DCC5F191454E80059AC7F /* SystemConfiguration.framework */,
+				2C3DCC5D191454E20059AC7F /* Accounts.framework */,
+				2C3DCC5B191454DB0059AC7F /* Social.framework */,
+				2C3DCC59191206DD0059AC7F /* FacebookSDK.framework */,
 				2CA1A2E318E4197500BB358A /* QuartzCore.framework */,
 				2C88AF5918E16DCB0084227C /* CoreLocation.framework */,
 				2C57B4EF18DE6D20005E7244 /* AddressBook.framework */,
@@ -410,6 +435,8 @@
 				2C6E48E718EC0B1100C3AA08 /* ThumbTableViewController.m */,
 				2C6E48E918ECC8D900C3AA08 /* MapListViewController.h */,
 				2C6E48EA18ECC8D900C3AA08 /* MapListViewController.m */,
+				2CAD0C1518FC8BF000D4CF29 /* LoadingViewController.h */,
+				2CAD0C1618FC8BF000D4CF29 /* LoadingViewController.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -455,6 +482,10 @@
 				2C24BB5E18E95D8E00AC04E4 /* Place.m */,
 				2C24BB6018E95D8E00AC04E4 /* Post.h */,
 				2C24BB5F18E95D8E00AC04E4 /* Post.m */,
+				2CAD0C1218FC6C8900D4CF29 /* User.h */,
+				2CAD0C1318FC6C8900D4CF29 /* User.m */,
+				2CD2DBBE18FE213500B4684D /* Draft.h */,
+				2CD2DBBF18FE213500B4684D /* Draft.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -641,11 +672,14 @@
 				2C6E48E518EC07BE00C3AA08 /* ThumbViewController.m in Sources */,
 				2C24BBE818E960C100AC04E4 /* MenuViewController.m in Sources */,
 				2C24BB6618E95E6600AC04E4 /* Constants.m in Sources */,
+				2CAD0C1418FC6C8900D4CF29 /* User.m in Sources */,
 				2C24BB5A18E95D5B00AC04E4 /* UIExtensions.m in Sources */,
 				2C6E48E218EC060500C3AA08 /* ThumbView.m in Sources */,
 				2C24BB5B18E95D5B00AC04E4 /* CategoryCell.m in Sources */,
 				2C24BBED18E960C100AC04E4 /* StreamTableViewController.m in Sources */,
 				2C24BBF018E960C100AC04E4 /* SearchViewController.m in Sources */,
+				2CAD0C1718FC8BF000D4CF29 /* LoadingViewController.m in Sources */,
+				2CD2DBC018FE213500B4684D /* Draft.m in Sources */,
 				2C6E48E818EC0B1100C3AA08 /* ThumbTableViewController.m in Sources */,
 				2C24BB5018E95D2200AC04E4 /* AppDelegate.m in Sources */,
 				2C24BB6418E95DE500AC04E4 /* Manager.m in Sources */,
@@ -774,6 +808,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/Ebby/Documents/FacebookSDK,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "nearsight/nearsight-Prefix.pch";
 				INFOPLIST_FILE = "nearsight/nearsight-Info.plist";
@@ -788,6 +826,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/Ebby/Documents/FacebookSDK,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "nearsight/nearsight-Prefix.pch";
 				INFOPLIST_FILE = "nearsight/nearsight-Info.plist";

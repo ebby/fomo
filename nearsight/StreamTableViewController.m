@@ -12,7 +12,10 @@
 #import "Post.h"
 #import "PostCell.h"
 #import "DualPostCell.h"
+#import "LoadingViewController.h"
 #import <TSMessages/TSMessage.h>
+
+#define LOAD_COUNT 6
 
 @interface StreamTableViewController ()
 
@@ -20,12 +23,16 @@
 @property (nonatomic, strong, readwrite) NSMutableArray *posts;
 @property (nonatomic, strong, readwrite) NSMutableArray *postViews;
 @property (nonatomic, strong, readwrite) NSMutableDictionary *cachedCells;
-@property (nonatomic, strong, readwrite) NSDate *lastFetch;
-@property (nonatomic, strong, readwrite) PostCell *prevCell;
+@property (nonatomic, strong, readwrite) NSMutableArray *cells;
 @property (nonatomic, strong, readwrite) PostCell *currentCell;
+@property (nonatomic, strong, readwrite) PostCell *lastCell;
+@property (nonatomic, strong, readwrite) NSDate *lastFetch;
 @property (nonatomic, readwrite) NSUInteger index;
-@property (nonatomic, strong, readwrite) PostCell *nextCell;
+@property (nonatomic, readwrite) NSUInteger loadIndex;
 @property (nonatomic, readwrite) BOOL finished;
+@property (nonatomic, readwrite) BOOL needsReload;
+@property (nonatomic, readwrite) BOOL reload;
+@property (nonatomic, readwrite) BOOL shouldPlay;
 
 @end
 
@@ -58,6 +65,8 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    self.loadIndex = 0;
+    
     self.view.backgroundColor = [UIColor blackColor];
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.showsHorizontalScrollIndicator = NO;
@@ -76,16 +85,28 @@
 
 - (void)loadStream
 {
+    self.cells = [[NSMutableArray alloc] init];
     self.posts = [[NSMutableArray alloc] init];
     
-    [[[[[Client sharedClient] fetchStreamForProfile:self.profile]
+    [[[[Client sharedClient] fetchStreamForProfile:self.profile]
        doNext:^(NSMutableArray *posts) {
+           [[LoadingViewController sharedLoader] hide];
            self.posts = posts;
+           for (int i = 0; i < LOAD_COUNT; i++) {
+               if (self.loadIndex + i >= [self.posts count]) {
+                   break;
+               }
+               PostCell *cell = [[PostCell alloc] initWithPost:self.posts[i]];
+               [self addChildViewController:cell.postView];
+               [self.cells addObject:cell];
+           }
+           self.loadIndex += LOAD_COUNT;
            [self.tableView reloadData];
            self.lastFetch = [NSDate date];
+           
        }]
       // Now the assignment will be done on the main thread.
-      deliverOn:[RACScheduler schedulerWithPriority:RACSchedulerPriorityHigh]]
+//      deliverOn:[RACScheduler schedulerWithPriority:RACSchedulerPriorityHigh]]
      subscribeError:^(NSError *error) {
          [TSMessage showNotificationWithTitle:@"Error" subtitle:@"There was a problem fetching the stream: " type:TSMessageNotificationTypeError];
      }];
@@ -95,6 +116,12 @@
 {
     [[[[[Client sharedClient] updateStream:self.lastFetch forProfile:self.profile]
        doNext:^(NSMutableArray *posts) {
+           for (Post *post in posts) {
+               PostCell *cell = [[PostCell alloc] initWithPost:post];
+               [self addChildViewController:cell.postView];
+               [self.cells addObject:cell];
+               [self.cells insertObject:cell atIndex:0];
+           }
            [posts addObjectsFromArray:self.posts];
            self.posts = posts;
            [self.tableView reloadData];
@@ -102,7 +129,7 @@
            self.lastFetch = [NSDate date];
        }]
       // Now the assignment will be done on the main thread.
-      deliverOn:[RACScheduler schedulerWithPriority:RACSchedulerPriorityHigh]]
+      deliverOn:RACScheduler.mainThreadScheduler]
      subscribeError:^(NSError *error) {
          [TSMessage showNotificationWithTitle:@"Error" subtitle:@"There was a problem fetching the stream: " type:TSMessageNotificationTypeError];
      }];
@@ -110,22 +137,55 @@
 
 - (void)loadMore
 {
+    NSLog(@"load more");
+
+    if (self.loadIndex < [self.posts count]) {
+        for (int i = 0; i < LOAD_COUNT; i++) {
+            if (self.loadIndex + i >= [self.posts count]) {
+                break;
+            }
+            
+            PostCell *cell = [[PostCell alloc] initWithPost:self.posts[self.loadIndex + i]];
+            [self addChildViewController:cell.postView];
+            [self.cells addObject:cell];
+        }
+        self.needsReload = YES;
+//        [self.tableView reloadData];
+//        NSLog(@"index: %d, and loadIndex: %d", self.index, self.loadIndex);
+//        if (self.index == self.loadIndex - 1) {
+//            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.index-1 inSection:0];
+//            NSLog(@"should scroll");
+//            [self.tableView scrollToRowAtIndexPath:indexPath
+//                                  atScrollPosition:UITableViewScrollPositionTop
+//                                          animated:YES];
+//        }
+        self.loadIndex += LOAD_COUNT;
+        return;
+    }
+    
     NSDate* lastPost = ((Post *)[self.posts lastObject]).added;
-    NSLog(@"last post: %@", lastPost);
+    //NSLog(@"last post: %@", lastPost);
     [[[[[Client sharedClient] loadMoreStream:lastPost forProfile:self.profile]
         doNext:^(NSMutableArray *posts) {
             if ([posts count]) {
                 [self.posts addObjectsFromArray:posts];
-                [self.tableView reloadData];
+                for (int i = 0; i < 4; i++) {
+                    if (self.loadIndex + i >= [self.posts count]) {
+                        break;
+                    }
+                    PostCell *cell = [[PostCell alloc] initWithPost:self.posts[self.loadIndex + i]];
+                    [self addChildViewController:cell.postView];
+                    [self.cells addObject:cell];
+                }
+                self.loadIndex += 4;
             } else {
                 self.finished = YES;
-                [self.tableView reloadData];
+//                [self.tableView reloadData];
             }
        }]
-      // Now the assignment will be done on the main thread.
       deliverOn:[RACScheduler schedulerWithPriority:RACSchedulerPriorityBackground]]
      subscribeError:^(NSError *error) {
-         [TSMessage showNotificationWithTitle:@"Error" subtitle:@"There was a problem fetching the stream: " type:TSMessageNotificationTypeError];
+         [TSMessage showNotificationWithTitle:@"Error" subtitle:@"There was a problem fetching the stream" type:TSMessageNotificationTypeError];
      }];
 }
 
@@ -133,72 +193,54 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
+    // Return the number of sections.d
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    NSInteger count = [self.posts count];
+    NSInteger count = [self.cells count];
     if (!self.finished && count > 0) {
         // Add 1 for loading more cell
         count++;
     }
-    return count;
+    return self.finished ? [self.cells count] : 999;
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BOOL forward = self.index < [indexPath indexAtPosition:[indexPath length] - 1];
-    self.index = [indexPath indexAtPosition:[indexPath length] - 1];
-    if (self.index < [self.posts count]) {
-        static NSString *streamTableCellId = @"StreamTableCell";
-        
-        if (self.nextCell) {
-            self.prevCell = self.currentCell;
-            self.currentCell = self.nextCell;
-        }
-
-        if (!self.currentCell) { // First cell
-            self.currentCell = [tableView dequeueReusableCellWithIdentifier:streamTableCellId];
-            
-            if (self.currentCell == nil) {
-                self.currentCell = [[PostCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:streamTableCellId andPost:self.posts[self.index]];
-                [self addChildViewController:self.currentCell.postView];
-            } else {
-                [self.currentCell setPost:self.posts[self.index]];
-            }
-        }
-        
-        
-        // Next cell
-        if (self.index < [self.posts count] - 1) {
-            self.nextCell = [tableView dequeueReusableCellWithIdentifier:streamTableCellId];
-            if (self.nextCell == nil) {
-                self.nextCell = [[PostCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:streamTableCellId andPost:self.posts[self.index + 1]];
-                [self addChildViewController:self.nextCell.postView];
-            } else {
-                [self.nextCell setPost:self.posts[self.index + 1]];
-            }
-        } else {
-            self.nextCell = nil;
-        }
-        
-
-        if (!self.finished && self.index == [self.posts count] - 1) {
-            [self loadMore];
-        }
-        //self.currentCell = cell;
-        
-        return self.currentCell;
-    } else {
+    self.lastCell = self.currentCell;
+//    if (self.needsReload) {
+//        [self.tableView reloadData];
+//        self.needsReload = NO;
+//    }
+    NSUInteger newIndex = [indexPath indexAtPosition:[indexPath length] - 1];
+    self.shouldPlay = newIndex > self.index;
+    self.index = newIndex;
+//    
+//    if (((int)self.index - 4) >= 0) {
+//        PostCell *cell = self.cells[(int)self.index - 4];
+//        [cell.postView eject];
+//    }
+//    if (self.index + 4 < self.loadIndex) {
+//        PostCell *cell = self.cells[self.index + 4];
+//        [cell.postView eject];
+//    }
+    
+    if (self.index < [self.cells count]) {
+        PostCell *cell = self.cells[self.index];
+        self.currentCell = cell;
+        return cell;
+    }
+    else {
         UITableViewCell *cell = [[UITableViewCell alloc] init];
-        UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 44)];
-        loadingLabel.text = @"Loading More";
-        loadingLabel.textAlignment = NSTextAlignmentCenter;
-        [cell.contentView addSubview:loadingLabel];
+        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        [spinner setCenter:CGPointMake(self.view.frame.size.width/2.0, self.view.frame.size.height/2.0)];
+        cell.contentView.backgroundColor = [UIColor blackColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell.contentView addSubview:spinner];
+        [spinner startAnimating];
         self.currentCell = nil;
         return cell;
     }
@@ -207,37 +249,48 @@
 - (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSUInteger index = [indexPath indexAtPosition:[indexPath length] - 1];
-    if (index < [self.posts count]) {
-        PostCell *postCell = (PostCell *)cell;
-        [postCell.postView stop];
+    if (index < [self.cells count]) {
+        PostCell *cell = self.cells[index];
+        [cell.postView stop];
     }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+}
+
+#pragma mark - UIScrollView
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+//    if (self.currentCell) {
+//        double delayInSeconds = 0.5;
+//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+//        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//            [self.currentCell.postView play];
+//        });
+//    }
+    
+    if (!self.finished && self.index == [self.cells count] - 3) {
+        //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [self loadMore];
+        //});
+    }
+    if (self.shouldPlay) {
+        [self.currentCell.postView play];
+    }
+    [self.lastCell.postView eject];
+//    if (!self.needsReload) {
+//        [self.currentCell.postView play];
+//    }
 }
 
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     // TODO: Determine cell height based on screen
-    NSUInteger index = [indexPath indexAtPosition:[indexPath length] - 1];
-    if (index < [self.posts count]) {
-        return CGRectGetHeight(self.view.frame);
-    } else {
-        return 44;
-    }
+    return CGRectGetHeight(self.view.frame);
 }
-
-//- (void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-//{
-//    if (self.currentCell) {
-//        [self.currentCell.postView play];
-//    }
-//}
-
-//- (void) scrollViewWillBeginDragging:(UIScrollView *)scrollView
-//{
-//    if (self.currentCell) {
-//        [self.currentCell.postView stop];
-//    }
-//}
 
 /*
 // Override to support conditional editing of the table view.
